@@ -40,6 +40,6 @@ public class EcApplicationEntity {
     @PastOrPresent
     private LocalDate affectedDateEnd;
 
-    private boolean isReferred;
+    private Boolean isReferred;
 
 }

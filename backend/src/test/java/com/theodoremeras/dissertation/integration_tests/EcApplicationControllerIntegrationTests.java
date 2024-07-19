@@ -57,8 +57,8 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(testEcApplication.getAdditionalDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.referred")
-                        .value(testEcApplication.isReferred())
+                MockMvcResultMatchers.jsonPath("$.isReferred")
+                        .value(testEcApplication.getIsReferred())
         );
     }
 
@@ -83,8 +83,8 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
                         .value(savedEcApplicationA.getAdditionalDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].referred")
-                        .value(savedEcApplicationA.isReferred())
+                MockMvcResultMatchers.jsonPath("$[0].isReferred")
+                        .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id").value(savedEcApplicationB.getId())
         ).andExpect(
@@ -94,8 +94,8 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
                         .value(savedEcApplicationB.getAdditionalDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].referred")
-                        .value(savedEcApplicationB.isReferred())
+                MockMvcResultMatchers.jsonPath("$[1].isReferred")
+                        .value(savedEcApplicationB.getIsReferred())
         );
     }
 
@@ -118,8 +118,8 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(savedEcApplication.getAdditionalDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.referred")
-                        .value(savedEcApplication.isReferred())
+                MockMvcResultMatchers.jsonPath("$.isReferred")
+                        .value(savedEcApplication.getIsReferred())
         );
     }
 
@@ -157,8 +157,8 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(testEcApplicationDto.getAdditionalDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.referred")
-                        .value(testEcApplicationDto.isReferred())
+                MockMvcResultMatchers.jsonPath("$.isReferred")
+                        .value(testEcApplicationDto.getIsReferred())
         );
     }
 
@@ -199,8 +199,8 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(testEcApplicationDto.getAdditionalDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.referred")
-                        .value(testEcApplicationDto.isReferred())
+                MockMvcResultMatchers.jsonPath("$.isReferred")
+                        .value(testEcApplicationDto.getIsReferred())
         );
     }
 
