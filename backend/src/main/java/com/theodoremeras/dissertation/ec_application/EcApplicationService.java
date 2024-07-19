@@ -42,8 +42,8 @@ public class EcApplicationService {
                     ifPresent(existingEcApplication::setAffectedDateStart);
             Optional.ofNullable(ecApplicationEntity.getAffectedDateEnd()).
                     ifPresent(existingEcApplication::setAffectedDateEnd);
-            Optional.ofNullable(ecApplicationEntity.getIsReferred()).
-                    ifPresent(existingEcApplication::setIsReferred);
+            Optional.of(ecApplicationEntity.isReferred()).
+                    ifPresent(existingEcApplication::setReferred);
             return ecApplicationRepository.save(existingEcApplication);
         }).orElseThrow(() -> new RuntimeException("Could not find EC application with id " + id));
     }

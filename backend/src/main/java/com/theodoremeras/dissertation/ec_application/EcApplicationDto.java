@@ -24,6 +24,6 @@ public class EcApplicationDto {
 
     private LocalDate affectedDateEnd;
 
-    private Boolean isReferred;
+    private boolean isReferred;
 
 }
