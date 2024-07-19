@@ -1,0 +1,79 @@
+package com.theodoremeras.dissertation.ec_application;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@RestController
+public class EcApplicationController {
+
+    private EcApplicationService ecApplicationService;
+
+    private EcApplicationMapper ecApplicationMapper;
+
+    public EcApplicationController(EcApplicationService ecApplicationService, EcApplicationMapper ecApplicationMapper) {
+        this.ecApplicationService = ecApplicationService;
+        this.ecApplicationMapper = ecApplicationMapper;
+    }
+
+    @PostMapping(path = "/ec-applications")
+    public ResponseEntity<EcApplicationDto> createEcApplication(@RequestBody EcApplicationDto ecApplicationDto) {
+        EcApplicationEntity ecApplicationEntity = ecApplicationMapper.mapFromDto(ecApplicationDto);
+        EcApplicationEntity savedEcApplicationEntity = ecApplicationService.save(ecApplicationEntity);
+        return new ResponseEntity<>(ecApplicationMapper.mapToDto(savedEcApplicationEntity), HttpStatus.CREATED);
+    }
+
+    @GetMapping(path = "/ec-applications")
+    public List<EcApplicationDto> getAllEcApplications() {
+        List<EcApplicationEntity> ecApplicationEntities = ecApplicationService.findAll();
+        return ecApplicationEntities.stream()
+                .map(ecApplicationMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "/ec-applications/{id}")
+    public ResponseEntity<EcApplicationDto> getEcApplicationById(@PathVariable("id") Integer id) {
+        Optional<EcApplicationEntity> foundEcApplicationEntity = ecApplicationService.findOneById(id);
+        return foundEcApplicationEntity.map(ecApplicationEntity -> {
+            EcApplicationDto ecApplicationDto = ecApplicationMapper.mapToDto(ecApplicationEntity);
+            return new ResponseEntity<>(ecApplicationDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping(path = "/ec-applications/{id}")
+    public ResponseEntity<EcApplicationDto> fullUpdateEcApplication(
+            @PathVariable("id") Integer id, @RequestBody EcApplicationDto ecApplicationDto
+    ) {
+        if (!ecApplicationService.exists(id))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ecApplicationDto.setId(id);
+        EcApplicationEntity ecApplicationEntity = ecApplicationMapper.mapFromDto(ecApplicationDto);
+        EcApplicationEntity savedEcApplicationEntity = ecApplicationService.save(ecApplicationEntity);
+        return new ResponseEntity<>(ecApplicationMapper.mapToDto(savedEcApplicationEntity), HttpStatus.OK);
+    }
+
+    @PatchMapping(path = "/ec-applications/{id}")
+    public ResponseEntity<EcApplicationDto> partialUpdateEcApplication(
+            @PathVariable("id") Integer id, @RequestBody EcApplicationDto ecApplicationDto
+    ) {
+        if (!ecApplicationService.exists(id))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ecApplicationDto.setId(id);
+        EcApplicationEntity ecApplicationEntity = ecApplicationMapper.mapFromDto(ecApplicationDto);
+        EcApplicationEntity updatedEcApplicationEntity = ecApplicationService.partialUpdate(id, ecApplicationEntity);
+        return new ResponseEntity<>(ecApplicationMapper.mapToDto(updatedEcApplicationEntity), HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/ec-applications/{id}")
+    public ResponseEntity<String> deleteEcApplication(@PathVariable("id") Integer id) {
+        ecApplicationService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+}
