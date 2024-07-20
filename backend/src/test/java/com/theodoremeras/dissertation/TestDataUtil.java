@@ -51,11 +51,11 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static ModuleDto createTestModuleDtoA(DepartmentDto departmentDto) {
+    public static ModuleDto createTestModuleDtoA(Integer departmentId) {
         return ModuleDto.builder()
-                .code("COM1234")
+                .code("COM123")
                 .name("Software Engineering")
-                .department(departmentDto)
+                .departmentId(departmentId)
                 .build();
     }
 
@@ -67,11 +67,11 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static ModuleDto createTestModuleDtoB(DepartmentDto departmentDto) {
+    public static ModuleDto createTestModuleDtoB(Integer departmentId) {
         return ModuleDto.builder()
                 .code("COM4567")
                 .name("Databases")
-                .department(departmentDto)
+                .departmentId(departmentId)
                 .build();
     }
 

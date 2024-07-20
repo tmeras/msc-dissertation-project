@@ -14,8 +14,7 @@ public class ModuleService {
         this.moduleRepository = moduleRepository;
     }
 
-    public ModuleEntity save(String moduleCode, ModuleEntity moduleEntity) {
-        moduleEntity.setCode(moduleCode);
+    public ModuleEntity save(ModuleEntity moduleEntity) {
         return moduleRepository.save(moduleEntity);
     }
 
@@ -36,7 +35,7 @@ public class ModuleService {
 
         return moduleRepository.findById(moduleCode).map(existingModule -> {
             Optional.ofNullable(moduleEntity.getName()).ifPresent(existingModule::setName);
-            Optional.ofNullable(moduleEntity.getDepartment()).ifPresent(existingModule::setDepartment);
+            //Optional.ofNullable(moduleEntity.getDepartment()).ifPresent(existingModule::setDepartment);
             return moduleRepository.save(existingModule);
         }).orElseThrow(() -> new RuntimeException("Could not find module with code " + moduleCode));
     }

@@ -1,23 +1,31 @@
 package com.theodoremeras.dissertation.module;
 
+import com.theodoremeras.dissertation.department.DepartmentDto;
+import com.theodoremeras.dissertation.department.DepartmentEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ModuleMapper {
 
-    private ModelMapper modelMapper;
-
-    public ModuleMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     public ModuleDto mapToDto(ModuleEntity moduleEntity) {
-        return modelMapper.map(moduleEntity, ModuleDto.class);
+        return ModuleDto.builder()
+                .name(moduleEntity.getName())
+                .code(moduleEntity.getCode())
+                .departmentId(moduleEntity.getDepartment().getId())
+                .build();
     }
 
     public ModuleEntity mapFromDto(ModuleDto moduleDto) {
-        return modelMapper.map(moduleDto, ModuleEntity.class);
+        DepartmentEntity department = (moduleDto.getDepartmentId() == null) ? null :
+                        DepartmentEntity.builder().id(moduleDto.getDepartmentId()).build();
+
+        return ModuleEntity.builder()
+                .name(moduleDto.getName())
+                .code(moduleDto.getCode())
+                .department(department)
+                .build();
     }
 
 }

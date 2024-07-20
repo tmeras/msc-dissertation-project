@@ -8,7 +8,8 @@ import java.util.Optional;
 @Service
 public class EcApplicationService {
 
-    public EcApplicationRepository ecApplicationRepository;
+    private EcApplicationRepository ecApplicationRepository;
+
 
     public EcApplicationService(EcApplicationRepository ecApplicationRepository) {
         this.ecApplicationRepository = ecApplicationRepository;

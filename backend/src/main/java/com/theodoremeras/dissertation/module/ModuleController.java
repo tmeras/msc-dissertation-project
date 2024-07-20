@@ -1,5 +1,7 @@
 package com.theodoremeras.dissertation.module;
 
+import com.theodoremeras.dissertation.department.DepartmentEntity;
+import com.theodoremeras.dissertation.department.DepartmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,27 +15,41 @@ public class ModuleController {
 
     private ModuleService moduleService;
 
+    private DepartmentService departmentService;
+
     private ModuleMapper moduleMapper;
 
-    public ModuleController(ModuleService moduleService, ModuleMapper moduleMapper) {
+    public ModuleController(
+            ModuleService moduleService, DepartmentService departmentService, ModuleMapper moduleMapper
+    ) {
         this.moduleService = moduleService;
+        this.departmentService = departmentService;
         this.moduleMapper = moduleMapper;
     }
 
-    @PutMapping(path = "/modules/{code}")
-    public ResponseEntity<ModuleDto> createUpdateModule(
-            @PathVariable("code") String moduleCode, @RequestBody ModuleDto moduleDto
+    @PostMapping(path = "/modules")
+    public ResponseEntity<ModuleDto> createModule(@RequestBody ModuleDto moduleDto
     ) {
+        // Module with the same code already exists
+        if (moduleService.exists(moduleDto.getCode()))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
         ModuleEntity moduleEntity = moduleMapper.mapFromDto(moduleDto);
-        boolean moduleExists = moduleService.exists(moduleCode);
-        ModuleEntity savedModuleEntity = moduleService.save(moduleCode, moduleEntity);
+
+        // Department must be specified when creating new module
+        if (moduleEntity.getDepartment() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        Optional<DepartmentEntity> department = departmentService.findOneById(moduleEntity.getDepartment().getId());
+        if (department.isPresent())
+            moduleEntity.setDepartment(department.get());
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        ModuleEntity savedModuleEntity = moduleService.save(moduleEntity);
         ModuleDto savedModuleDto = moduleMapper.mapToDto(savedModuleEntity);
 
-        if (moduleExists) {
-            return new ResponseEntity<>(savedModuleDto, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(savedModuleDto, HttpStatus.CREATED);
-        }
+        return new ResponseEntity<>(savedModuleDto, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/modules")

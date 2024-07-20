@@ -12,11 +12,11 @@ public class EcApplicationMapper {
         this.modelMapper = modelMapper;
     }
 
-    public EcApplicationDto mapToDto(EcApplicationEntity ecApplicationEntity){
+    public EcApplicationDto mapToDto(EcApplicationEntity ecApplicationEntity) {
         return modelMapper.map(ecApplicationEntity, EcApplicationDto.class);
     }
 
-    public EcApplicationEntity mapFromDto(EcApplicationDto ecApplicationDto){
+    public EcApplicationEntity mapFromDto(EcApplicationDto ecApplicationDto) {
         return modelMapper.map(ecApplicationDto, EcApplicationEntity.class);
     }
 

@@ -21,6 +21,6 @@ public class ModuleDto {
 
     private String name;
 
-    private DepartmentDto department;
+    private Integer departmentId;
 
 }

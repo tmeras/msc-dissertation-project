@@ -21,6 +21,6 @@ public class ModuleEntity {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
+    @JoinColumn(name = "department_id", nullable = false)
     private DepartmentEntity department;
 }
