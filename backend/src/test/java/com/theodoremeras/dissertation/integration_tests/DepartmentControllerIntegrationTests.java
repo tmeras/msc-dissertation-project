@@ -55,6 +55,21 @@ public class DepartmentControllerIntegrationTests {
     }
 
     @Test
+    public void testCreateDepartmentWhenDepartmentExists() throws Exception {
+        DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
+        departmentService.save(testDepartment);
+        String departmentJson = objectMapper.writeValueAsString(testDepartment);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/departments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(departmentJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isConflict()
+        );
+    }
+
+    @Test
     public void testGetAllDepartments() throws Exception {
         DepartmentEntity testDepartmentA = TestDataUtil.createTestDepartmentEntityA();
         DepartmentEntity savedDepartmentA = departmentService.save(testDepartmentA);
@@ -99,42 +114,6 @@ public class DepartmentControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/departments/99")
                         .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
-    }
-
-    @Test
-    public void testFullUpdateDepartmentWhenDepartmentExists() throws Exception {
-        DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
-        DepartmentEntity savedDepartment = departmentService.save(testDepartment);
-
-        DepartmentDto testDepartmentDto = TestDataUtil.createTestDepartmentDtoB();
-        testDepartmentDto.setId(savedDepartment.getId());
-        String departmentUpdateJson = objectMapper.writeValueAsString(testDepartmentDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.put("/departments/" + savedDepartment.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(departmentUpdateJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isOk()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").value(savedDepartment.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.name").value(testDepartmentDto.getName())
-        );
-    }
-
-    @Test
-    public void testFullUpdateDepartmentWhenNoDepartmentExists() throws Exception {
-        DepartmentDto testDepartmentDto = TestDataUtil.createTestDepartmentDtoB();
-        String departmentUpdateJson = objectMapper.writeValueAsString(testDepartmentDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.put("/departments/99")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(departmentUpdateJson)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
         );

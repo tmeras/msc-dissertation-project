@@ -2,21 +2,23 @@ package com.theodoremeras.dissertation.department;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class DepartmentMapper {
 
-    private ModelMapper modelMapper;
-
-    public DepartmentMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     public DepartmentDto mapToDto(DepartmentEntity departmentEntity) {
-        return modelMapper.map(departmentEntity, DepartmentDto.class);
+        return DepartmentDto.builder()
+                .id(departmentEntity.getId())
+                .name(departmentEntity.getName())
+                .build();
+
     }
 
     public DepartmentEntity mapFromDto(DepartmentDto departmentDto) {
-        return modelMapper.map(departmentDto, DepartmentEntity.class);
+        return DepartmentEntity.builder()
+                .id(departmentDto.getId())
+                .name(departmentDto.getName())
+                .build();
     }
 }

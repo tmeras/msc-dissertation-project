@@ -23,6 +23,10 @@ public class DepartmentController {
 
     @PostMapping(path = "/departments")
     public ResponseEntity<DepartmentDto> createDepartment(@RequestBody DepartmentDto departmentDto) {
+        // Department with the same id already exists
+        if (departmentService.exists(departmentDto.getId()))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
         DepartmentEntity departmentEntity = departmentMapper.mapFromDto(departmentDto);
         DepartmentEntity savedDepartmentEntity = departmentService.save(departmentEntity);
         return new ResponseEntity<>(departmentMapper.mapToDto(savedDepartmentEntity), HttpStatus.CREATED);
@@ -43,19 +47,6 @@ public class DepartmentController {
             DepartmentDto departmentDto = departmentMapper.mapToDto(departmentEntity);
             return new ResponseEntity<>(departmentDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PutMapping(path = "/departments/{id}")
-    public ResponseEntity<DepartmentDto> fullUpdateDepartment(
-            @PathVariable("id") Integer id, @RequestBody DepartmentDto departmentDto
-    ) {
-        if (!departmentService.exists(id))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        departmentDto.setId(id);
-        DepartmentEntity departmentEntity = departmentMapper.mapFromDto(departmentDto);
-        DepartmentEntity savedDepartmentEntity = departmentService.save(departmentEntity);
-        return new ResponseEntity<>(departmentMapper.mapToDto(savedDepartmentEntity), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/departments/{id}")
