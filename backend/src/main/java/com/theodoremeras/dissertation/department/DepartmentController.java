@@ -24,7 +24,7 @@ public class DepartmentController {
     @PostMapping(path = "/departments")
     public ResponseEntity<DepartmentDto> createDepartment(@RequestBody DepartmentDto departmentDto) {
         // Department with the same id already exists
-        if (departmentService.exists(departmentDto.getId()))
+        if (departmentDto.getId() != null && departmentService.exists(departmentDto.getId()))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
         DepartmentEntity departmentEntity = departmentMapper.mapFromDto(departmentDto);

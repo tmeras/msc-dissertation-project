@@ -22,6 +22,11 @@ public class EcApplicationController {
 
     @PostMapping(path = "/ec-applications")
     public ResponseEntity<EcApplicationDto> createEcApplication(@RequestBody EcApplicationDto ecApplicationDto) {
+
+        // Application with the same id already exists
+        if(ecApplicationDto.getId() != null && ecApplicationService.exists(ecApplicationDto.getId()))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
         EcApplicationEntity ecApplicationEntity = ecApplicationMapper.mapFromDto(ecApplicationDto);
         EcApplicationEntity savedEcApplicationEntity = ecApplicationService.save(ecApplicationEntity);
         return new ResponseEntity<>(ecApplicationMapper.mapToDto(savedEcApplicationEntity), HttpStatus.CREATED);
@@ -42,19 +47,6 @@ public class EcApplicationController {
             EcApplicationDto ecApplicationDto = ecApplicationMapper.mapToDto(ecApplicationEntity);
             return new ResponseEntity<>(ecApplicationDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PutMapping(path = "/ec-applications/{id}")
-    public ResponseEntity<EcApplicationDto> fullUpdateEcApplication(
-            @PathVariable("id") Integer id, @RequestBody EcApplicationDto ecApplicationDto
-    ) {
-        if (!ecApplicationService.exists(id))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        ecApplicationDto.setId(id);
-        EcApplicationEntity ecApplicationEntity = ecApplicationMapper.mapFromDto(ecApplicationDto);
-        EcApplicationEntity savedEcApplicationEntity = ecApplicationService.save(ecApplicationEntity);
-        return new ResponseEntity<>(ecApplicationMapper.mapToDto(savedEcApplicationEntity), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/ec-applications/{id}")

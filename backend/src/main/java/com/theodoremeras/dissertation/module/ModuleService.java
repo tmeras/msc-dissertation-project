@@ -35,7 +35,6 @@ public class ModuleService {
 
         return moduleRepository.findById(moduleCode).map(existingModule -> {
             Optional.ofNullable(moduleEntity.getName()).ifPresent(existingModule::setName);
-            //Optional.ofNullable(moduleEntity.getDepartment()).ifPresent(existingModule::setDepartment);
             return moduleRepository.save(existingModule);
         }).orElseThrow(() -> new RuntimeException("Could not find module with code " + moduleCode));
     }

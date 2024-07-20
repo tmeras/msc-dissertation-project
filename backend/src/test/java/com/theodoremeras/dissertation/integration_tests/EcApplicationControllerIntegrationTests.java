@@ -31,7 +31,8 @@ public class EcApplicationControllerIntegrationTests {
 
     @Autowired
     public EcApplicationControllerIntegrationTests(
-            EcApplicationService ecApplicationService, MockMvc mockMvc, ObjectMapper objectMapper) {
+            EcApplicationService ecApplicationService, MockMvc mockMvc, ObjectMapper objectMapper
+    ) {
         this.ecApplicationService = ecApplicationService;
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
@@ -59,6 +60,21 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isReferred")
                         .value(testEcApplication.getIsReferred())
+        );
+    }
+
+    @Test
+    public void testCreateEcApplicationWhenApplicationExists() throws Exception {
+        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
+        ecApplicationService.save(testEcApplication);
+        String applicationJson = objectMapper.writeValueAsString(testEcApplication);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/ec-applications")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(applicationJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isConflict()
         );
     }
 
@@ -134,54 +150,11 @@ public class EcApplicationControllerIntegrationTests {
     }
 
     @Test
-    public void testFullUpdateEcApplicationWhenApplicationExists() throws Exception {
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
-        EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
-
-        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA();
-        testEcApplicationDto.setId(savedEcApplication.getId());
-        String applicationUpdateJson = objectMapper.writeValueAsString(testEcApplicationDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.put("/ec-applications/" + savedEcApplication.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(applicationUpdateJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isOk()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").value(savedEcApplication.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.circumstancesDetails")
-                        .value(testEcApplicationDto.getCircumstancesDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.additionalDetails")
-                        .value(testEcApplicationDto.getAdditionalDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.isReferred")
-                        .value(testEcApplicationDto.getIsReferred())
-        );
-    }
-
-    @Test
-    public void testFullUpdateEcApplicationWhenNoApplicationExists() throws Exception {
-        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA();
-        String applicationUpdateJson = objectMapper.writeValueAsString(testEcApplicationDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.put("/ec-applications/123")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(applicationUpdateJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
-    }
-
-    @Test
     public void testPartialUpdateEcApplicationWhenApplicationExists() throws Exception {
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
-        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA();
+        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoB();
         testEcApplicationDto.setId(savedEcApplication.getId());
         testEcApplicationDto.setCircumstancesDetails(testEcApplication.getCircumstancesDetails());
         String applicationUpdateJson = objectMapper.writeValueAsString(testEcApplicationDto);
@@ -204,7 +177,7 @@ public class EcApplicationControllerIntegrationTests {
         );
     }
 
-        @Test
+    @Test
     public void testPartialUpdateEcApplicationWhenNoApplicationExists() throws Exception {
         EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA();
         String applicationUpdateJson = objectMapper.writeValueAsString(testEcApplicationDto);

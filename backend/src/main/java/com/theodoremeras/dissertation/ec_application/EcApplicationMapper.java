@@ -1,23 +1,30 @@
 package com.theodoremeras.dissertation.ec_application;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EcApplicationMapper {
 
-    private ModelMapper modelMapper;
-
-    public EcApplicationMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     public EcApplicationDto mapToDto(EcApplicationEntity ecApplicationEntity) {
-        return modelMapper.map(ecApplicationEntity, EcApplicationDto.class);
+        return EcApplicationDto.builder()
+                .id(ecApplicationEntity.getId())
+                .circumstancesDetails(ecApplicationEntity.getCircumstancesDetails())
+                .additionalDetails(ecApplicationEntity.getAdditionalDetails())
+                .affectedDateStart(ecApplicationEntity.getAffectedDateStart())
+                .affectedDateEnd(ecApplicationEntity.getAffectedDateEnd())
+                .isReferred(ecApplicationEntity.getIsReferred())
+                .build();
     }
 
     public EcApplicationEntity mapFromDto(EcApplicationDto ecApplicationDto) {
-        return modelMapper.map(ecApplicationDto, EcApplicationEntity.class);
+        return EcApplicationEntity.builder()
+                .id(ecApplicationDto.getId())
+                .circumstancesDetails(ecApplicationDto.getCircumstancesDetails())
+                .additionalDetails(ecApplicationDto.getAdditionalDetails())
+                .affectedDateStart(ecApplicationDto.getAffectedDateStart())
+                .affectedDateEnd(ecApplicationDto.getAffectedDateEnd())
+                .isReferred(ecApplicationDto.getIsReferred())
+                .build();
     }
 
 }
