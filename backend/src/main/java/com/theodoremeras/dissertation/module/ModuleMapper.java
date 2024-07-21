@@ -1,9 +1,6 @@
 package com.theodoremeras.dissertation.module;
 
-import com.theodoremeras.dissertation.department.DepartmentDto;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service

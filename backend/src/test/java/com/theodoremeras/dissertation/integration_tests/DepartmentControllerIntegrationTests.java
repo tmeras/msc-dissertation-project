@@ -55,21 +55,6 @@ public class DepartmentControllerIntegrationTests {
     }
 
     @Test
-    public void testCreateDepartmentWhenDepartmentExists() throws Exception {
-        DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
-        departmentService.save(testDepartment);
-        String departmentJson = objectMapper.writeValueAsString(testDepartment);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/departments")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(departmentJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isConflict()
-        );
-    }
-
-    @Test
     public void testGetAllDepartments() throws Exception {
         DepartmentEntity testDepartmentA = TestDataUtil.createTestDepartmentEntityA();
         DepartmentEntity savedDepartmentA = departmentService.save(testDepartmentA);

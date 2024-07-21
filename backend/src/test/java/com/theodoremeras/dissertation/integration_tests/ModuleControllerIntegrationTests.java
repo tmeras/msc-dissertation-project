@@ -44,6 +44,7 @@ public class ModuleControllerIntegrationTests {
     @Test
     public void testCreateModule() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+
         ModuleDto testModuleDto = TestDataUtil.createTestModuleDtoA(savedDepartment.getId());
         String moduleJson = objectMapper.writeValueAsString(testModuleDto);
 
@@ -65,6 +66,7 @@ public class ModuleControllerIntegrationTests {
     @Test
     public void testCreateModuleWhenModuleExists() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+
         ModuleDto testModuleDto = TestDataUtil.createTestModuleDtoA(savedDepartment.getId());
         String moduleJson = objectMapper.writeValueAsString(testModuleDto);
         moduleService.save(TestDataUtil.createTestModuleEntityA(savedDepartment));
@@ -109,6 +111,7 @@ public class ModuleControllerIntegrationTests {
     @Test
     public void testGetAllModules() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+
         ModuleEntity testModuleEntityA = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntityA);
         ModuleEntity testModuleEntityB = TestDataUtil.createTestModuleEntityB(savedDepartment);
@@ -124,19 +127,16 @@ public class ModuleControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].name").value(testModuleEntityA.getName())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].departmentId").value(savedDepartment.getId())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].code").value(testModuleEntityB.getCode())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].name").value(testModuleEntityB.getName())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].departmentId").value(savedDepartment.getId())
         );
     }
 
     @Test
     public void testGetModuleWhenModuleExists() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntity);
 
@@ -149,6 +149,8 @@ public class ModuleControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.code").value(testModuleEntity.getCode())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.name").value(testModuleEntity.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.departmentId").value(savedDepartment.getId())
         );
     }
 
@@ -165,11 +167,11 @@ public class ModuleControllerIntegrationTests {
     @Test
     public void testPartialUpdateModuleWhenModuleExists() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         ModuleEntity savedModuleEntity = moduleService.save(testModuleEntity);
 
         ModuleDto testModuleDto = TestDataUtil.createTestModuleDtoB(null);
-        testModuleDto.setCode(savedModuleEntity.getCode());
         String moduleUpdateJson = objectMapper.writeValueAsString(testModuleDto);
 
         mockMvc.perform(
@@ -182,6 +184,8 @@ public class ModuleControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.code").value(savedModuleEntity.getCode())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.name").value(testModuleDto.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.departmentId").value(savedDepartment.getId())
         );
     }
 
@@ -202,6 +206,7 @@ public class ModuleControllerIntegrationTests {
     @Test
     public void testDeleteModuleWhenModuleExists() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntity);
 

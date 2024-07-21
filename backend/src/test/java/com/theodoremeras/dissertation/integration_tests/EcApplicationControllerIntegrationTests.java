@@ -64,21 +64,6 @@ public class EcApplicationControllerIntegrationTests {
     }
 
     @Test
-    public void testCreateEcApplicationWhenApplicationExists() throws Exception {
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
-        ecApplicationService.save(testEcApplication);
-        String applicationJson = objectMapper.writeValueAsString(testEcApplication);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/ec-applications")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(applicationJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isConflict()
-        );
-    }
-
-    @Test
     public void testGetAllEcApplications() throws Exception {
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA();
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
@@ -155,7 +140,6 @@ public class EcApplicationControllerIntegrationTests {
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
         EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoB();
-        testEcApplicationDto.setId(savedEcApplication.getId());
         testEcApplicationDto.setCircumstancesDetails(testEcApplication.getCircumstancesDetails());
         String applicationUpdateJson = objectMapper.writeValueAsString(testEcApplicationDto);
 

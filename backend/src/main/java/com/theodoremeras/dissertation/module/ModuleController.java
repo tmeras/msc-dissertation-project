@@ -40,6 +40,7 @@ public class ModuleController {
         if (moduleEntity.getDepartment() == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+        // Verify that the specified department exists
         Optional<DepartmentEntity> department = departmentService.findOneById(moduleEntity.getDepartment().getId());
         if (department.isPresent())
             moduleEntity.setDepartment(department.get());
@@ -47,9 +48,8 @@ public class ModuleController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         ModuleEntity savedModuleEntity = moduleService.save(moduleEntity);
-        ModuleDto savedModuleDto = moduleMapper.mapToDto(savedModuleEntity);
 
-        return new ResponseEntity<>(savedModuleDto, HttpStatus.CREATED);
+        return new ResponseEntity<>(moduleMapper.mapToDto(savedModuleEntity), HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/modules")
@@ -69,7 +69,7 @@ public class ModuleController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PatchMapping("/modules/{code}")
+    @PatchMapping(path = "/modules/{code}")
     public ResponseEntity<ModuleDto> partialUpdateModule(
             @PathVariable("code") String moduleCode, @RequestBody ModuleDto moduleDto
     ) {

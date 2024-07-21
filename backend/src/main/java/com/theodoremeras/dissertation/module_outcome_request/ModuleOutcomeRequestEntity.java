@@ -1,0 +1,34 @@
+package com.theodoremeras.dissertation.module_outcome_request;
+
+
+import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
+import com.theodoremeras.dissertation.module.ModuleEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "module_outcome_request")
+public class ModuleOutcomeRequestEntity {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
+
+    private String requestedOutcome;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "application_id", nullable = false)
+    private EcApplicationEntity ecApplication;
+
+    @ManyToOne
+    @JoinColumn(name = "module_code", nullable = false)
+    private ModuleEntity module;
+
+}
