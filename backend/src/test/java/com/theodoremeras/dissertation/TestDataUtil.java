@@ -6,6 +6,8 @@ import com.theodoremeras.dissertation.ec_application.EcApplicationDto;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.module.ModuleDto;
 import com.theodoremeras.dissertation.module.ModuleEntity;
+import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestDto;
+import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestEntity;
 
 import java.time.LocalDate;
 
@@ -115,5 +117,44 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static ModuleOutcomeRequestEntity createTestRequestEntityA(
+            EcApplicationEntity ecApplication, ModuleEntity module
+    ) {
+        return ModuleOutcomeRequestEntity.builder()
+                .ecApplication(ecApplication)
+                .module(module)
+                .requestedOutcome("Outcome A")
+                .build();
+    }
+
+    public static ModuleOutcomeRequestDto createTestRequestDtoA(
+            Integer ecApplicationId, String moduleCode
+    ) {
+        return ModuleOutcomeRequestDto.builder()
+                .ecApplicationId(ecApplicationId)
+                .moduleCode(moduleCode)
+                .requestedOutcome("Outcome A")
+                .build();
+    }
+
+    public static ModuleOutcomeRequestEntity createTestRequestEntityB(
+            EcApplicationEntity ecApplication, ModuleEntity module
+    ) {
+        return ModuleOutcomeRequestEntity.builder()
+                .ecApplication(ecApplication)
+                .module(module)
+                .requestedOutcome("Outcome B")
+                .build();
+    }
+
+    public static ModuleOutcomeRequestDto createTestRequestDtoB(
+            Integer ecApplicationId, String moduleCode
+    ) {
+        return ModuleOutcomeRequestDto.builder()
+                .ecApplicationId(ecApplicationId)
+                .moduleCode(moduleCode)
+                .requestedOutcome("Outcome B")
+                .build();
+    }
 
 }
