@@ -1,5 +1,7 @@
 package com.theodoremeras.dissertation.ec_application;
 
+import com.theodoremeras.dissertation.user.UserEntity;
+import com.theodoremeras.dissertation.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,16 @@ public class EcApplicationController {
 
     private EcApplicationService ecApplicationService;
 
+    private UserService userService;
+
     private EcApplicationMapper ecApplicationMapper;
 
-    public EcApplicationController(EcApplicationService ecApplicationService, EcApplicationMapper ecApplicationMapper) {
+    public EcApplicationController(
+            EcApplicationService ecApplicationService, UserService userService,
+           EcApplicationMapper ecApplicationMapper
+    ) {
         this.ecApplicationService = ecApplicationService;
+        this.userService = userService;
         this.ecApplicationMapper = ecApplicationMapper;
     }
 
@@ -27,7 +35,20 @@ public class EcApplicationController {
         ecApplicationDto.setIsReferred(false);
 
         EcApplicationEntity ecApplicationEntity = ecApplicationMapper.mapFromDto(ecApplicationDto);
+
+        // Student who submitted the application must be specified
+        if (ecApplicationEntity.getStudent() == null)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        // Verify that the specified student exists
+        Optional<UserEntity> student = userService.findOneById(ecApplicationEntity.getStudent().getId());
+        if (student.isPresent())
+            ecApplicationEntity.setStudent(student.get());
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         EcApplicationEntity savedEcApplicationEntity = ecApplicationService.save(ecApplicationEntity);
+        System.out.println(savedEcApplicationEntity);
         return new ResponseEntity<>(ecApplicationMapper.mapToDto(savedEcApplicationEntity), HttpStatus.CREATED);
     }
 

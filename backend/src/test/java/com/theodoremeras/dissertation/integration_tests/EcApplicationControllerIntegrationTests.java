@@ -2,9 +2,15 @@ package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.TestDataUtil;
+import com.theodoremeras.dissertation.department.DepartmentEntity;
+import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.ec_application.EcApplicationDto;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
+import com.theodoremeras.dissertation.role.RoleEntity;
+import com.theodoremeras.dissertation.role.RoleService;
+import com.theodoremeras.dissertation.user.UserEntity;
+import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +31,43 @@ public class EcApplicationControllerIntegrationTests {
 
     private EcApplicationService ecApplicationService;
 
+    private UserService userService;
+
+    private RoleService roleService;
+
+    private DepartmentService departmentService;
+
     private MockMvc mockMvc;
 
     private ObjectMapper objectMapper;
 
+
     @Autowired
     public EcApplicationControllerIntegrationTests(
-            EcApplicationService ecApplicationService, MockMvc mockMvc, ObjectMapper objectMapper
+            EcApplicationService ecApplicationService, UserService userService,
+            RoleService roleService, DepartmentService departmentService,
+            MockMvc mockMvc, ObjectMapper objectMapper
     ) {
         this.ecApplicationService = ecApplicationService;
+        this.userService = userService;
+        this.roleService = roleService;
+        this.departmentService = departmentService;
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
 
+    public UserEntity saveUserParentEntity() {
+        RoleEntity role = roleService.save(TestDataUtil.createTestRoleEntityA());
+        DepartmentEntity department = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        return userService.save(TestDataUtil.createTestUserEntityA(role, department));
+    }
+
     @Test
     public void testCreateEcApplication() throws Exception {
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
-        String applicationJson = objectMapper.writeValueAsString(testEcApplication);
+        UserEntity savedUserEntity = saveUserParentEntity();
+
+        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA(savedUserEntity.getId());
+        String applicationJson = objectMapper.writeValueAsString(testEcApplicationDto);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/ec-applications")
@@ -53,18 +79,20 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.circumstancesDetails")
-                        .value(testEcApplication.getCircumstancesDetails())
+                        .value(testEcApplicationDto.getCircumstancesDetails())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
-                        .value(testEcApplication.getAdditionalDetails())
+                        .value(testEcApplicationDto.getAdditionalDetails())
         );
     }
 
     @Test
     public void testGetAllEcApplications() throws Exception {
-        EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA();
+        UserEntity savedUserEntity = saveUserParentEntity();
+
+        EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
-        EcApplicationEntity testEcApplicationB = TestDataUtil.createTestEcApplicationEntityB();
+        EcApplicationEntity testEcApplicationB = TestDataUtil.createTestEcApplicationEntityB(savedUserEntity);
         EcApplicationEntity savedEcApplicationB = ecApplicationService.save(testEcApplicationB);
 
         mockMvc.perform(
@@ -99,7 +127,9 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetEcApplicationById() throws Exception {
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
+        UserEntity savedUserEntity = saveUserParentEntity();
+
+        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
         mockMvc.perform(
@@ -133,10 +163,12 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateEcApplication() throws Exception {
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
+        UserEntity savedUserEntity = saveUserParentEntity();
+
+        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
-        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoB();
+        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoB(null);
         testEcApplicationDto.setCircumstancesDetails(testEcApplication.getCircumstancesDetails());
         String applicationUpdateJson = objectMapper.writeValueAsString(testEcApplicationDto);
 
@@ -160,7 +192,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateEcApplicationWhenNoApplicationExists() throws Exception {
-        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA();
+        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA(null);
         String applicationUpdateJson = objectMapper.writeValueAsString(testEcApplicationDto);
 
         mockMvc.perform(
@@ -174,7 +206,9 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testDeleteEcApplication() throws Exception {
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
+        UserEntity savedUserEntity = saveUserParentEntity();
+
+        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
         mockMvc.perform(

@@ -3,10 +3,16 @@ package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.TestDataUtil;
+import com.theodoremeras.dissertation.department.DepartmentEntity;
+import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.evidence.EvidenceEntity;
 import com.theodoremeras.dissertation.evidence.EvidenceService;
+import com.theodoremeras.dissertation.role.RoleEntity;
+import com.theodoremeras.dissertation.role.RoleService;
+import com.theodoremeras.dissertation.user.UserEntity;
+import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,22 +36,33 @@ public class EvidenceControllerIntegrationTests {
 
     private EcApplicationService ecApplicationService;
 
-    private ObjectMapper objectMapper;
+    private UserService userService;
+
+    private RoleService roleService;
+
+    private DepartmentService departmentService;
 
     private MockMvc mockMvc;
 
     @Autowired
     public EvidenceControllerIntegrationTests(
-            EvidenceService evidenceService, EcApplicationService ecApplicationService,
-            ObjectMapper objectMapper, MockMvc mockMvc) {
+            EvidenceService evidenceService, EcApplicationService ecApplicationService, UserService userService,
+            RoleService roleService, DepartmentService departmentService,
+            ObjectMapper objectMapper, MockMvc mockMvc
+    ) {
         this.evidenceService = evidenceService;
         this.ecApplicationService = ecApplicationService;
-        this.objectMapper = objectMapper;
+        this.userService = userService;
+        this.roleService = roleService;
+        this.departmentService = departmentService;
         this.mockMvc = mockMvc;
     }
 
     public EcApplicationEntity saveEcApplicationParentEntity() {
-        return ecApplicationService.save(TestDataUtil.createTestEcApplicationEntityA());
+        RoleEntity role = roleService.save(TestDataUtil.createTestRoleEntityA());
+        DepartmentEntity department = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        UserEntity student = userService.save(TestDataUtil.createTestUserEntityA(role, department));
+        return ecApplicationService.save(TestDataUtil.createTestEcApplicationEntityA(student));
     }
 
     @Test

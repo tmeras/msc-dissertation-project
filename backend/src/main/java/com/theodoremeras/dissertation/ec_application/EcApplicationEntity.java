@@ -1,9 +1,7 @@
 package com.theodoremeras.dissertation.ec_application;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.theodoremeras.dissertation.user.UserEntity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
@@ -39,5 +37,10 @@ public class EcApplicationEntity {
     private LocalDate affectedDateEnd;
 
     private Boolean isReferred;
+
+    // Id of student who submitted the application
+    @ManyToOne
+    @JoinColumn(name = "student_id", nullable = false)
+    private UserEntity student;
 
 }

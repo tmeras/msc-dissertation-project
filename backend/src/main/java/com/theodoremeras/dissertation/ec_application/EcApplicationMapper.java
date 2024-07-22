@@ -1,5 +1,6 @@
 package com.theodoremeras.dissertation.ec_application;
 
+import com.theodoremeras.dissertation.user.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,10 +14,16 @@ public class EcApplicationMapper {
                 .affectedDateStart(ecApplicationEntity.getAffectedDateStart())
                 .affectedDateEnd(ecApplicationEntity.getAffectedDateEnd())
                 .isReferred(ecApplicationEntity.getIsReferred())
+                .studentId(ecApplicationEntity.getStudent().getId())
                 .build();
     }
 
     public EcApplicationEntity mapFromDto(EcApplicationDto ecApplicationDto) {
+        UserEntity student = (ecApplicationDto.getStudentId() == null) ? null :
+                UserEntity.builder()
+                        .id(ecApplicationDto.getStudentId())
+                        .build();
+
         return EcApplicationEntity.builder()
                 .id(ecApplicationDto.getId())
                 .circumstancesDetails(ecApplicationDto.getCircumstancesDetails())
@@ -24,6 +31,7 @@ public class EcApplicationMapper {
                 .affectedDateStart(ecApplicationDto.getAffectedDateStart())
                 .affectedDateEnd(ecApplicationDto.getAffectedDateEnd())
                 .isReferred(ecApplicationDto.getIsReferred())
+                .student(student)
                 .build();
     }
 

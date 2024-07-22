@@ -83,43 +83,55 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static EcApplicationEntity createTestEcApplicationEntityA() {
+    public static EcApplicationEntity createTestEcApplicationEntityA(
+            UserEntity student
+    ) {
         return EcApplicationEntity.builder()
                 .additionalDetails("Additional details A")
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
                 .isReferred(true)
+                .student(student)
                 .build();
     }
 
-    public static EcApplicationDto createTestEcApplicationDtoA() {
+    public static EcApplicationDto createTestEcApplicationDtoA(
+            Integer studentId
+    ) {
         return EcApplicationDto.builder()
                 .additionalDetails("Additional details A")
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
                 .isReferred(true)
+                .studentId(studentId)
                 .build();
     }
 
-    public static EcApplicationEntity createTestEcApplicationEntityB() {
+    public static EcApplicationEntity createTestEcApplicationEntityB(
+            UserEntity student
+    ) {
         return EcApplicationEntity.builder()
                 .additionalDetails("Additional details B")
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
                 .isReferred(false)
+                .student(student)
                 .build();
     }
 
-    public static EcApplicationDto createTestEcApplicationDtoB() {
+    public static EcApplicationDto createTestEcApplicationDtoB(
+            Integer studentId
+    ) {
         return EcApplicationDto.builder()
                 .additionalDetails("Additional details B")
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
                 .isReferred(false)
+                .studentId(studentId)
                 .build();
     }
 

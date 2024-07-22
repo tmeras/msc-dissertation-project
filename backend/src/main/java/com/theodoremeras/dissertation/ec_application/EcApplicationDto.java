@@ -26,4 +26,6 @@ public class EcApplicationDto {
 
     private Boolean isReferred;
 
+    private Integer studentId;
+
 }
