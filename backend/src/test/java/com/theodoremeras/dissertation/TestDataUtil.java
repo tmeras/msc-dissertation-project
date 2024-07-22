@@ -10,6 +10,8 @@ import com.theodoremeras.dissertation.module.ModuleDto;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestDto;
 import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestEntity;
+import com.theodoremeras.dissertation.role.RoleDto;
+import com.theodoremeras.dissertation.role.RoleEntity;
 
 import java.time.LocalDate;
 
@@ -195,4 +197,27 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static RoleEntity createTestRoleEntityA() {
+        return RoleEntity.builder()
+                .name("Role A")
+                .build();
+    }
+
+    public static RoleDto createTestRoleDtoA() {
+        return RoleDto.builder()
+                .name("Role A")
+                .build();
+    }
+
+   public static RoleEntity createTestRoleEntityB() {
+        return RoleEntity.builder()
+                .name("Role B")
+                .build();
+    }
+
+    public static RoleDto createTestRoleDtoB() {
+        return RoleDto.builder()
+                .name("Role B")
+                .build();
+    }
 }
