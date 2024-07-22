@@ -4,6 +4,8 @@ import com.theodoremeras.dissertation.department.DepartmentDto;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationDto;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
+import com.theodoremeras.dissertation.evidence.EvidenceDto;
+import com.theodoremeras.dissertation.evidence.EvidenceEntity;
 import com.theodoremeras.dissertation.module.ModuleDto;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestDto;
@@ -154,6 +156,42 @@ public final class TestDataUtil {
                 .ecApplicationId(ecApplicationId)
                 .moduleCode(moduleCode)
                 .requestedOutcome("Outcome B")
+                .build();
+    }
+
+    public static EvidenceEntity createTestEvidenceEntityA(
+            EcApplicationEntity ecApplication
+    ) {
+        return EvidenceEntity.builder()
+                .ecApplication(ecApplication)
+                .fileName("File A")
+                .build();
+    }
+
+    public static EvidenceDto createTestEvidenceDtoA(
+            Integer ecApplicationId
+    ) {
+        return EvidenceDto.builder()
+                .ecApplicationId(ecApplicationId)
+                .fileName("File A")
+                .build();
+    }
+
+    public static EvidenceEntity createTestEvidenceEntityB(
+            EcApplicationEntity ecApplication
+    ) {
+        return EvidenceEntity.builder()
+                .ecApplication(ecApplication)
+                .fileName("File B")
+                .build();
+    }
+
+    public static EvidenceDto createTestEvidenceDtoB(
+            Integer ecApplicationId
+    ) {
+        return EvidenceDto.builder()
+                .ecApplicationId(ecApplicationId)
+                .fileName("File B")
                 .build();
     }
 
