@@ -78,7 +78,7 @@ public class DepartmentControllerIntegrationTests {
     }
 
     @Test
-    public void testGetDepartment() throws Exception {
+    public void testGetDepartmentById() throws Exception {
         DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
         DepartmentEntity savedDepartment = departmentService.save(testDepartment);
 
@@ -95,7 +95,7 @@ public class DepartmentControllerIntegrationTests {
     }
 
     @Test
-    public void testGetDepartmentWhenNoDepartmentExists() throws Exception {
+    public void testGetDepartmentByIdWhenNoDepartmentExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/departments/99")
                         .contentType(MediaType.APPLICATION_JSON)

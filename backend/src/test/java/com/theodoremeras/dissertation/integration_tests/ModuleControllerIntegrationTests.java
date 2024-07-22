@@ -95,7 +95,7 @@ public class ModuleControllerIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleWhenDepartmentIsNotFound() throws Exception {
+    public void testCreateModuleWhenNoDepartmentExists() throws Exception {
         ModuleDto testModuleDto = TestDataUtil.createTestModuleDtoA(5);
         String moduleJson = objectMapper.writeValueAsString(testModuleDto);
 
@@ -127,14 +127,18 @@ public class ModuleControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].name").value(testModuleEntityA.getName())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].departmentId").value(savedDepartment.getId())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].code").value(testModuleEntityB.getCode())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].name").value(testModuleEntityB.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].departmentId").value(savedDepartment.getId())
         );
     }
 
     @Test
-    public void testGetModule() throws Exception {
+    public void testGetModuleById() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
@@ -155,7 +159,7 @@ public class ModuleControllerIntegrationTests {
     }
 
     @Test
-    public void testGetModuleWhenNoModuleExists() throws Exception {
+    public void testGetModuleByIdWhenNoModuleExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/modules/COM2131")
                         .contentType(MediaType.APPLICATION_JSON)

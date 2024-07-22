@@ -78,7 +78,7 @@ public class RoleControllerIntegrationTests {
     }
 
     @Test
-    public void testGetRole() throws Exception {
+    public void testGetRoleById() throws Exception {
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
         RoleEntity savedRoleEntity = roleService.save(testRoleEntity);
 
@@ -95,7 +95,7 @@ public class RoleControllerIntegrationTests {
     }
 
     @Test
-    public void testGetRoleWhenNoRoleExists() throws Exception {
+    public void testGetRoleByIdWhenNoRoleExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/roles/1")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -82,13 +82,14 @@ public class ModuleOutcomeRequestController {
     @GetMapping(path = "/module-requests/{id}")
     public ResponseEntity<ModuleOutcomeRequestDto> getModuleOutcomeRequestById(@PathVariable("id") Integer id) {
         Optional<ModuleOutcomeRequestEntity> foundRequest = moduleOutcomeRequestService.findOneById(id);
+
         return foundRequest.map(requestEntity -> {
             ModuleOutcomeRequestDto requestDto = moduleOutcomeRequestMapper.mapToDto(requestEntity);
             return new ResponseEntity<>(requestDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PatchMapping(path ="/module-requests/{id}")
+    @PatchMapping(path = "/module-requests/{id}")
     public ResponseEntity<ModuleOutcomeRequestDto> partialUpdateModuleOutcomeRequest(
             @PathVariable("id") Integer id, @RequestBody ModuleOutcomeRequestDto requestDto
     ) {

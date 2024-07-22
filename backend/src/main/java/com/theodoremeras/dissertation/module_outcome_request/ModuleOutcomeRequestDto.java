@@ -1,6 +1,5 @@
 package com.theodoremeras.dissertation.module_outcome_request;
 
-import com.theodoremeras.dissertation.ec_application.EcApplicationDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

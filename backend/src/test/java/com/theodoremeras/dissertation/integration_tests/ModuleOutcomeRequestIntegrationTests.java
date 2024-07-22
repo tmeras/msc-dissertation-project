@@ -111,7 +111,7 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleOutcomeRequestWhenEcApplicationIsNotFound() throws Exception {
+    public void testCreateModuleOutcomeRequestWhenNoEcApplicationExists() throws Exception {
         ModuleEntity savedModule = saveModuleParentEntity();
 
         ModuleOutcomeRequestDto testRequestDto =
@@ -128,7 +128,7 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleOutcomeRequestWhenModuleIsNotFound() throws Exception {
+    public void testCreateModuleOutcomeRequestWhenNoModuleExists() throws Exception {
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
 
         ModuleOutcomeRequestDto testRequestDto =
@@ -168,11 +168,23 @@ public class ModuleOutcomeRequestIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].requestedOutcome")
                         .value(savedRequestEntityA.getRequestedOutcome())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].moduleCode")
+                        .value(savedModule.getCode())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id")
                         .value(savedRequestEntityB.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requestedOutcome")
                         .value(savedRequestEntityB.getRequestedOutcome())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].moduleCode")
+                        .value(savedModule.getCode())
         );
     }
 
@@ -201,25 +213,37 @@ public class ModuleOutcomeRequestIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].requestedOutcome")
                         .value(savedRequestEntityA.getRequestedOutcome())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].moduleCode")
+                        .value(savedModule.getCode())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id")
                         .value(savedRequestEntityB.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requestedOutcome")
                         .value(savedRequestEntityB.getRequestedOutcome())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].moduleCode")
+                        .value(savedModule.getCode())
         );
     }
 
     @Test
-    public void testGetModuleOutcomeRequest() throws Exception {
+    public void testGetModuleOutcomeRequestById() throws Exception {
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
         ModuleEntity savedModule = saveModuleParentEntity();
 
         ModuleOutcomeRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntity =moduleOutcomeRequestService.save(testRequestEntity);
+        ModuleOutcomeRequestEntity savedRequestEntity = moduleOutcomeRequestService.save(testRequestEntity);
 
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/module-requests/" + testRequestEntity.getId())
+                MockMvcRequestBuilders.get("/module-requests/" + savedRequestEntity.getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -239,8 +263,7 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testGetModuleOutcomeRequestWhenNoRequestExists() throws Exception {
-
+    public void testGetModuleOutcomeRequestByIdWhenNoRequestExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/module-requests/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -256,7 +279,7 @@ public class ModuleOutcomeRequestIntegrationTests {
 
         ModuleOutcomeRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntity =moduleOutcomeRequestService.save(testRequestEntity);
+        ModuleOutcomeRequestEntity savedRequestEntity = moduleOutcomeRequestService.save(testRequestEntity);
 
         ModuleOutcomeRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoB(null, null);

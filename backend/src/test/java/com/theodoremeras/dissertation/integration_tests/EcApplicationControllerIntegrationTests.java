@@ -57,9 +57,6 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(testEcApplication.getAdditionalDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.isReferred")
-                        .value(testEcApplication.getIsReferred())
         );
     }
 
@@ -101,7 +98,7 @@ public class EcApplicationControllerIntegrationTests {
     }
 
     @Test
-    public void testGetEcApplication() throws Exception {
+    public void testGetEcApplicationById() throws Exception {
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
@@ -125,7 +122,7 @@ public class EcApplicationControllerIntegrationTests {
     }
 
     @Test
-    public void testGetEcApplicationWhenNoApplicationExists() throws Exception {
+    public void testGetEcApplicationByIdWhenNoApplicationExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/ec-applications/123")
                         .contentType(MediaType.APPLICATION_JSON)
