@@ -12,6 +12,8 @@ import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeReques
 import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestEntity;
 import com.theodoremeras.dissertation.role.RoleDto;
 import com.theodoremeras.dissertation.role.RoleEntity;
+import com.theodoremeras.dissertation.user.UserDto;
+import com.theodoremeras.dissertation.user.UserEntity;
 
 import java.time.LocalDate;
 
@@ -220,4 +222,59 @@ public final class TestDataUtil {
                 .name("Role B")
                 .build();
     }
+
+    public static UserEntity createTestUserEntityA(
+            RoleEntity roleEntity, DepartmentEntity departmentEntity
+    ) {
+        return UserEntity.builder()
+                .name("User A")
+                .email("userA@gmail.com")
+                .password("pass123")
+                .isApproved(true)
+                .role(roleEntity)
+                .department(departmentEntity)
+                .build();
+    }
+
+    public static UserDto createTestUserDtoA(
+            Integer roleId, Integer departmentId
+    ) {
+        return UserDto.builder()
+                .name("User A")
+                .email("userA@gmail.com")
+                .password("pass123")
+                .isApproved(true)
+                .roleId(roleId)
+                .departmentId(departmentId)
+                .build();
+    }
+
+    public static UserEntity createTestUserEntityB(
+            RoleEntity roleEntity, DepartmentEntity departmentEntity
+    ) {
+        return UserEntity.builder()
+                .name("User B")
+                .email("userB@gmail.com")
+                .password("pass456")
+                .isApproved(true)
+                .role(roleEntity)
+                .department(departmentEntity)
+                .build();
+    }
+
+    public static UserDto createTestUserDtoB(
+            Integer roleId, Integer departmentId
+    ) {
+        return UserDto.builder()
+                .name("User B")
+                .email("userB@gmail.com")
+                .password("pass456")
+                .isApproved(true)
+                .roleId(roleId)
+                .departmentId(departmentId)
+                .build();
+    }
+
+
+
 }
