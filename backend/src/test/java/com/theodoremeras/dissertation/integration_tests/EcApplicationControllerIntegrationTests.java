@@ -101,7 +101,7 @@ public class EcApplicationControllerIntegrationTests {
     }
 
     @Test
-    public void testGetEcApplicationWhenApplicationExists() throws Exception {
+    public void testGetEcApplication() throws Exception {
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
@@ -135,7 +135,7 @@ public class EcApplicationControllerIntegrationTests {
     }
 
     @Test
-    public void testPartialUpdateEcApplicationWhenApplicationExists() throws Exception {
+    public void testPartialUpdateEcApplication() throws Exception {
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
@@ -176,7 +176,7 @@ public class EcApplicationControllerIntegrationTests {
     }
 
     @Test
-    public void testDeleteEcApplicationWhenApplicationExists() throws Exception {
+    public void testDeleteEcApplication() throws Exception {
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA();
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 

@@ -78,7 +78,7 @@ public class DepartmentControllerIntegrationTests {
     }
 
     @Test
-    public void testGetDepartmentWhenDepartmentExists() throws Exception {
+    public void testGetDepartment() throws Exception {
         DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
         DepartmentEntity savedDepartment = departmentService.save(testDepartment);
 
@@ -105,7 +105,7 @@ public class DepartmentControllerIntegrationTests {
     }
 
     @Test
-    public void testDeleteDepartmentWhenDepartmentExists() throws Exception {
+    public void testDeleteDepartment() throws Exception {
         DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
         DepartmentEntity savedDepartment = departmentService.save(testDepartment);
 

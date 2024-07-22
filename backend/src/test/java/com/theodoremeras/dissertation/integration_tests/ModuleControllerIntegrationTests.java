@@ -134,7 +134,7 @@ public class ModuleControllerIntegrationTests {
     }
 
     @Test
-    public void testGetModuleWhenModuleExists() throws Exception {
+    public void testGetModule() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
@@ -165,7 +165,7 @@ public class ModuleControllerIntegrationTests {
     }
 
     @Test
-    public void testPartialUpdateModuleWhenModuleExists() throws Exception {
+    public void testPartialUpdateModule() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
@@ -204,7 +204,7 @@ public class ModuleControllerIntegrationTests {
     }
 
     @Test
-    public void testDeleteModuleWhenModuleExists() throws Exception {
+    public void testDeleteModule() throws Exception {
         DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);

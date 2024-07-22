@@ -39,19 +39,20 @@ public class ModuleOutcomeRequestIntegrationTests {
     private EcApplicationService ecApplicationService;
 
     private ObjectMapper objectMapper;
-    @Autowired
+
     private MockMvc mockMvc;
 
     @Autowired
     public ModuleOutcomeRequestIntegrationTests(
             ModuleOutcomeRequestService moduleOutcomeRequestService, ModuleService moduleService,
             DepartmentService departmentService, EcApplicationService ecApplicationService,
-            ObjectMapper objectMapper)
+            MockMvc mockMvc, ObjectMapper objectMapper)
     {
         this.moduleOutcomeRequestService = moduleOutcomeRequestService;
         this.moduleService = moduleService;
         this.departmentService = departmentService;
         this.ecApplicationService = ecApplicationService;
+        this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
 
@@ -246,7 +247,7 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testPartialUpdateModuleOutcomeRequestWhenRequestExists() throws Exception {
+    public void testPartialUpdateModuleOutcomeRequest() throws Exception {
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
         ModuleEntity savedModule = saveModuleParentEntity();
 
@@ -296,7 +297,7 @@ public class ModuleOutcomeRequestIntegrationTests {
 
 
     @Test
-    public void testDeleteModuleOutcomeRequestWhenRequestExists() throws Exception {
+    public void testDeleteModuleOutcomeRequest() throws Exception {
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
         ModuleEntity savedModule = saveModuleParentEntity();
 

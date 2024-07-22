@@ -23,8 +23,6 @@ public class ModuleOutcomeRequestController {
 
     private ModuleOutcomeRequestMapper moduleOutcomeRequestMapper;
 
-
-
     public ModuleOutcomeRequestController(
             ModuleOutcomeRequestService moduleOutcomeRequestService, EcApplicationService ecApplicationService,
             ModuleService moduleService, ModuleOutcomeRequestMapper moduleOutcomeRequestMapper
@@ -64,7 +62,6 @@ public class ModuleOutcomeRequestController {
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        System.out.println(requestEntity);
         ModuleOutcomeRequestEntity savedRequestEntity = moduleOutcomeRequestService.save(requestEntity);
         return new ResponseEntity<>(moduleOutcomeRequestMapper.mapToDto(savedRequestEntity), HttpStatus.CREATED);
     }
