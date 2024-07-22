@@ -81,6 +81,9 @@ public class ModuleOutcomeRequestIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id")
+                        .isNumber()
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.requestedOutcome")
                         .value(testRequestDto.getRequestedOutcome())
         ).andExpect(
@@ -207,7 +210,7 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testGetModuleOutcomeRequestWhenRequestExists() throws Exception {
+    public void testGetModuleOutcomeRequest() throws Exception {
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
         ModuleEntity savedModule = saveModuleParentEntity();
 
@@ -315,7 +318,6 @@ public class ModuleOutcomeRequestIntegrationTests {
 
     @Test
     public void testDeleteModuleOutcomeRequestWhenNoRequestExists() throws Exception {
-
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/module-requests/1")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -41,7 +41,7 @@ public class ModuleOutcomeRequestService {
             Optional.ofNullable(moduleOutcomeRequestEntity.getRequestedOutcome())
                     .ifPresent(existingRequest::setRequestedOutcome);
             return moduleOutcomeRequestRepository.save(existingRequest);
-        }).orElseThrow(() -> new RuntimeException("Could not module outcome request with id " + id));
+        }).orElseThrow(() -> new RuntimeException("Could not find module outcome request with id " + id));
     }
 
     public void delete(Integer id) {

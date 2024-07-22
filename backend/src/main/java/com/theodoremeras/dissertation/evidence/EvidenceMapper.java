@@ -2,8 +2,9 @@ package com.theodoremeras.dissertation.evidence;
 
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class EvidenceMapper {
 
     public EvidenceDto mapToDto(EvidenceEntity evidenceEntity) {

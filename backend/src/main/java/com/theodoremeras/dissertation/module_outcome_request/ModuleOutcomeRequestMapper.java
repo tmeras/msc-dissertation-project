@@ -3,8 +3,9 @@ package com.theodoremeras.dissertation.module_outcome_request;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ModuleOutcomeRequestMapper {
 
     public ModuleOutcomeRequestDto mapToDto(ModuleOutcomeRequestEntity moduleOutcomeRequestEntity) {
