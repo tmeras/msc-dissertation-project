@@ -14,6 +14,8 @@ import com.theodoremeras.dissertation.module_request.ModuleRequestDto;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.role.RoleDto;
 import com.theodoremeras.dissertation.role.RoleEntity;
+import com.theodoremeras.dissertation.student_information.StudentInformationDto;
+import com.theodoremeras.dissertation.student_information.StudentInformationEntity;
 import com.theodoremeras.dissertation.user.UserDto;
 import com.theodoremeras.dissertation.user.UserEntity;
 
@@ -330,6 +332,54 @@ public final class TestDataUtil {
                 .isApproved(true)
                 .moduleRequestId(moduleRequestId)
                 .staffMemberId(staffId)
+                .build();
+    }
+
+    public static StudentInformationEntity createTestStudentInformationEntityA(
+            UserEntity student
+    ) {
+        return StudentInformationEntity.builder()
+                .hasHealthIssues(true)
+                .hasDisability(true)
+                .hasLsp(true)
+                .additionalDetails("Additional details A")
+                .student(student)
+                .build();
+    }
+
+    public static StudentInformationDto createTestStudentInformationDtoA(
+            Integer studentId
+    ) {
+        return StudentInformationDto.builder()
+                .hasHealthIssues(true)
+                .hasDisability(true)
+                .hasLsp(true)
+                .additionalDetails("Additional details A")
+                .studentId(studentId)
+                .build();
+    }
+
+    public static StudentInformationEntity createTestStudentInformationEntityB(
+            UserEntity student
+    ) {
+        return StudentInformationEntity.builder()
+                .hasHealthIssues(false)
+                .hasDisability(false)
+                .hasLsp(false)
+                .additionalDetails("Additional details B")
+                .student(student)
+                .build();
+    }
+
+    public static StudentInformationDto createTestStudentInformationDtoB(
+            Integer studentId
+    ) {
+        return StudentInformationDto.builder()
+                .hasHealthIssues(false)
+                .hasDisability(false)
+                .hasLsp(false)
+                .additionalDetails("Additional details B")
+                .studentId(studentId)
                 .build();
     }
 
