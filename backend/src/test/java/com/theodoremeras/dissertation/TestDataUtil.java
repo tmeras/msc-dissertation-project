@@ -8,8 +8,10 @@ import com.theodoremeras.dissertation.evidence.EvidenceDto;
 import com.theodoremeras.dissertation.evidence.EvidenceEntity;
 import com.theodoremeras.dissertation.module.ModuleDto;
 import com.theodoremeras.dissertation.module.ModuleEntity;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestDto;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestEntity;
+import com.theodoremeras.dissertation.module_decision.ModuleDecisionDto;
+import com.theodoremeras.dissertation.module_decision.ModuleDecisionEntity;
+import com.theodoremeras.dissertation.module_request.ModuleRequestDto;
+import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.role.RoleDto;
 import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.user.UserDto;
@@ -236,15 +238,15 @@ public final class TestDataUtil {
     }
 
     public static UserEntity createTestUserEntityA(
-            RoleEntity roleEntity, DepartmentEntity departmentEntity
+            RoleEntity role, DepartmentEntity department
     ) {
         return UserEntity.builder()
                 .name("User A")
                 .email("userA@gmail.com")
                 .password("pass123")
                 .isApproved(true)
-                .role(roleEntity)
-                .department(departmentEntity)
+                .role(role)
+                .department(department)
                 .build();
     }
 
@@ -262,15 +264,15 @@ public final class TestDataUtil {
     }
 
     public static UserEntity createTestUserEntityB(
-            RoleEntity roleEntity, DepartmentEntity departmentEntity
+            RoleEntity role, DepartmentEntity department
     ) {
         return UserEntity.builder()
                 .name("User B")
                 .email("userB@gmail.com")
                 .password("pass456")
                 .isApproved(true)
-                .role(roleEntity)
-                .department(departmentEntity)
+                .role(role)
+                .department(department)
                 .build();
     }
 
@@ -287,6 +289,48 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static ModuleDecisionEntity createTestModuleDecisionEntityA(
+            ModuleRequestEntity moduleRequest, UserEntity staff
+    ) {
+        return ModuleDecisionEntity.builder()
+                .comments("Comment A")
+                .isApproved(false)
+                .moduleRequest(moduleRequest)
+                .staffMember(staff)
+                .build();
+    }
 
+    public static ModuleDecisionDto createTestModuleDecisionDtoA(
+            Integer moduleRequestId, Integer staffId
+    ) {
+        return ModuleDecisionDto.builder()
+                .comments("Comment A")
+                .isApproved(false)
+                .moduleRequestId(moduleRequestId)
+                .staffMemberId(staffId)
+                .build();
+    }
+
+    public static ModuleDecisionEntity createTestModuleDecisionEntityB(
+            ModuleRequestEntity moduleRequest, UserEntity staff
+    ) {
+        return ModuleDecisionEntity.builder()
+                .comments("Comment B")
+                .isApproved(true)
+                .moduleRequest(moduleRequest)
+                .staffMember(staff)
+                .build();
+    }
+
+    public static ModuleDecisionDto createTestModuleDecisionDtoB(
+            Integer moduleRequestId, Integer staffId
+    ) {
+        return ModuleDecisionDto.builder()
+                .comments("Comment B")
+                .isApproved(true)
+                .moduleRequestId(moduleRequestId)
+                .staffMemberId(staffId)
+                .build();
+    }
 
 }
