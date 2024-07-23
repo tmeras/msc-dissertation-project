@@ -3,6 +3,7 @@ package com.theodoremeras.dissertation.module_decision;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.user.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class ModuleDecisionEntity {
     @GeneratedValue
     private Integer id;
 
+    @Size(min = 1, max = 5000)
     private String comments;
 
     private Boolean isApproved;
