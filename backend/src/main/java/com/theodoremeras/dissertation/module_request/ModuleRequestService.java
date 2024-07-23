@@ -1,4 +1,4 @@
-package com.theodoremeras.dissertation.module_outcome_request;
+package com.theodoremeras.dissertation.module_request;
 
 import org.springframework.stereotype.Service;
 
@@ -41,7 +41,7 @@ public class ModuleRequestService {
             Optional.ofNullable(moduleRequestEntity.getRequestedOutcome())
                     .ifPresent(existingRequest::setRequestedOutcome);
             return moduleRequestRepository.save(existingRequest);
-        }).orElseThrow(() -> new RuntimeException("Could not find module outcome request with id " + id));
+        }).orElseThrow(() -> new RuntimeException("Could not find module request with id " + id));
     }
 
     public void delete(Integer id) {

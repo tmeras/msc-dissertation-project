@@ -1,4 +1,4 @@
-package com.theodoremeras.dissertation.module_outcome_request;
+package com.theodoremeras.dissertation.module_request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

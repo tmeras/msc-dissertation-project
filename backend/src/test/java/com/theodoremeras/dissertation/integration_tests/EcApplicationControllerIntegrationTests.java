@@ -64,9 +64,9 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testCreateEcApplication() throws Exception {
-        UserEntity savedUserEntity = saveUserParentEntity();
+        UserEntity savedUser = saveUserParentEntity();
 
-        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA(savedUserEntity.getId());
+        EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA(savedUser.getId());
         String applicationJson = objectMapper.writeValueAsString(testEcApplicationDto);
 
         mockMvc.perform(
@@ -88,11 +88,11 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetAllEcApplications() throws Exception {
-        UserEntity savedUserEntity = saveUserParentEntity();
+        UserEntity savedUser = saveUserParentEntity();
 
-        EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
+        EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
-        EcApplicationEntity testEcApplicationB = TestDataUtil.createTestEcApplicationEntityB(savedUserEntity);
+        EcApplicationEntity testEcApplicationB = TestDataUtil.createTestEcApplicationEntityB(savedUser);
         EcApplicationEntity savedEcApplicationB = ecApplicationService.save(testEcApplicationB);
 
         mockMvc.perform(
@@ -127,9 +127,9 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetEcApplicationById() throws Exception {
-        UserEntity savedUserEntity = saveUserParentEntity();
+        UserEntity savedUser = saveUserParentEntity();
 
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
+        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
         mockMvc.perform(
@@ -163,9 +163,9 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateEcApplication() throws Exception {
-        UserEntity savedUserEntity = saveUserParentEntity();
+        UserEntity savedUser = saveUserParentEntity();
 
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
+        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
         EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoB(null);
@@ -206,9 +206,9 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testDeleteEcApplication() throws Exception {
-        UserEntity savedUserEntity = saveUserParentEntity();
+        UserEntity savedUser = saveUserParentEntity();
 
-        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUserEntity);
+        EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
         mockMvc.perform(

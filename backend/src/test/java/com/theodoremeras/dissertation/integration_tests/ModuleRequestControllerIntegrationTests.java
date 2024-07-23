@@ -9,9 +9,9 @@ import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import com.theodoremeras.dissertation.module.ModuleService;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestDto;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestEntity;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestService;
+import com.theodoremeras.dissertation.module_request.ModuleRequestDto;
+import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
+import com.theodoremeras.dissertation.module_request.ModuleRequestService;
 import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.role.RoleService;
 import com.theodoremeras.dissertation.user.UserEntity;
@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-public class ModuleRequestIntegrationTests {
+public class ModuleRequestControllerIntegrationTests {
 
     private ModuleRequestService moduleRequestService;
 
@@ -51,7 +51,7 @@ public class ModuleRequestIntegrationTests {
     private MockMvc mockMvc;
 
     @Autowired
-    public ModuleRequestIntegrationTests(
+    public ModuleRequestControllerIntegrationTests(
             ModuleRequestService moduleRequestService, ModuleService moduleService,
             DepartmentService departmentService, EcApplicationService ecApplicationService, RoleService roleService,
             UserService userService, MockMvc mockMvc, ObjectMapper objectMapper)
@@ -342,7 +342,6 @@ public class ModuleRequestIntegrationTests {
                 MockMvcResultMatchers.status().isNotFound()
         );
     }
-
 
     @Test
     public void testDeleteModuleRequest() throws Exception {

@@ -1,4 +1,4 @@
-package com.theodoremeras.dissertation.module_outcome_request;
+package com.theodoremeras.dissertation.module_request;
 
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
@@ -42,7 +42,7 @@ public class ModuleRequestController {
 
         ModuleRequestEntity requestEntity = moduleRequestMapper.mapFromDto(requestDto);
 
-        // EC application and module must be specified when creating new module outcome request
+        // The relevant EC application and module must be specified
         if (requestEntity.getEcApplication() == null || requestEntity.getModule() == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -70,9 +70,10 @@ public class ModuleRequestController {
     public List<ModuleRequestDto> getAllModuleRequests(
             @RequestParam(value = "ecApplicationId", required = false) Integer ecApplicationId
     ) {
+        // Determine whether to fetch all requests or only those matching the provided  EC application id
         List<ModuleRequestEntity> requestEntities =
                 (ecApplicationId == null) ? moduleRequestService.findAll() :
-                moduleRequestService.findAllByEcApplicationId(ecApplicationId);
+                        moduleRequestService.findAllByEcApplicationId(ecApplicationId);
 
         return requestEntities.stream()
                 .map(moduleRequestMapper::mapToDto)
@@ -102,7 +103,7 @@ public class ModuleRequestController {
         return new ResponseEntity<>(moduleRequestMapper.mapToDto(updatedRequestEntity), HttpStatus.OK);
     }
 
-    @DeleteMapping(path ="/module-requests/{id}")
+    @DeleteMapping(path = "/module-requests/{id}")
     public ResponseEntity<String> deleteModuleRequest(@PathVariable("id") Integer id) {
         moduleRequestService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

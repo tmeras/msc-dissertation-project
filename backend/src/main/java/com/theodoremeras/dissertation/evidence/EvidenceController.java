@@ -38,7 +38,7 @@ public class EvidenceController {
             @RequestParam("file") MultipartFile file,
             @RequestParam("ecApplicationId") Integer ecApplicationId
     ) {
-        // File and EC application id are both mandatory
+        // File to be uploaded and relevant EC application must be specified
         if (file.isEmpty() || file.getName().isBlank() || ecApplicationId == null)
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
