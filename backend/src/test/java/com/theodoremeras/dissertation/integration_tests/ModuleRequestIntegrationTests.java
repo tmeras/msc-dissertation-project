@@ -9,9 +9,9 @@ import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import com.theodoremeras.dissertation.module.ModuleService;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestDto;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestEntity;
-import com.theodoremeras.dissertation.module_outcome_request.ModuleOutcomeRequestService;
+import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestDto;
+import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestEntity;
+import com.theodoremeras.dissertation.module_outcome_request.ModuleRequestService;
 import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.role.RoleService;
 import com.theodoremeras.dissertation.user.UserEntity;
@@ -32,9 +32,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-public class ModuleOutcomeRequestIntegrationTests {
+public class ModuleRequestIntegrationTests {
 
-    private ModuleOutcomeRequestService moduleOutcomeRequestService;
+    private ModuleRequestService moduleRequestService;
 
     private ModuleService moduleService;
 
@@ -51,12 +51,12 @@ public class ModuleOutcomeRequestIntegrationTests {
     private MockMvc mockMvc;
 
     @Autowired
-    public ModuleOutcomeRequestIntegrationTests(
-            ModuleOutcomeRequestService moduleOutcomeRequestService, ModuleService moduleService,
+    public ModuleRequestIntegrationTests(
+            ModuleRequestService moduleRequestService, ModuleService moduleService,
             DepartmentService departmentService, EcApplicationService ecApplicationService, RoleService roleService,
             UserService userService, MockMvc mockMvc, ObjectMapper objectMapper)
     {
-        this.moduleOutcomeRequestService = moduleOutcomeRequestService;
+        this.moduleRequestService = moduleRequestService;
         this.moduleService = moduleService;
         this.departmentService = departmentService;
         this.ecApplicationService = ecApplicationService;
@@ -81,12 +81,12 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleOutcomeRequest() throws Exception {
+    public void testCreateModuleRequest() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
         ModuleEntity savedModule = saveModuleParentEntity(department);
 
-        ModuleOutcomeRequestDto testRequestDto =
+        ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoA(savedEcApplication.getId(), savedModule.getCode());
         String requestJson = objectMapper.writeValueAsString(testRequestDto);
 
@@ -112,8 +112,8 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleOutcomeRequestWhenNoApplicationOrModuleIsSpecified() throws Exception {
-        ModuleOutcomeRequestDto testRequestDto =
+    public void testCreateModuleRequestWhenNoApplicationOrModuleIsSpecified() throws Exception {
+        ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoA(null,null);
         String requestJson = objectMapper.writeValueAsString(testRequestDto);
 
@@ -127,11 +127,11 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleOutcomeRequestWhenNoEcApplicationExists() throws Exception {
+    public void testCreateModuleRequestWhenNoEcApplicationExists() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         ModuleEntity savedModule = saveModuleParentEntity(department);
 
-        ModuleOutcomeRequestDto testRequestDto =
+        ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoA(1,savedModule.getCode());
         String requestJson = objectMapper.writeValueAsString(testRequestDto);
 
@@ -145,11 +145,11 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleOutcomeRequestWhenNoModuleExists() throws Exception {
+    public void testCreateModuleRequestWhenNoModuleExists() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
 
-        ModuleOutcomeRequestDto testRequestDto =
+        ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoA(savedEcApplication.getId(),"COM123");
         String requestJson = objectMapper.writeValueAsString(testRequestDto);
 
@@ -163,17 +163,17 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleOutcomeRequests() throws Exception {
+    public void testGetAllModuleRequests() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
         ModuleEntity savedModule = saveModuleParentEntity(department);
 
-        ModuleOutcomeRequestEntity testRequestEntityA =
+        ModuleRequestEntity testRequestEntityA =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntityA = moduleOutcomeRequestService.save(testRequestEntityA);
-        ModuleOutcomeRequestEntity testRequestEntityB =
+        ModuleRequestEntity savedRequestEntityA = moduleRequestService.save(testRequestEntityA);
+        ModuleRequestEntity testRequestEntityB =
                 TestDataUtil.createTestRequestEntityB(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntityB = moduleOutcomeRequestService.save(testRequestEntityB);
+        ModuleRequestEntity savedRequestEntityB = moduleRequestService.save(testRequestEntityB);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/module-requests")
@@ -208,17 +208,17 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleOutcomeRequestsByEcApplicationId() throws Exception {
+    public void testGetAllModuleRequestsByEcApplicationId() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
         ModuleEntity savedModule = saveModuleParentEntity(department);
 
-        ModuleOutcomeRequestEntity testRequestEntityA =
+        ModuleRequestEntity testRequestEntityA =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntityA = moduleOutcomeRequestService.save(testRequestEntityA);
-        ModuleOutcomeRequestEntity testRequestEntityB =
+        ModuleRequestEntity savedRequestEntityA = moduleRequestService.save(testRequestEntityA);
+        ModuleRequestEntity testRequestEntityB =
                 TestDataUtil.createTestRequestEntityB(savedEcApplication, savedModule);
-          ModuleOutcomeRequestEntity savedRequestEntityB = moduleOutcomeRequestService.save(testRequestEntityB);
+          ModuleRequestEntity savedRequestEntityB = moduleRequestService.save(testRequestEntityB);
 
         mockMvc.perform(
                 MockMvcRequestBuilders
@@ -254,14 +254,14 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testGetModuleOutcomeRequestById() throws Exception {
+    public void testGetModuleRequestById() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
         ModuleEntity savedModule = saveModuleParentEntity(department);
 
-        ModuleOutcomeRequestEntity testRequestEntity =
+        ModuleRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntity = moduleOutcomeRequestService.save(testRequestEntity);
+        ModuleRequestEntity savedRequestEntity = moduleRequestService.save(testRequestEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/module-requests/" + savedRequestEntity.getId())
@@ -284,7 +284,7 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testGetModuleOutcomeRequestByIdWhenNoRequestExists() throws Exception {
+    public void testGetModuleRequestByIdWhenNoRequestExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/module-requests/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -294,16 +294,16 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testPartialUpdateModuleOutcomeRequest() throws Exception {
+    public void testPartialUpdateModuleRequest() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
         ModuleEntity savedModule = saveModuleParentEntity(department);
 
-        ModuleOutcomeRequestEntity testRequestEntity =
+        ModuleRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntity = moduleOutcomeRequestService.save(testRequestEntity);
+        ModuleRequestEntity savedRequestEntity = moduleRequestService.save(testRequestEntity);
 
-        ModuleOutcomeRequestDto testRequestDto =
+        ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoB(null, null);
         String requestUpdateJson = objectMapper.writeValueAsString(testRequestDto);
 
@@ -329,8 +329,8 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testPartialUpdateModuleOutcomeRequestWhenNoRequestExists() throws Exception {
-        ModuleOutcomeRequestDto testRequestDto =
+    public void testPartialUpdateModuleRequestWhenNoRequestExists() throws Exception {
+        ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoB(null, null);
         String requestUpdateJson = objectMapper.writeValueAsString(testRequestDto);
 
@@ -345,14 +345,14 @@ public class ModuleOutcomeRequestIntegrationTests {
 
 
     @Test
-    public void testDeleteModuleOutcomeRequest() throws Exception {
+    public void testDeleteModuleRequest() throws Exception {
         DepartmentEntity department = saveDepartmentParentEntity();
         EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
         ModuleEntity savedModule = saveModuleParentEntity(department);
 
-        ModuleOutcomeRequestEntity testRequestEntity =
+        ModuleRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleOutcomeRequestEntity savedRequestEntity =moduleOutcomeRequestService.save(testRequestEntity);
+        ModuleRequestEntity savedRequestEntity = moduleRequestService.save(testRequestEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/module-requests/" + savedRequestEntity.getId())
@@ -363,7 +363,7 @@ public class ModuleOutcomeRequestIntegrationTests {
     }
 
     @Test
-    public void testDeleteModuleOutcomeRequestWhenNoRequestExists() throws Exception {
+    public void testDeleteModuleRequestWhenNoRequestExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/module-requests/1")
                         .contentType(MediaType.APPLICATION_JSON)

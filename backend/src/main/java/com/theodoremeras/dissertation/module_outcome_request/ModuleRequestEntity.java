@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "module_outcome_request")
-public class ModuleOutcomeRequestEntity {
+public class ModuleRequestEntity {
 
     @Id
     @GeneratedValue

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ModuleOutcomeRequestDto {
+public class ModuleRequestDto {
 
     private Integer id;
 
