@@ -2,6 +2,8 @@ package com.theodoremeras.dissertation.evidence;
 
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +21,7 @@ public class EvidenceEntity {
     @GeneratedValue
     private Integer id;
 
+    @NotBlank
     private String fileName;
 
     @ManyToOne

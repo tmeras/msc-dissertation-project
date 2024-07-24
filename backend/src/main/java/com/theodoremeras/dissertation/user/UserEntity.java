@@ -4,6 +4,8 @@ import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.role.RoleEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +23,15 @@ public class UserEntity {
     @GeneratedValue
     private Integer id;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     @Email
+    @Column(unique = true)
     private String email;
 
+    @NotBlank
     private String password;
 
     private Boolean isApproved;

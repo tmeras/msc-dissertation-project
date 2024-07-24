@@ -21,7 +21,7 @@ public class ModuleDecisionEntity {
     @GeneratedValue
     private Integer id;
 
-    @Size(min = 1, max = 5000)
+    @Size(max = 5000)
     private String comments;
 
     private Boolean isApproved;

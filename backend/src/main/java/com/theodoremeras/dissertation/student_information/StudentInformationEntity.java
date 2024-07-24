@@ -26,7 +26,7 @@ public class StudentInformationEntity {
 
     private Boolean hasLsp;
 
-    @Size(min = 1, max = 5000)
+    @Size(max = 5000)
     private String additionalDetails;
 
     // Id of student whose data is stored

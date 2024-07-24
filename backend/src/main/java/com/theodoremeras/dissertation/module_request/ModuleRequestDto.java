@@ -1,5 +1,7 @@
 package com.theodoremeras.dissertation.module_request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +15,13 @@ public class ModuleRequestDto {
 
     private Integer id;
 
+    @NotBlank
     private String requestedOutcome;
 
+    @NotNull
     private Integer ecApplicationId;
 
+    @NotBlank
     private String moduleCode;
 
 }

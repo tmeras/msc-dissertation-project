@@ -1,5 +1,6 @@
 package com.theodoremeras.dissertation.student_information;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class StudentInformationDto {
 
     private String additionalDetails;
 
+    @NotNull
     private Integer studentId;
 }

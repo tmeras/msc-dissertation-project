@@ -2,11 +2,16 @@ package com.theodoremeras.dissertation.module;
 
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,17 +33,12 @@ public class ModuleController {
     }
 
     @PostMapping(path = "/modules")
-    public ResponseEntity<ModuleDto> createModule(@RequestBody ModuleDto moduleDto
-    ) {
+    public ResponseEntity<ModuleDto> createModule(@RequestBody @Valid ModuleDto moduleDto) {
         // Module with the same code already exists
         if (moduleService.exists(moduleDto.getCode()))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
         ModuleEntity moduleEntity = moduleMapper.mapFromDto(moduleDto);
-
-        // Department must be specified when creating new module
-        if (moduleEntity.getDepartment() == null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         // Verify that the specified department exists
         Optional<DepartmentEntity> department = departmentService.findOneById(moduleEntity.getDepartment().getId());
@@ -86,6 +86,19 @@ public class ModuleController {
     public ResponseEntity<String> deleteModule(@PathVariable("code") String moduleCode) {
         moduleService.delete(moduleCode);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Map<String, String> handleValidationExceptions(
+      MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 
 }

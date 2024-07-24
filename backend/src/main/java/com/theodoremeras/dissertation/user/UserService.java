@@ -30,6 +30,10 @@ public class UserService {
         return userRepository.existsById(id);
     }
 
+    public Boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     public UserEntity partialUpdate(Integer id, UserEntity userEntity) {
         userEntity.setId(id);
 

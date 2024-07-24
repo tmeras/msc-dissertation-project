@@ -81,6 +81,26 @@ public class UserControllerIntegrationTests {
     }
 
     @Test
+    public void testCreateUserWhenEmailIsNotUnique() throws Exception {
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+
+        UserDto testUserDto = TestDataUtil.createTestUserDtoA(savedRoleEntity.getId(), savedDepartmentEntity.getId());
+        String userJson = objectMapper.writeValueAsString(testUserDto);
+
+        // Save user with the same email
+        userService.save(TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity));
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/users")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(userJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isConflict()
+        );
+    }
+
+    @Test
     public void testCreateUserWhenNoRoleOrDepartmentIsSpecified() throws Exception {
         UserDto testUserDto = TestDataUtil.createTestUserDtoA(null, null);
         String userJson = objectMapper.writeValueAsString(testUserDto);

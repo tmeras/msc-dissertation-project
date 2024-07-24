@@ -2,6 +2,7 @@ package com.theodoremeras.dissertation.department;
 
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,5 +22,6 @@ public class DepartmentEntity {
     @GeneratedValue
     private Integer id;
 
+    @NotNull
     private String name;
 }

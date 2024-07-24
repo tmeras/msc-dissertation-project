@@ -1,5 +1,7 @@
 package com.theodoremeras.dissertation.ec_application;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,16 +18,20 @@ public class EcApplicationDto {
 
     private Integer id;
 
+    @NotBlank
     private String circumstancesDetails;
 
     private String additionalDetails;
 
+    @NotNull
     private LocalDate affectedDateStart;
 
+    @NotNull
     private LocalDate affectedDateEnd;
 
     private Boolean isReferred;
 
+    @NotNull
     private Integer studentId;
 
 }

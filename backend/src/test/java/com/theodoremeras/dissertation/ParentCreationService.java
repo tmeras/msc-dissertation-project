@@ -64,6 +64,14 @@ public class ParentCreationService {
         return userRepository.save(TestDataUtil.createTestUserEntityA(role, department));
     }
 
+    // Alternative user parent entity to avoid violating unique constraints
+    public UserEntity createUserParentEntityB() {
+        RoleEntity role = createRoleParentEntity();
+        DepartmentEntity department = createDepartmentParentEntity();
+
+        return userRepository.save(TestDataUtil.createTestUserEntityB(role, department));
+    }
+
     public ModuleEntity createModuleParentEntity() {
         DepartmentEntity department = createDepartmentParentEntity();
 
@@ -71,7 +79,7 @@ public class ParentCreationService {
     }
 
     public EcApplicationEntity createEcApplicationParentEntity() {
-        UserEntity student = createUserParentEntity();
+        UserEntity student = createUserParentEntityB();
 
         return ecApplicationRepository.save(TestDataUtil.createTestEcApplicationEntityA(student));
     }

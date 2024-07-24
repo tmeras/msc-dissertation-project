@@ -2,9 +2,7 @@ package com.theodoremeras.dissertation.ec_application;
 
 import com.theodoremeras.dissertation.user.UserEntity;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.PastOrPresent;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,15 +22,18 @@ public class EcApplicationEntity {
     @GeneratedValue
     private Integer id;
 
+    @NotBlank
     @Size(min = 1, max = 5000)
     private String circumstancesDetails;
 
     @Size(min = 1, max = 5000)
     private String additionalDetails;
 
+    @NotNull
     @Past
     private LocalDate affectedDateStart;
 
+    @NotNull
     @PastOrPresent
     private LocalDate affectedDateEnd;
 
