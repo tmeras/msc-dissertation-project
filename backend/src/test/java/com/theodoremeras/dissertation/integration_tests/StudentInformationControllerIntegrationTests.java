@@ -1,24 +1,18 @@
 package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.department.DepartmentEntity;
-import com.theodoremeras.dissertation.department.DepartmentService;
-import com.theodoremeras.dissertation.role.RoleEntity;
-import com.theodoremeras.dissertation.role.RoleService;
 import com.theodoremeras.dissertation.student_information.StudentInformationDto;
 import com.theodoremeras.dissertation.student_information.StudentInformationEntity;
 import com.theodoremeras.dissertation.student_information.StudentInformationService;
 import com.theodoremeras.dissertation.user.UserEntity;
-import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -30,11 +24,7 @@ public class StudentInformationControllerIntegrationTests {
 
     private StudentInformationService studentInformationService;
 
-    private UserService userService;
-
-    private RoleService roleService;
-
-    private DepartmentService departmentService;
+    private ParentCreationService parentCreationService;
 
     private ObjectMapper objectMapper;
 
@@ -42,27 +32,18 @@ public class StudentInformationControllerIntegrationTests {
 
     @Autowired
     public StudentInformationControllerIntegrationTests(
-            StudentInformationService studentInformationService, UserService userService,
-            RoleService roleService, DepartmentService departmentService,
+            StudentInformationService studentInformationService, ParentCreationService parentCreationService,
             ObjectMapper objectMapper, MockMvc mockMvc
     ) {
         this.studentInformationService = studentInformationService;
-        this.userService = userService;
-        this.roleService = roleService;
-        this.departmentService = departmentService;
+        this.parentCreationService = parentCreationService;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
     }
 
-    private UserEntity saveUserParentEntity() {
-        RoleEntity role = roleService.save(TestDataUtil.createTestRoleEntityA());
-        DepartmentEntity department = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
-        return userService.save(TestDataUtil.createTestUserEntityA(role, department));
-    }
-
     @Test
     public void testCreateStudentInformation() throws Exception {
-        UserEntity savedStudent = saveUserParentEntity();
+        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
 
         StudentInformationDto testStudentInformationDto =
                 TestDataUtil.createTestStudentInformationDtoA(savedStudent.getId());
@@ -126,7 +107,7 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testGetAllStudentInformation() throws Exception {
-        UserEntity savedStudent = saveUserParentEntity();
+        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntityA =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -183,7 +164,7 @@ public class StudentInformationControllerIntegrationTests {
 
   @Test
     public void testGetAllStudentInformationByStudentId() throws Exception {
-        UserEntity savedStudent = saveUserParentEntity();
+        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntityA =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -240,7 +221,7 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateStudentInformation() throws Exception {
-        UserEntity savedStudent = saveUserParentEntity();
+        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -297,7 +278,7 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testDeleteStudentInformation() throws Exception {
-        UserEntity savedStudent = saveUserParentEntity();
+        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);

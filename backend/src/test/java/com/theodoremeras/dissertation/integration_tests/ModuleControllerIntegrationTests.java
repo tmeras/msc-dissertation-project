@@ -1,6 +1,7 @@
 package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
@@ -26,23 +27,26 @@ public class ModuleControllerIntegrationTests {
 
     private ModuleService moduleService;
 
-    private DepartmentService departmentService;
+    private ParentCreationService parentCreationService;
 
     private MockMvc mockMvc;
 
     private ObjectMapper objectMapper;
 
     @Autowired
-    public ModuleControllerIntegrationTests(ModuleService moduleService, DepartmentService departmentService, MockMvc mockMvc, ObjectMapper objectMapper) {
+    public ModuleControllerIntegrationTests(
+            ModuleService moduleService, ParentCreationService parentCreationService,
+            MockMvc mockMvc, ObjectMapper objectMapper
+    ) {
         this.moduleService = moduleService;
-        this.departmentService = departmentService;
+        this.parentCreationService = parentCreationService;
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
 
     @Test
     public void testCreateModule() throws Exception {
-        DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        DepartmentEntity savedDepartment = parentCreationService.createDepartmentParentEntity();
 
         ModuleDto testModuleDto = TestDataUtil.createTestModuleDtoA(savedDepartment.getId());
         String moduleJson = objectMapper.writeValueAsString(testModuleDto);
@@ -64,7 +68,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testCreateModuleWhenModuleExists() throws Exception {
-        DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
 
         ModuleDto testModuleDto = TestDataUtil.createTestModuleDtoA(savedDepartment.getId());
         String moduleJson = objectMapper.writeValueAsString(testModuleDto);
@@ -109,7 +113,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testGetAllModules() throws Exception {
-        DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntityA = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntityA);
@@ -138,7 +142,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testGetModuleById() throws Exception {
-        DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntity);
@@ -169,7 +173,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateModule() throws Exception {
-        DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         ModuleEntity savedModuleEntity = moduleService.save(testModuleEntity);
@@ -208,7 +212,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testDeleteModule() throws Exception {
-        DepartmentEntity savedDepartment = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
+        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntity);

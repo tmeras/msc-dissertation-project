@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
@@ -17,10 +18,10 @@ public class DissertationApplication {
 	}
 
 	@Bean
-	CommandLineRunner init(EvidenceService storageService) {
+	CommandLineRunner init(EvidenceService evidenceService) {
 		return (args) -> {
-			storageService.deleteAll();
-			storageService.init();
+			evidenceService.deleteAll();
+			evidenceService.init();
 		};
 	}
 

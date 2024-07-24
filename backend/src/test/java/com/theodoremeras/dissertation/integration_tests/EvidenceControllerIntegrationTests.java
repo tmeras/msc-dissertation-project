@@ -2,6 +2,7 @@ package com.theodoremeras.dissertation.integration_tests;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
@@ -33,40 +34,22 @@ public class EvidenceControllerIntegrationTests {
 
     private EvidenceService evidenceService;
 
-    private EcApplicationService ecApplicationService;
-
-    private UserService userService;
-
-    private RoleService roleService;
-
-    private DepartmentService departmentService;
+    private ParentCreationService parentCreationService;
 
     private MockMvc mockMvc;
 
     @Autowired
     public EvidenceControllerIntegrationTests(
-            EvidenceService evidenceService, EcApplicationService ecApplicationService, UserService userService,
-            RoleService roleService, DepartmentService departmentService,
-            ObjectMapper objectMapper, MockMvc mockMvc
+            EvidenceService evidenceService, ParentCreationService parentCreationService, MockMvc mockMvc
     ) {
         this.evidenceService = evidenceService;
-        this.ecApplicationService = ecApplicationService;
-        this.userService = userService;
-        this.roleService = roleService;
-        this.departmentService = departmentService;
+        this.parentCreationService = parentCreationService;
         this.mockMvc = mockMvc;
-    }
-
-    public EcApplicationEntity saveEcApplicationParentEntity() {
-        RoleEntity role = roleService.save(TestDataUtil.createTestRoleEntityA());
-        DepartmentEntity department = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
-        UserEntity student = userService.save(TestDataUtil.createTestUserEntityA(role, department));
-        return ecApplicationService.save(TestDataUtil.createTestEcApplicationEntityA(student));
     }
 
     @Test
     public void testUploadEvidence() throws Exception {
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
 
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file","test.txt",
@@ -117,7 +100,7 @@ public class EvidenceControllerIntegrationTests {
 
     @Test
     public void testGetAllEvidenceByEcApplicationId() throws Exception {
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content".getBytes());
@@ -139,7 +122,7 @@ public class EvidenceControllerIntegrationTests {
 
     @Test
     public void testServeFile() throws Exception {
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content".getBytes());
@@ -167,7 +150,7 @@ public class EvidenceControllerIntegrationTests {
 
     @Test
     public void testDeleteEvidence() throws Exception {
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content".getBytes());

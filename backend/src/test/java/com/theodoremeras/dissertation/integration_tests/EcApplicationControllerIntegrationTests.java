@@ -1,6 +1,7 @@
 package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
@@ -30,11 +31,7 @@ public class EcApplicationControllerIntegrationTests {
 
     private EcApplicationService ecApplicationService;
 
-    private UserService userService;
-
-    private RoleService roleService;
-
-    private DepartmentService departmentService;
+    private ParentCreationService parentCreationService;
 
     private MockMvc mockMvc;
 
@@ -43,27 +40,18 @@ public class EcApplicationControllerIntegrationTests {
 
     @Autowired
     public EcApplicationControllerIntegrationTests(
-            EcApplicationService ecApplicationService, UserService userService,
-            RoleService roleService, DepartmentService departmentService,
+            EcApplicationService ecApplicationService, ParentCreationService parentCreationService,
             MockMvc mockMvc, ObjectMapper objectMapper
     ) {
         this.ecApplicationService = ecApplicationService;
-        this.userService = userService;
-        this.roleService = roleService;
-        this.departmentService = departmentService;
+        this.parentCreationService = parentCreationService;
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
 
-    public UserEntity saveUserParentEntity() {
-        RoleEntity role = roleService.save(TestDataUtil.createTestRoleEntityA());
-        DepartmentEntity department = departmentService.save(TestDataUtil.createTestDepartmentEntityA());
-        return userService.save(TestDataUtil.createTestUserEntityA(role, department));
-    }
-
     @Test
     public void testCreateEcApplication() throws Exception {
-        UserEntity savedUser = saveUserParentEntity();
+        UserEntity savedUser =  parentCreationService.createUserParentEntity();
 
         EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA(savedUser.getId());
         String applicationJson = objectMapper.writeValueAsString(testEcApplicationDto);
@@ -87,7 +75,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetAllEcApplications() throws Exception {
-        UserEntity savedUser = saveUserParentEntity();
+        UserEntity savedUser =  parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
@@ -126,7 +114,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetEcApplicationById() throws Exception {
-        UserEntity savedUser = saveUserParentEntity();
+        UserEntity savedUser =  parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
@@ -162,7 +150,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateEcApplication() throws Exception {
-        UserEntity savedUser = saveUserParentEntity();
+        UserEntity savedUser =  parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
@@ -205,7 +193,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testDeleteEcApplication() throws Exception {
-        UserEntity savedUser = saveUserParentEntity();
+        UserEntity savedUser =  parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);

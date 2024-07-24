@@ -2,6 +2,7 @@ package com.theodoremeras.dissertation.integration_tests;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
@@ -35,15 +36,7 @@ public class ModuleRequestControllerIntegrationTests {
 
     private ModuleRequestService moduleRequestService;
 
-    private ModuleService moduleService;
-
-    private DepartmentService departmentService;
-
-    private EcApplicationService ecApplicationService;
-
-    private RoleService roleService;
-
-    private UserService userService;
+    private ParentCreationService parentCreationService;
 
     private ObjectMapper objectMapper;
 
@@ -51,39 +44,19 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Autowired
     public ModuleRequestControllerIntegrationTests(
-            ModuleRequestService moduleRequestService, ModuleService moduleService,
-            DepartmentService departmentService, EcApplicationService ecApplicationService, RoleService roleService,
-            UserService userService, MockMvc mockMvc, ObjectMapper objectMapper)
+            ModuleRequestService moduleRequestService, ParentCreationService parentCreationService,
+            MockMvc mockMvc, ObjectMapper objectMapper)
     {
         this.moduleRequestService = moduleRequestService;
-        this.moduleService = moduleService;
-        this.departmentService = departmentService;
-        this.ecApplicationService = ecApplicationService;
-        this.roleService = roleService;
-        this.userService = userService;
+        this.parentCreationService = parentCreationService;
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
 
-    public DepartmentEntity saveDepartmentParentEntity() {
-        return departmentService.save(TestDataUtil.createTestDepartmentEntityA());
-    }
-
-    public EcApplicationEntity saveEcApplicationParentEntity(DepartmentEntity department) {
-        RoleEntity role = roleService.save(TestDataUtil.createTestRoleEntityA());
-        UserEntity student = userService.save(TestDataUtil.createTestUserEntityA(role, department));
-        return ecApplicationService.save(TestDataUtil.createTestEcApplicationEntityA(student));
-    }
-
-    public ModuleEntity saveModuleParentEntity(DepartmentEntity department) {
-        return moduleService.save(TestDataUtil.createTestModuleEntityA(department));
-    }
-
     @Test
     public void testCreateModuleRequest() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
-        ModuleEntity savedModule = saveModuleParentEntity(department);
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
+        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoA(savedEcApplication.getId(), savedModule.getCode());
@@ -127,8 +100,7 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Test
     public void testCreateModuleRequestWhenNoEcApplicationExists() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        ModuleEntity savedModule = saveModuleParentEntity(department);
+        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoA(1,savedModule.getCode());
@@ -145,8 +117,7 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Test
     public void testCreateModuleRequestWhenNoModuleExists() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
 
         ModuleRequestDto testRequestDto =
                 TestDataUtil.createTestRequestDtoA(savedEcApplication.getId(),"COM123");
@@ -163,9 +134,8 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Test
     public void testGetAllModuleRequests() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
-        ModuleEntity savedModule = saveModuleParentEntity(department);
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
+        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestEntity testRequestEntityA =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
@@ -208,9 +178,8 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Test
     public void testGetAllModuleRequestsByEcApplicationId() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
-        ModuleEntity savedModule = saveModuleParentEntity(department);
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
+        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestEntity testRequestEntityA =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
@@ -254,9 +223,8 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Test
     public void testGetModuleRequestById() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
-        ModuleEntity savedModule = saveModuleParentEntity(department);
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
+        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
@@ -294,9 +262,8 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateModuleRequest() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
-        ModuleEntity savedModule = saveModuleParentEntity(department);
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
+        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
@@ -344,9 +311,8 @@ public class ModuleRequestControllerIntegrationTests {
 
     @Test
     public void testDeleteModuleRequest() throws Exception {
-        DepartmentEntity department = saveDepartmentParentEntity();
-        EcApplicationEntity savedEcApplication = saveEcApplicationParentEntity(department);
-        ModuleEntity savedModule = saveModuleParentEntity(department);
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
+        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestEntity testRequestEntity =
                 TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);

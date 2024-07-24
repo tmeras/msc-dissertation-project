@@ -1,6 +1,7 @@
 package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
@@ -14,12 +15,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.Arrays;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -28,9 +32,7 @@ public class UserControllerIntegrationTests {
 
     private UserService userService;
 
-    private RoleService roleService;
-
-    private DepartmentService departmentService;
+    private ParentCreationService parentCreationService;
 
     private ObjectMapper objectMapper;
 
@@ -38,28 +40,19 @@ public class UserControllerIntegrationTests {
 
     @Autowired
     public UserControllerIntegrationTests(
-            UserService userService, RoleService roleService,
-            DepartmentService departmentService, ObjectMapper objectMapper, MockMvc mockMvc
+            UserService userService, ParentCreationService parentCreationService,
+            ObjectMapper objectMapper, MockMvc mockMvc
     ) {
         this.userService = userService;
-        this.roleService = roleService;
-        this.departmentService = departmentService;
+        this.parentCreationService = parentCreationService;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
     }
 
-    public RoleEntity saveRoleParentEntity() {
-        return roleService.save(TestDataUtil.createTestRoleEntityA());
-    }
-
-    public DepartmentEntity saveDepartmentParentEntity() {
-        return departmentService.save(TestDataUtil.createTestDepartmentEntityA());
-    }
-
     @Test
     public void testCreateUser() throws Exception {
-        RoleEntity savedRoleEntity = saveRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity = saveDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
 
         UserDto testUserDto = TestDataUtil.createTestUserDtoA(savedRoleEntity.getId(), savedDepartmentEntity.getId());
         String userJson = objectMapper.writeValueAsString(testUserDto);
@@ -103,7 +96,7 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testCreateUserWhenNoDepartmentExists() throws Exception {
-        RoleEntity savedRoleEntity = saveRoleParentEntity();
+        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
 
         UserDto testUserDto = TestDataUtil.createTestUserDtoA(savedRoleEntity.getId(), 1);
         String userJson = objectMapper.writeValueAsString(testUserDto);
@@ -119,7 +112,7 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testCreateUserWhenNoRoleExists() throws Exception {
-        DepartmentEntity savedDepartmentEntity = saveDepartmentParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
 
         UserDto testUserDto = TestDataUtil.createTestUserDtoA(1, savedDepartmentEntity.getId());
         String userJson = objectMapper.writeValueAsString(testUserDto);
@@ -135,8 +128,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        RoleEntity savedRoleEntity = saveRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity = saveDepartmentParentEntity();
+        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntityA = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntityA = userService.save(testUserEntityA);
@@ -181,8 +174,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetUserById() throws Exception {
-        RoleEntity savedRoleEntity = saveRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity = saveDepartmentParentEntity();
+        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntity = userService.save(testUserEntity);
@@ -221,8 +214,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateUser() throws Exception {
-        RoleEntity savedRoleEntity = saveRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity = saveDepartmentParentEntity();
+        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntity = userService.save(testUserEntity);
@@ -269,8 +262,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testDeleteUser() throws Exception {
-        RoleEntity savedRoleEntity = saveRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity = saveDepartmentParentEntity();
+        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntity = userService.save(testUserEntity);
