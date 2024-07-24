@@ -30,7 +30,7 @@ public class StudentInformationEntity {
     private String additionalDetails;
 
     // Id of student whose data is stored
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
     private UserEntity student;
 

@@ -24,7 +24,7 @@ public class EvidenceEntity {
     @NotBlank
     private String fileName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_id", nullable = false)
     private EcApplicationEntity ecApplication;
 

@@ -40,7 +40,7 @@ public class EcApplicationEntity {
     private Boolean isReferred;
 
     // Id of student who submitted the application
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
     private UserEntity student;
 

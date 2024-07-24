@@ -26,11 +26,11 @@ public class ModuleRequestEntity {
     @NotBlank
     private String requestedOutcome;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_id", nullable = false)
     private EcApplicationEntity ecApplication;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "module_code", nullable = false)
     private ModuleEntity module;
 

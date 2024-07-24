@@ -26,11 +26,11 @@ public class ModuleDecisionEntity {
 
     private Boolean isApproved;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "module_request_id", nullable = false)
     private ModuleRequestEntity moduleRequest;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id", nullable = false)
     private UserEntity staffMember;
 
