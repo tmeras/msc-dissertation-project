@@ -10,4 +10,8 @@ public interface ModuleDecisionRepository extends JpaRepository<ModuleDecisionEn
 
     List<ModuleDecisionEntity> findAllByModuleRequestId(Integer moduleId);
 
+    List<ModuleDecisionEntity> findAllByStaffMemberId(Integer staffMemberId);
+
+    List<ModuleDecisionEntity> findAllByEcApplicationId(Integer ecApplicationId);
+
 }

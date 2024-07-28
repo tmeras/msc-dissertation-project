@@ -156,7 +156,6 @@ public class ModuleDecisionControllerIntegrationTests {
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
-
         ModuleDecisionEntity testModuleDecisionEntityA =
                 TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntityA = moduleDecisionService.save(testModuleDecisionEntityA);
@@ -215,7 +214,6 @@ public class ModuleDecisionControllerIntegrationTests {
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
-
         ModuleDecisionEntity testModuleDecisionEntityA =
                 TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntityA = moduleDecisionService.save(testModuleDecisionEntityA);
@@ -226,6 +224,124 @@ public class ModuleDecisionControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders
                         .get("/module-decisions?moduleRequestId=" + savedModuleRequest.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id")
+                        .value(savedModuleDecisionEntityA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].comments")
+                        .value(savedModuleDecisionEntityA.getComments())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].isApproved")
+                        .value(savedModuleDecisionEntityA.getIsApproved())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].moduleRequestId")
+                        .value(savedModuleRequest.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].staffMemberId")
+                        .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].id")
+                        .value(savedModuleDecisionEntityB.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].comments")
+                        .value(savedModuleDecisionEntityB.getComments())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].isApproved")
+                        .value(savedModuleDecisionEntityB.getIsApproved())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].moduleRequestId")
+                        .value(savedModuleRequest.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].staffMemberId")
+                        .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        );
+    }
+
+    @Test
+    public void testGetAllModuleDecisionsByStaffMemberId() throws  Exception {
+        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
+
+        ModuleDecisionEntity testModuleDecisionEntityA =
+                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
+        ModuleDecisionEntity savedModuleDecisionEntityA = moduleDecisionService.save(testModuleDecisionEntityA);
+        ModuleDecisionEntity testModuleDecisionEntityB =
+                TestDataUtil.createTestModuleDecisionEntityB(savedModuleRequest, savedStaff, savedEcApplication);
+        ModuleDecisionEntity savedModuleDecisionEntityB = moduleDecisionService.save(testModuleDecisionEntityB);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/module-decisions?staffMemberId=" + savedStaff.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id")
+                        .value(savedModuleDecisionEntityA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].comments")
+                        .value(savedModuleDecisionEntityA.getComments())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].isApproved")
+                        .value(savedModuleDecisionEntityA.getIsApproved())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].moduleRequestId")
+                        .value(savedModuleRequest.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].staffMemberId")
+                        .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].id")
+                        .value(savedModuleDecisionEntityB.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].comments")
+                        .value(savedModuleDecisionEntityB.getComments())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].isApproved")
+                        .value(savedModuleDecisionEntityB.getIsApproved())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].moduleRequestId")
+                        .value(savedModuleRequest.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].staffMemberId")
+                        .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        );
+    }
+
+    @Test
+    public void testGetAllModuleDecisionsByEcApplicationId() throws  Exception {
+        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
+
+        ModuleDecisionEntity testModuleDecisionEntityA =
+                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
+        ModuleDecisionEntity savedModuleDecisionEntityA = moduleDecisionService.save(testModuleDecisionEntityA);
+        ModuleDecisionEntity testModuleDecisionEntityB =
+                TestDataUtil.createTestModuleDecisionEntityB(savedModuleRequest, savedStaff, savedEcApplication);
+        ModuleDecisionEntity savedModuleDecisionEntityB = moduleDecisionService.save(testModuleDecisionEntityB);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/module-decisions?ecApplicationId=" + savedEcApplication.getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()

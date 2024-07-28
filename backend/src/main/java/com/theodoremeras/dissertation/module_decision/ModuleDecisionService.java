@@ -26,6 +26,14 @@ public class ModuleDecisionService {
         return moduleDecisionRepository.findAllByModuleRequestId(moduleRequestId);
     }
 
+   public List<ModuleDecisionEntity> findAllByStaffMemberId(Integer staffMemberId) {
+        return moduleDecisionRepository.findAllByStaffMemberId(staffMemberId);
+    }
+
+  public List<ModuleDecisionEntity> findAllByEcApplicationId(Integer ecApplicationId) {
+        return moduleDecisionRepository.findAllByEcApplicationId(ecApplicationId);
+    }
+
     public Optional<ModuleDecisionEntity> findOneById(Integer id) {
         return moduleDecisionRepository.findById(id);
     }

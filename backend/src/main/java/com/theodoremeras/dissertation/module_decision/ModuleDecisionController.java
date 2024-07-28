@@ -75,12 +75,24 @@ public class ModuleDecisionController {
 
     @GetMapping(path = "/module-decisions")
     public List<ModuleDecisionDto> getAllModuleDecisions(
-            @RequestParam(value = "moduleRequestId", required = false) Integer moduleRequestId
+            @RequestParam(value = "moduleRequestId", required = false) Integer moduleRequestId,
+            @RequestParam(value = "staffMemberId", required = false) Integer staffMemberId,
+            @RequestParam(value = "ecApplicationId", required = false) Integer ecApplicationId
     ) {
-        // Determine whether to fetch all requests or only those matching the provided module request id
-        List<ModuleDecisionEntity>  moduleDecisionEntities =
-                (moduleRequestId == null) ? moduleDecisionService.findAll() :
-                        moduleDecisionService.findAllByModuleRequestId(moduleRequestId);
+        List<ModuleDecisionEntity>  moduleDecisionEntities;
+
+        // Fetch the module decisions matching the provided module request id
+        if (moduleRequestId != null)
+            moduleDecisionEntities = moduleDecisionService.findAllByModuleRequestId(moduleRequestId);
+        // Fetch the module decisions matching the provided staff member id
+        else if (staffMemberId != null)
+            moduleDecisionEntities = moduleDecisionService.findAllByStaffMemberId(staffMemberId);
+        // Fetch the module decisions matching the provided EC application id
+        else if (ecApplicationId != null)
+            moduleDecisionEntities = moduleDecisionService.findAllByEcApplicationId(ecApplicationId);
+        // Otherwise, fetch all module decisions
+        else
+            moduleDecisionEntities = moduleDecisionService.findAll();
 
         return moduleDecisionEntities.stream()
                 .map(moduleDecisionMapper::mapToDto)
