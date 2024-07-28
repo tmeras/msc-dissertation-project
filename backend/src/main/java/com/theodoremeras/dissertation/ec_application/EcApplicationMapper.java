@@ -13,6 +13,7 @@ public class EcApplicationMapper {
                 .additionalDetails(ecApplicationEntity.getAdditionalDetails())
                 .affectedDateStart(ecApplicationEntity.getAffectedDateStart())
                 .affectedDateEnd(ecApplicationEntity.getAffectedDateEnd())
+                .submittedOn(ecApplicationEntity.getSubmittedOn())
                 .isReferred(ecApplicationEntity.getIsReferred())
                 .studentId(ecApplicationEntity.getStudent().getId())
                 .build();
@@ -30,6 +31,7 @@ public class EcApplicationMapper {
                 .additionalDetails(ecApplicationDto.getAdditionalDetails())
                 .affectedDateStart(ecApplicationDto.getAffectedDateStart())
                 .affectedDateEnd(ecApplicationDto.getAffectedDateEnd())
+                .submittedOn(ecApplicationDto.getSubmittedOn())
                 .isReferred(ecApplicationDto.getIsReferred())
                 .student(student)
                 .build();

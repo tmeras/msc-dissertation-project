@@ -29,6 +29,9 @@ public class EcApplicationDto {
     @NotNull
     private LocalDate affectedDateEnd;
 
+    @NotNull
+    private LocalDate submittedOn;
+
     private Boolean isReferred;
 
     @NotNull
