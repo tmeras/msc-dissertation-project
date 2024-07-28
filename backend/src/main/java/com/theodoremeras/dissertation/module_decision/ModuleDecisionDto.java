@@ -24,4 +24,7 @@ public class ModuleDecisionDto {
     @NotNull
     private Integer staffMemberId;
 
+    @NotNull
+    private Integer ecApplicationId;
+
 }

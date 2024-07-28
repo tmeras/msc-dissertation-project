@@ -95,6 +95,7 @@ public final class TestDataUtil {
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
+                .submittedOn(LocalDate.of(2024, 5, 15))
                 .isReferred(true)
                 .student(student)
                 .build();
@@ -108,6 +109,7 @@ public final class TestDataUtil {
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
+                .submittedOn(LocalDate.of(2024, 5, 15))
                 .isReferred(true)
                 .studentId(studentId)
                 .build();
@@ -121,6 +123,7 @@ public final class TestDataUtil {
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
+                .submittedOn(LocalDate.of(2024, 2, 3))
                 .isReferred(false)
                 .student(student)
                 .build();
@@ -134,6 +137,7 @@ public final class TestDataUtil {
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
+                .submittedOn(LocalDate.of(2024, 2, 3))
                 .isReferred(false)
                 .studentId(studentId)
                 .build();
@@ -292,46 +296,50 @@ public final class TestDataUtil {
     }
 
     public static ModuleDecisionEntity createTestModuleDecisionEntityA(
-            ModuleRequestEntity moduleRequest, UserEntity staff
+            ModuleRequestEntity moduleRequest, UserEntity staff, EcApplicationEntity ecApplication
     ) {
         return ModuleDecisionEntity.builder()
                 .comments("Comment A")
                 .isApproved(false)
                 .moduleRequest(moduleRequest)
                 .staffMember(staff)
+                .ecApplication(ecApplication)
                 .build();
     }
 
     public static ModuleDecisionDto createTestModuleDecisionDtoA(
-            Integer moduleRequestId, Integer staffId
+            Integer moduleRequestId, Integer staffId, Integer ecApplicationId
     ) {
         return ModuleDecisionDto.builder()
                 .comments("Comment A")
                 .isApproved(false)
                 .moduleRequestId(moduleRequestId)
                 .staffMemberId(staffId)
+                .ecApplicationId(ecApplicationId)
                 .build();
     }
 
     public static ModuleDecisionEntity createTestModuleDecisionEntityB(
-            ModuleRequestEntity moduleRequest, UserEntity staff
+            ModuleRequestEntity moduleRequest, UserEntity staff, EcApplicationEntity ecApplication
     ) {
         return ModuleDecisionEntity.builder()
                 .comments("Comment B")
                 .isApproved(true)
                 .moduleRequest(moduleRequest)
                 .staffMember(staff)
+                .ecApplication(ecApplication)
                 .build();
     }
 
     public static ModuleDecisionDto createTestModuleDecisionDtoB(
-            Integer moduleRequestId, Integer staffId
+            Integer moduleRequestId, Integer staffId, Integer ecApplicationId
     ) {
         return ModuleDecisionDto.builder()
                 .comments("Comment B")
                 .isApproved(true)
                 .moduleRequestId(moduleRequestId)
                 .staffMemberId(staffId)
+                .ecApplicationId(ecApplicationId)
                 .build();
     }
 

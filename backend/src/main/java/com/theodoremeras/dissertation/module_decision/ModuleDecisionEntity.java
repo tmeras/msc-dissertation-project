@@ -1,5 +1,6 @@
 package com.theodoremeras.dissertation.module_decision;
 
+import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.user.UserEntity;
 import jakarta.persistence.*;
@@ -33,5 +34,9 @@ public class ModuleDecisionEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "staff_id", nullable = false)
     private UserEntity staffMember;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "application_id", nullable = false)
+    private EcApplicationEntity ecApplication;
 
 }

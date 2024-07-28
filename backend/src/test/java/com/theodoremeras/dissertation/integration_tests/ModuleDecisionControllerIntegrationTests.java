@@ -3,30 +3,19 @@ package com.theodoremeras.dissertation.integration_tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.department.DepartmentEntity;
-import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
-import com.theodoremeras.dissertation.module.ModuleEntity;
-import com.theodoremeras.dissertation.module.ModuleRepository;
-import com.theodoremeras.dissertation.module.ModuleService;
 import com.theodoremeras.dissertation.module_decision.ModuleDecisionDto;
 import com.theodoremeras.dissertation.module_decision.ModuleDecisionEntity;
 import com.theodoremeras.dissertation.module_decision.ModuleDecisionService;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
-import com.theodoremeras.dissertation.module_request.ModuleRequestService;
-import com.theodoremeras.dissertation.role.RoleEntity;
-import com.theodoremeras.dissertation.role.RoleService;
 import com.theodoremeras.dissertation.user.UserEntity;
-import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -40,6 +29,8 @@ public class ModuleDecisionControllerIntegrationTests {
 
     private ParentCreationService parentCreationService;
 
+    private EcApplicationService ecApplicationService;
+
     private ObjectMapper objectMapper;
 
     private MockMvc mockMvc;
@@ -47,10 +38,11 @@ public class ModuleDecisionControllerIntegrationTests {
     @Autowired
     public ModuleDecisionControllerIntegrationTests(
             ModuleDecisionService moduleDecisionService, ParentCreationService parentCreationService,
-            ObjectMapper objectMapper, MockMvc mockMvc
+            EcApplicationService ecApplicationService, ObjectMapper objectMapper, MockMvc mockMvc
     ) {
         this.moduleDecisionService = moduleDecisionService;
         this.parentCreationService = parentCreationService;
+        this.ecApplicationService = ecApplicationService;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
     }
@@ -59,9 +51,15 @@ public class ModuleDecisionControllerIntegrationTests {
     public void testCreateModuleDecision() throws Exception {
         ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
         UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
         ModuleDecisionDto testModuleDecisionDto =
-                TestDataUtil.createTestModuleDecisionDtoA(savedModuleRequest.getId(), savedStaff.getId());
+                TestDataUtil.createTestModuleDecisionDtoA(
+                        savedModuleRequest.getId(),
+                        savedStaff.getId(),
+                        savedEcApplication.getId()
+                );
         String moduleDecisionJson = objectMapper.writeValueAsString(testModuleDecisionDto);
 
         mockMvc.perform(
@@ -81,17 +79,20 @@ public class ModuleDecisionControllerIntegrationTests {
                         .value(testModuleDecisionDto.getIsApproved())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.moduleRequestId")
-                        .value(testModuleDecisionDto.getModuleRequestId())
+                        .value(savedModuleRequest.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.staffMemberId")
-                        .value(testModuleDecisionDto.getStaffMemberId())
+                        .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.ecApplicationId")
+                        .value(savedEcApplication.getId())
         );
     }
 
     @Test
-    public void testCreateModuleDecisionWhenNoModuleRequestOrStaffIsSpecified() throws Exception {
+    public void testCreateModuleDecisionWhenNoModuleRequestOrStaffOrEcApplicationIsSpecified() throws Exception {
         ModuleDecisionDto testModuleDecisionDto =
-                TestDataUtil.createTestModuleDecisionDtoA(null, null);
+                TestDataUtil.createTestModuleDecisionDtoA(null, null, null);
         String moduleDecisionJson = objectMapper.writeValueAsString(testModuleDecisionDto);
 
         mockMvc.perform(
@@ -106,9 +107,14 @@ public class ModuleDecisionControllerIntegrationTests {
     @Test
     public void testCreateModuleDecisionWhenNoModuleRequestExists() throws Exception {
         UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
 
         ModuleDecisionDto testModuleDecisionDto =
-                TestDataUtil.createTestModuleDecisionDtoA(1, savedStaff.getId());
+                TestDataUtil.createTestModuleDecisionDtoA(
+                        1,
+                        savedStaff.getId(),
+                        savedEcApplication.getId()
+                );
         String moduleDecisionJson = objectMapper.writeValueAsString(testModuleDecisionDto);
 
         mockMvc.perform(
@@ -123,9 +129,15 @@ public class ModuleDecisionControllerIntegrationTests {
     @Test
     public void testCreateModuleDecisionWhenNoStaffExists() throws Exception {
         ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
+        EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
         ModuleDecisionDto testModuleDecisionDto =
-                TestDataUtil.createTestModuleDecisionDtoA(savedModuleRequest.getId(), 2);
+                TestDataUtil.createTestModuleDecisionDtoA(
+                        savedModuleRequest.getId(),
+                        2,
+                        savedEcApplication.getId()
+                );
         String moduleDecisionJson = objectMapper.writeValueAsString(testModuleDecisionDto);
 
         mockMvc.perform(
@@ -141,12 +153,15 @@ public class ModuleDecisionControllerIntegrationTests {
     public void testGetAllModuleDecisions() throws  Exception {
         ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
         UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
+
 
         ModuleDecisionEntity testModuleDecisionEntityA =
-                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff);
+                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntityA = moduleDecisionService.save(testModuleDecisionEntityA);
         ModuleDecisionEntity testModuleDecisionEntityB =
-                TestDataUtil.createTestModuleDecisionEntityB(savedModuleRequest, savedStaff);
+                TestDataUtil.createTestModuleDecisionEntityB(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntityB = moduleDecisionService.save(testModuleDecisionEntityB);
 
         mockMvc.perform(
@@ -170,6 +185,9 @@ public class ModuleDecisionControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].staffMemberId")
                         .value(savedStaff.getId())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id")
                         .value(savedModuleDecisionEntityB.getId())
         ).andExpect(
@@ -184,6 +202,9 @@ public class ModuleDecisionControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].staffMemberId")
                         .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
+                        .value(savedEcApplication.getId())
         );
     }
 
@@ -191,12 +212,15 @@ public class ModuleDecisionControllerIntegrationTests {
     public void testGetAllModuleDecisionsByModuleRequestId() throws  Exception {
         ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
         UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
+
 
         ModuleDecisionEntity testModuleDecisionEntityA =
-                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff);
+                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntityA = moduleDecisionService.save(testModuleDecisionEntityA);
         ModuleDecisionEntity testModuleDecisionEntityB =
-                TestDataUtil.createTestModuleDecisionEntityB(savedModuleRequest, savedStaff);
+                TestDataUtil.createTestModuleDecisionEntityB(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntityB = moduleDecisionService.save(testModuleDecisionEntityB);
 
         mockMvc.perform(
@@ -221,6 +245,9 @@ public class ModuleDecisionControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].staffMemberId")
                         .value(savedStaff.getId())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
+                        .value(savedEcApplication.getId())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id")
                         .value(savedModuleDecisionEntityB.getId())
         ).andExpect(
@@ -235,6 +262,9 @@ public class ModuleDecisionControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].staffMemberId")
                         .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
+                        .value(savedEcApplication.getId())
         );
     }
 
@@ -242,9 +272,12 @@ public class ModuleDecisionControllerIntegrationTests {
     public void testGetModuleDecisionById() throws  Exception {
         ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
         UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
+
 
         ModuleDecisionEntity testModuleDecisionEntity =
-                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff);
+                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntity = moduleDecisionService.save(testModuleDecisionEntity);
 
         mockMvc.perform(
@@ -267,6 +300,9 @@ public class ModuleDecisionControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.staffMemberId")
                         .value(savedStaff.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.ecApplicationId")
+                        .value(savedEcApplication.getId())
         );
     }
 
@@ -283,10 +319,13 @@ public class ModuleDecisionControllerIntegrationTests {
     @Test
     public void testDeleteModuleDecision() throws  Exception {
         ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();;
+        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+         EcApplicationEntity savedEcApplication =
+                ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
+
 
         ModuleDecisionEntity testModuleDecisionEntity =
-                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff);
+                TestDataUtil.createTestModuleDecisionEntityA(savedModuleRequest, savedStaff, savedEcApplication);
         ModuleDecisionEntity savedModuleDecisionEntity = moduleDecisionService.save(testModuleDecisionEntity);
 
         mockMvc.perform(

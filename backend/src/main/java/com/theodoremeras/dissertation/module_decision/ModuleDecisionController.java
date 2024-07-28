@@ -1,5 +1,7 @@
 package com.theodoremeras.dissertation.module_decision;
 
+import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
+import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestService;
 import com.theodoremeras.dissertation.user.UserEntity;
@@ -26,15 +28,18 @@ public class ModuleDecisionController {
 
     private UserService userService;
 
+    private EcApplicationService ecApplicationService;
+
     private ModuleDecisionMapper moduleDecisionMapper;
 
     public ModuleDecisionController(
             ModuleDecisionService moduleDecisionService, ModuleRequestService moduleRequestService,
-            UserService userService, ModuleDecisionMapper moduleDecisionMapper
+            UserService userService, EcApplicationService ecApplicationService, ModuleDecisionMapper moduleDecisionMapper
     ) {
         this.moduleDecisionService = moduleDecisionService;
         this.moduleRequestService = moduleRequestService;
         this.userService = userService;
+        this.ecApplicationService = ecApplicationService;
         this.moduleDecisionMapper = moduleDecisionMapper;
     }
 
@@ -54,7 +59,6 @@ public class ModuleDecisionController {
             moduleDecisionEntity.setModuleRequest(moduleRequest.get());
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
 
         // Verify that the specified staff member exists
         Optional<UserEntity> staff =

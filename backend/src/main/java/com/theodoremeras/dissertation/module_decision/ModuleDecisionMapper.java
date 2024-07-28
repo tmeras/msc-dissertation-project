@@ -1,5 +1,6 @@
 package com.theodoremeras.dissertation.module_decision;
 
+import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.user.UserEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ public class ModuleDecisionMapper {
                 .isApproved(moduleDecisionEntity.getIsApproved())
                 .moduleRequestId(moduleDecisionEntity.getModuleRequest().getId())
                 .staffMemberId(moduleDecisionEntity.getStaffMember().getId())
+                .ecApplicationId(moduleDecisionEntity.getEcApplication().getId())
                 .build();
     }
 
@@ -28,12 +30,18 @@ public class ModuleDecisionMapper {
                         .id(moduleDecisionDto.getStaffMemberId())
                         .build();
 
+        EcApplicationEntity ecApplication = (moduleDecisionDto.getEcApplicationId() == null) ? null :
+                EcApplicationEntity.builder()
+                        .id(moduleDecisionDto.getEcApplicationId())
+                        .build();
+
         return ModuleDecisionEntity.builder()
                 .id(moduleDecisionDto.getId())
                 .comments(moduleDecisionDto.getComments())
                 .isApproved(moduleDecisionDto.getIsApproved())
                 .moduleRequest(moduleRequest)
                 .staffMember(staff)
+                .ecApplication(ecApplication)
                 .build();
     }
 
