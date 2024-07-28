@@ -23,6 +23,10 @@ public class EcApplicationService {
         return ecApplicationRepository.findAll();
     }
 
+    public List<EcApplicationEntity> findAllByIdIn(List<Integer> ids) {
+        return ecApplicationRepository.findByIdIn(ids);
+    }
+
     public Optional<EcApplicationEntity> findOneById(Integer id) {
         return ecApplicationRepository.findById(id);
     }

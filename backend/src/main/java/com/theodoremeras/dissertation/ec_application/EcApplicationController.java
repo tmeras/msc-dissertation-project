@@ -56,8 +56,18 @@ public class EcApplicationController {
     }
 
     @GetMapping(path = "/ec-applications")
-    public List<EcApplicationDto> getAllEcApplications() {
-        List<EcApplicationEntity> ecApplicationEntities = ecApplicationService.findAll();
+    public List<EcApplicationDto> getAllEcApplications(
+            @RequestParam(value = "ids", required = false) List<Integer> ids
+    ) {
+        List<EcApplicationEntity> ecApplicationEntities;
+
+        // Fetch all EC applications whose id is in the provided list
+        if (ids != null)
+            ecApplicationEntities = ecApplicationService.findAllByIdIn(ids);
+        // Otherwise, fetch all EC applications
+        else
+            ecApplicationEntities = ecApplicationService.findAll();
+
         return ecApplicationEntities.stream()
                 .map(ecApplicationMapper::mapToDto)
                 .collect(Collectors.toList());

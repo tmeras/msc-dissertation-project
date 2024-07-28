@@ -112,6 +112,47 @@ public class EcApplicationControllerIntegrationTests {
         );
     }
 
+        @Test
+    public void testGetAllEcApplicationsByIds() throws Exception {
+        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+
+        EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
+        EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
+        EcApplicationEntity testEcApplicationB = TestDataUtil.createTestEcApplicationEntityB(savedUser);
+        EcApplicationEntity savedEcApplicationB = ecApplicationService.save(testEcApplicationB);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get(
+                        "/ec-applications?ids=" + savedEcApplicationA.getId() + ", "
+                                + savedEcApplicationB.getId()
+                ).contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").value(savedEcApplicationA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].circumstancesDetails")
+                        .value(savedEcApplicationA.getCircumstancesDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
+                        .value(savedEcApplicationA.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].isReferred")
+                        .value(savedEcApplicationA.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].id").value(savedEcApplicationB.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
+                        .value(savedEcApplicationB.getCircumstancesDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
+                        .value(savedEcApplicationB.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].isReferred")
+                        .value(savedEcApplicationB.getIsReferred())
+        );
+    }
+
     @Test
     public void testGetEcApplicationById() throws Exception {
         UserEntity savedUser =  parentCreationService.createUserParentEntity();
