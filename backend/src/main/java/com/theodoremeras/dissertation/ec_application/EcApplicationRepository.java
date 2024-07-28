@@ -8,6 +8,8 @@ import java.util.List;
 @Repository
 public interface EcApplicationRepository extends JpaRepository<EcApplicationEntity, Integer> {
 
-    List<EcApplicationEntity> findByIdIn(List<Integer> ids);
+    List<EcApplicationEntity> findAllByIdIn(List<Integer> ids);
+
+    List<EcApplicationEntity> findAllByStudentId(Integer studentId);
 
 }

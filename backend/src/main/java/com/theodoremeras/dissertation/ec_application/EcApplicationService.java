@@ -24,7 +24,11 @@ public class EcApplicationService {
     }
 
     public List<EcApplicationEntity> findAllByIdIn(List<Integer> ids) {
-        return ecApplicationRepository.findByIdIn(ids);
+        return ecApplicationRepository.findAllByIdIn(ids);
+    }
+
+    public List<EcApplicationEntity> findAllByStudentId(Integer studentId) {
+        return ecApplicationRepository.findAllByStudentId(studentId);
     }
 
     public Optional<EcApplicationEntity> findOneById(Integer id) {
