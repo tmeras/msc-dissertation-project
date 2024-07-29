@@ -69,12 +69,12 @@ public class ModuleRequestController {
 
     @GetMapping(path = "/module-requests")
     public List<ModuleRequestDto> getAllModuleRequests(
-            @RequestParam(value = "ecApplicationId", required = false) Integer ecApplicationId
+            @RequestParam(value = "ecApplicationIds", required = false) List<Integer> ecApplicationIds
     ) {
-        // Determine whether to fetch all requests or only those matching the provided  EC application id
+        // Determine whether to fetch all requests or only those matching the provided EC application ids
         List<ModuleRequestEntity> requestEntities =
-                (ecApplicationId == null) ? moduleRequestService.findAll() :
-                        moduleRequestService.findAllByEcApplicationId(ecApplicationId);
+                (ecApplicationIds == null) ? moduleRequestService.findAll() :
+                        moduleRequestService.findAllByEcApplicationIdIn(ecApplicationIds);
 
         return requestEntities.stream()
                 .map(moduleRequestMapper::mapToDto)

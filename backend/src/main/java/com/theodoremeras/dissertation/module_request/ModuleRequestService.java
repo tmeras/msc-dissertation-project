@@ -22,8 +22,8 @@ public class ModuleRequestService {
         return moduleRequestRepository.findAll();
     }
 
-    public List<ModuleRequestEntity> findAllByEcApplicationId(Integer ecApplicationId) {
-        return moduleRequestRepository.findAllByEcApplicationId(ecApplicationId);
+    public List<ModuleRequestEntity> findAllByEcApplicationIdIn(List<Integer> ecApplicationIds) {
+        return moduleRequestRepository.findAllByEcApplicationIdIn(ecApplicationIds);
     }
 
     public Optional<ModuleRequestEntity> findOneById(Integer id) {

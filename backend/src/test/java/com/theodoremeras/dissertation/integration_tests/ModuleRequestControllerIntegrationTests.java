@@ -177,7 +177,7 @@ public class ModuleRequestControllerIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleRequestsByEcApplicationId() throws Exception {
+    public void testGetAllModuleRequestsByEcApplicationIds() throws Exception {
         EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
@@ -190,7 +190,7 @@ public class ModuleRequestControllerIntegrationTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/module-requests?ecApplicationId=" + savedEcApplication.getId())
+                        .get("/module-requests?ecApplicationIds=" + savedEcApplication.getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
