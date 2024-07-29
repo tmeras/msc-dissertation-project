@@ -22,6 +22,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public List<UserEntity> findAllByIdIn(List<Integer> ids) {
+        return userRepository.findAllByIdIn(ids);
+    }
+
     public Optional<UserEntity> findOneById(Integer id) {
         return userRepository.findById(id);
     }

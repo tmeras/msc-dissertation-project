@@ -71,8 +71,12 @@ public class UserController {
     }
 
     @GetMapping(path = "/users")
-    public List<UserDto> getAllUsers() {
-        List<UserEntity> userEntities = userService.findAll();
+    public List<UserDto> getAllUsers(
+            @RequestParam(value = "ids", required = false) List<Integer> ids
+    ) {
+        // Determine whether to fetch all users or only those whose id is in the provided list
+        List<UserEntity> userEntities = (ids == null) ? userService.findAll():
+                userService.findAllByIdIn(ids);
 
         return userEntities.stream()
                 .map(userMapper::mapToDto)
