@@ -31,6 +31,10 @@ public class EcApplicationService {
         return ecApplicationRepository.findAllByStudentId(studentId);
     }
 
+    public List<EcApplicationEntity> findAllByStudentDepartmentId(Integer departmentId) {
+        return ecApplicationRepository.findAllByStudentDepartmentId(departmentId);
+    }
+
     public Optional<EcApplicationEntity> findOneById(Integer id) {
         return ecApplicationRepository.findById(id);
     }

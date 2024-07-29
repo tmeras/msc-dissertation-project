@@ -58,7 +58,8 @@ public class EcApplicationController {
     @GetMapping(path = "/ec-applications")
     public List<EcApplicationDto> getAllEcApplications(
             @RequestParam(value = "ids", required = false) List<Integer> ids,
-            @RequestParam(value = "studentId", required = false) Integer studentId
+            @RequestParam(value = "studentId", required = false) Integer studentId,
+            @RequestParam(value = "studentDepartmentId", required = false) Integer studentDepartmentId
     ) {
         List<EcApplicationEntity> ecApplicationEntities;
 
@@ -68,6 +69,9 @@ public class EcApplicationController {
         // Fetch all EC applications submitted by the student with the specified student id
         else if (studentId != null)
             ecApplicationEntities = ecApplicationService.findAllByStudentId(studentId);
+        // Fetch all EC applications submitted by students who belong to the specified department
+        else if (studentDepartmentId != null)
+            ecApplicationEntities = ecApplicationService.findAllByStudentDepartmentId(studentDepartmentId);
         // Otherwise, fetch all EC applications
         else
             ecApplicationEntities = ecApplicationService.findAll();

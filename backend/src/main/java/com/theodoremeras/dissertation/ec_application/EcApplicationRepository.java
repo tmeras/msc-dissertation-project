@@ -12,4 +12,6 @@ public interface EcApplicationRepository extends JpaRepository<EcApplicationEnti
 
     List<EcApplicationEntity> findAllByStudentId(Integer studentId);
 
+    List<EcApplicationEntity> findAllByStudentDepartmentId(Integer departmentId);
+
 }

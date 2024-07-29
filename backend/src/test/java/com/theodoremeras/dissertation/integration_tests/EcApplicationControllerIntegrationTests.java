@@ -70,6 +70,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(testEcApplicationDto.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.studentId")
+                        .value(savedUser.getId())
         );
     }
 
@@ -99,6 +102,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].studentId")
+                        .value(savedUser.getId())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id").value(savedEcApplicationB.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
@@ -109,6 +115,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isReferred")
                         .value(savedEcApplicationB.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].studentId")
+                        .value(savedUser.getId())
         );
     }
 
@@ -140,6 +149,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].studentId")
+                        .value(savedUser.getId())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id").value(savedEcApplicationB.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
@@ -150,6 +162,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isReferred")
                         .value(savedEcApplicationB.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].studentId")
+                        .value(savedUser.getId())
         );
     }
 
@@ -180,6 +195,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].studentId")
+                        .value(savedUser.getId())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].id").value(savedEcApplicationB.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
@@ -190,8 +208,58 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isReferred")
                         .value(savedEcApplicationB.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].studentId")
+                        .value(savedUser.getId())
         );
     }
+
+    @Test
+    public void testGetAllEcApplicationsByStudentDepartmentId() throws Exception {
+        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+
+        EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
+        EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
+        EcApplicationEntity testEcApplicationB = TestDataUtil.createTestEcApplicationEntityB(savedUser);
+        EcApplicationEntity savedEcApplicationB = ecApplicationService.save(testEcApplicationB);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/ec-applications?studentDepartmentId=" + savedUser.getDepartment().getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").value(savedEcApplicationA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].circumstancesDetails")
+                        .value(savedEcApplicationA.getCircumstancesDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
+                        .value(savedEcApplicationA.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].isReferred")
+                        .value(savedEcApplicationA.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].studentId")
+                        .value(savedUser.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].id").value(savedEcApplicationB.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
+                        .value(savedEcApplicationB.getCircumstancesDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
+                        .value(savedEcApplicationB.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].isReferred")
+                        .value(savedEcApplicationB.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].studentId")
+                        .value(savedUser.getId())
+        );
+    }
+
 
     @Test
     public void testGetEcApplicationById() throws Exception {
@@ -216,6 +284,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isReferred")
                         .value(savedEcApplication.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.studentId")
+                        .value(savedUser.getId())
         );
     }
 
@@ -255,6 +326,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isReferred")
                         .value(testEcApplicationDto.getIsReferred())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.studentId")
+                        .value(savedUser.getId())
         );
     }
 
