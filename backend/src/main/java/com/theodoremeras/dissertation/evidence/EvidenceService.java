@@ -1,6 +1,6 @@
 package com.theodoremeras.dissertation.evidence;
 
-import com.theodoremeras.dissertation.config.StorageProperties;
+import com.theodoremeras.dissertation.conf.StorageProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.theodoremeras.dissertation.config;
+package com.theodoremeras.dissertation.conf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

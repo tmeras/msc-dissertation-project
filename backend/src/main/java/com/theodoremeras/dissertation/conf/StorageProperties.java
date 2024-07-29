@@ -1,4 +1,4 @@
-package com.theodoremeras.dissertation.config;
+package com.theodoremeras.dissertation.conf;
 
 import lombok.Getter;
 import lombok.Setter;

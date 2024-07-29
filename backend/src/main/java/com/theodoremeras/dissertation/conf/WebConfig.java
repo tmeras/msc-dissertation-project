@@ -1,4 +1,4 @@
-package com.theodoremeras.dissertation.config;
+package com.theodoremeras.dissertation.conf;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
