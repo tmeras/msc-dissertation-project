@@ -53,8 +53,13 @@ public class ModuleController {
     }
 
     @GetMapping(path = "/modules")
-    public List<ModuleDto> getAllModules() {
-        List<ModuleEntity> moduleEntities = moduleService.findAll();
+    public List<ModuleDto> getAllModules(
+            @RequestParam(value = "codes", required = false) List<String> codes
+    ) {
+        // Determine whether to fetch all modules or only those specified in the list of module codes
+        List<ModuleEntity> moduleEntities = (codes == null) ? moduleService.findAll() :
+                moduleService.findAllByModuleCodeIn(codes);
+
         return moduleEntities.stream()
                 .map(moduleMapper::mapToDto)
                 .collect(Collectors.toList());

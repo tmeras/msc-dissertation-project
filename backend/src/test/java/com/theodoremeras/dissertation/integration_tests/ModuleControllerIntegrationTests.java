@@ -141,6 +141,36 @@ public class ModuleControllerIntegrationTests {
     }
 
     @Test
+    public void testGetAllModulesByCodes() throws Exception {
+        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
+
+        ModuleEntity testModuleEntityA = TestDataUtil.createTestModuleEntityA(savedDepartment);
+        moduleService.save(testModuleEntityA);
+        ModuleEntity testModuleEntityB = TestDataUtil.createTestModuleEntityB(savedDepartment);
+        moduleService.save(testModuleEntityB);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/modules?codes=" + testModuleEntityA.getCode() + ", " + testModuleEntityB.getCode())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].code").value(testModuleEntityA.getCode())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value(testModuleEntityA.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].departmentId").value(savedDepartment.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].code").value(testModuleEntityB.getCode())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].name").value(testModuleEntityB.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].departmentId").value(savedDepartment.getId())
+        );
+    }
+
+    @Test
     public void testGetModuleById() throws Exception {
         DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
 

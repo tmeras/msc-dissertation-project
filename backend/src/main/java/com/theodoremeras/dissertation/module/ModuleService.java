@@ -22,6 +22,10 @@ public class ModuleService {
         return moduleRepository.findAll();
     }
 
+    public List<ModuleEntity> findAllByModuleCodeIn(List<String> moduleCodes) {
+        return moduleRepository.findAllByCodeIn(moduleCodes);
+    }
+
     public Optional<ModuleEntity> findOneByCode(String moduleCode) {
         return moduleRepository.findById(moduleCode);
     }
