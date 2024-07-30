@@ -32,6 +32,8 @@ public class EcApplicationDto {
     @NotNull
     private LocalDate submittedOn;
 
+    private Boolean requiresFurtherEvidence;
+
     private Boolean isReferred;
 
     @NotNull

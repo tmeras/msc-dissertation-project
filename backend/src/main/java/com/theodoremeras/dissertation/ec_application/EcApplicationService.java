@@ -55,6 +55,8 @@ public class EcApplicationService {
                     ifPresent(existingEcApplication::setAffectedDateStart);
             Optional.ofNullable(ecApplicationEntity.getAffectedDateEnd()).
                     ifPresent(existingEcApplication::setAffectedDateEnd);
+            Optional.ofNullable(ecApplicationEntity.getRequiresFurtherEvidence()).
+                    ifPresent(existingEcApplication::setRequiresFurtherEvidence);
             Optional.ofNullable(ecApplicationEntity.getIsReferred()).
                     ifPresent(existingEcApplication::setIsReferred);
             return ecApplicationRepository.save(existingEcApplication);

@@ -41,6 +41,8 @@ public class EcApplicationEntity {
     @PastOrPresent
     private LocalDate submittedOn;
 
+    private Boolean requiresFurtherEvidence;
+
     private Boolean isReferred;
 
     // Id of student who submitted the application

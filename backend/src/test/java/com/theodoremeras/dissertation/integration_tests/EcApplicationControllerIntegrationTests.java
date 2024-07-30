@@ -71,6 +71,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(testEcApplicationDto.getAdditionalDetails())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.requiresFurtherEvidence")
+                        .value(testEcApplicationDto.getRequiresFurtherEvidence())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.studentId")
                         .value(savedUser.getId())
         );
@@ -99,6 +102,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
                         .value(savedEcApplicationA.getAdditionalDetails())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].requiresFurtherEvidence")
+                        .value(savedEcApplicationA.getRequiresFurtherEvidence())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
@@ -112,6 +118,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
                         .value(savedEcApplicationB.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
+                        .value(savedEcApplicationB.getRequiresFurtherEvidence())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isReferred")
                         .value(savedEcApplicationB.getIsReferred())
@@ -149,6 +158,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].requiresFurtherEvidence")
+                        .value(savedEcApplicationA.getRequiresFurtherEvidence())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].studentId")
                         .value(savedUser.getId())
         ).andExpect(
@@ -159,6 +171,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
                         .value(savedEcApplicationB.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
+                        .value(savedEcApplicationB.getRequiresFurtherEvidence())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isReferred")
                         .value(savedEcApplicationB.getIsReferred())
@@ -192,6 +207,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
                         .value(savedEcApplicationA.getAdditionalDetails())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].requiresFurtherEvidence")
+                        .value(savedEcApplicationA.getRequiresFurtherEvidence())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
@@ -205,6 +223,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
                         .value(savedEcApplicationB.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
+                        .value(savedEcApplicationB.getRequiresFurtherEvidence())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isReferred")
                         .value(savedEcApplicationB.getIsReferred())
@@ -238,6 +259,9 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
                         .value(savedEcApplicationA.getAdditionalDetails())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].requiresFurtherEvidence")
+                        .value(savedEcApplicationA.getRequiresFurtherEvidence())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
@@ -251,6 +275,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
                         .value(savedEcApplicationB.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
+                        .value(savedEcApplicationB.getRequiresFurtherEvidence())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isReferred")
                         .value(savedEcApplicationB.getIsReferred())
@@ -281,6 +308,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(savedEcApplication.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.requiresFurtherEvidence")
+                        .value(savedEcApplication.getRequiresFurtherEvidence())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isReferred")
                         .value(savedEcApplication.getIsReferred())
@@ -323,6 +353,9 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.additionalDetails")
                         .value(testEcApplicationDto.getAdditionalDetails())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.requiresFurtherEvidence")
+                        .value(testEcApplicationDto.getRequiresFurtherEvidence())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isReferred")
                         .value(testEcApplicationDto.getIsReferred())

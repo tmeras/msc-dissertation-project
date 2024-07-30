@@ -96,6 +96,7 @@ public final class TestDataUtil {
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
                 .submittedOn(LocalDate.of(2024, 5, 15))
+                .requiresFurtherEvidence(false)
                 .isReferred(true)
                 .student(student)
                 .build();
@@ -110,6 +111,7 @@ public final class TestDataUtil {
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
                 .submittedOn(LocalDate.of(2024, 5, 15))
+                .requiresFurtherEvidence(false)
                 .isReferred(true)
                 .studentId(studentId)
                 .build();
@@ -124,6 +126,7 @@ public final class TestDataUtil {
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
                 .submittedOn(LocalDate.of(2024, 2, 3))
+                .requiresFurtherEvidence(true)
                 .isReferred(false)
                 .student(student)
                 .build();
@@ -138,6 +141,7 @@ public final class TestDataUtil {
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
                 .submittedOn(LocalDate.of(2024, 2, 3))
+                .requiresFurtherEvidence(true)
                 .isReferred(false)
                 .studentId(studentId)
                 .build();
