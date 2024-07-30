@@ -88,12 +88,12 @@ VALUES(3, false, false, false, null, 3);
 SELECT NEXTVAL('ec_application_seq');
 SELECT NEXTVAL('ec_application_seq');
 INSERT INTO
-ec_application(id, circumstances_details, additional_details, affected_date_start, affected_date_end, submitted_on, requires_further_evidence, is_referred, student_id)
-VALUES(1, 'I fell victim to a violent crime', '', TO_DATE('2024/05/03','YYYY/MM/DD'),TO_DATE('2024/05/08','YYYY/MM/DD'), TO_DATE('2024/05/18','YYYY/MM/DD'), false, false, 1);
+ec_application(id, circumstances_details, affected_date_start, affected_date_end, submitted_on, requires_further_evidence, is_referred, student_id)
+VALUES(1, 'I fell victim to a violent crime', TO_DATE('2024/05/03','YYYY/MM/DD'),TO_DATE('2024/05/08','YYYY/MM/DD'), TO_DATE('2024/05/18','YYYY/MM/DD'), false, false, 1);
 
 INSERT INTO
-ec_application(id, circumstances_details, additional_details, affected_date_start, affected_date_end, submitted_on, requires_further_evidence, is_referred, student_id)
-VALUES(2, 'I was in a car accident', 'Some extra details', TO_DATE('2024/06/12','YYYY/MM/DD'),TO_DATE('2024/6/17','YYYY/MM/DD'), TO_DATE('2024/6/25','YYYY/MM/DD'), true, false, 2);
+ec_application(id, circumstances_details, affected_date_start, affected_date_end, submitted_on, requires_further_evidence, is_referred, student_id)
+VALUES(2, 'I was in a car accident', TO_DATE('2024/06/12','YYYY/MM/DD'),TO_DATE('2024/6/17','YYYY/MM/DD'), TO_DATE('2024/6/25','YYYY/MM/DD'), true, false, 2);
 
 
 SELECT NEXTVAL('module_outcome_request_seq');

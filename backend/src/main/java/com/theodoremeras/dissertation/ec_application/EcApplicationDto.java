@@ -21,8 +21,6 @@ public class EcApplicationDto {
     @NotBlank
     private String circumstancesDetails;
 
-    private String additionalDetails;
-
     @NotNull
     private LocalDate affectedDateStart;
 

@@ -91,7 +91,6 @@ public final class TestDataUtil {
             UserEntity student
     ) {
         return EcApplicationEntity.builder()
-                .additionalDetails("Additional details A")
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
@@ -106,7 +105,6 @@ public final class TestDataUtil {
             Integer studentId
     ) {
         return EcApplicationDto.builder()
-                .additionalDetails("Additional details A")
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
@@ -121,7 +119,6 @@ public final class TestDataUtil {
             UserEntity student
     ) {
         return EcApplicationEntity.builder()
-                .additionalDetails("Additional details B")
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
@@ -136,7 +133,6 @@ public final class TestDataUtil {
             Integer studentId
     ) {
         return EcApplicationDto.builder()
-                .additionalDetails("Additional details B")
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))

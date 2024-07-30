@@ -68,9 +68,6 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.circumstancesDetails")
                         .value(testEcApplicationDto.getCircumstancesDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.additionalDetails")
-                        .value(testEcApplicationDto.getAdditionalDetails())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.requiresFurtherEvidence")
                         .value(testEcApplicationDto.getRequiresFurtherEvidence())
         ).andExpect(
@@ -99,9 +96,6 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].circumstancesDetails")
                         .value(savedEcApplicationA.getCircumstancesDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
-                        .value(savedEcApplicationA.getAdditionalDetails())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].requiresFurtherEvidence")
                         .value(savedEcApplicationA.getRequiresFurtherEvidence())
         ).andExpect(
@@ -115,9 +109,6 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
                         .value(savedEcApplicationB.getCircumstancesDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
-                        .value(savedEcApplicationB.getAdditionalDetails())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
                         .value(savedEcApplicationB.getRequiresFurtherEvidence())
@@ -152,9 +143,6 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].circumstancesDetails")
                         .value(savedEcApplicationA.getCircumstancesDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
-                        .value(savedEcApplicationA.getAdditionalDetails())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isReferred")
                         .value(savedEcApplicationA.getIsReferred())
         ).andExpect(
@@ -168,9 +156,6 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
                         .value(savedEcApplicationB.getCircumstancesDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
-                        .value(savedEcApplicationB.getAdditionalDetails())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
                         .value(savedEcApplicationB.getRequiresFurtherEvidence())
@@ -204,9 +189,6 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].circumstancesDetails")
                         .value(savedEcApplicationA.getCircumstancesDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
-                        .value(savedEcApplicationA.getAdditionalDetails())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].requiresFurtherEvidence")
                         .value(savedEcApplicationA.getRequiresFurtherEvidence())
         ).andExpect(
@@ -220,9 +202,6 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
                         .value(savedEcApplicationB.getCircumstancesDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
-                        .value(savedEcApplicationB.getAdditionalDetails())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
                         .value(savedEcApplicationB.getRequiresFurtherEvidence())
@@ -256,9 +235,6 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].circumstancesDetails")
                         .value(savedEcApplicationA.getCircumstancesDetails())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].additionalDetails")
-                        .value(savedEcApplicationA.getAdditionalDetails())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].requiresFurtherEvidence")
                         .value(savedEcApplicationA.getRequiresFurtherEvidence())
         ).andExpect(
@@ -272,9 +248,6 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].circumstancesDetails")
                         .value(savedEcApplicationB.getCircumstancesDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].additionalDetails")
-                        .value(savedEcApplicationB.getAdditionalDetails())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requiresFurtherEvidence")
                         .value(savedEcApplicationB.getRequiresFurtherEvidence())
@@ -305,9 +278,6 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.circumstancesDetails")
                         .value(savedEcApplication.getCircumstancesDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.additionalDetails")
-                        .value(savedEcApplication.getAdditionalDetails())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.requiresFurtherEvidence")
                         .value(savedEcApplication.getRequiresFurtherEvidence())
@@ -350,9 +320,6 @@ public class EcApplicationControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.circumstancesDetails")
                         .value(testEcApplication.getCircumstancesDetails())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.additionalDetails")
-                        .value(testEcApplicationDto.getAdditionalDetails())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.requiresFurtherEvidence")
                         .value(testEcApplicationDto.getRequiresFurtherEvidence())

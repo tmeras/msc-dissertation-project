@@ -38,7 +38,6 @@ CREATE TABLE ec_application
 (
     id                    INTEGER NOT NULL,
     circumstances_details VARCHAR(5000),
-    additional_details    VARCHAR(5000),
     affected_date_start   date    NOT NULL,
     affected_date_end     date    NOT NULL,
     submitted_on          date    NOT NULL,

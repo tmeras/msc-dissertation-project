@@ -26,9 +26,6 @@ public class EcApplicationEntity {
     @Size(min = 1, max = 5000)
     private String circumstancesDetails;
 
-    @Size(min = 1, max = 5000)
-    private String additionalDetails;
-
     @NotNull
     @Past
     private LocalDate affectedDateStart;

@@ -47,8 +47,6 @@ public class EcApplicationService {
         ecApplicationEntity.setId(id);
 
         return ecApplicationRepository.findById(id).map(existingEcApplication -> {
-            Optional.ofNullable(ecApplicationEntity.getAdditionalDetails()).
-                    ifPresent(existingEcApplication::setAdditionalDetails);
             Optional.ofNullable(ecApplicationEntity.getCircumstancesDetails()).
                     ifPresent(existingEcApplication::setCircumstancesDetails);
             Optional.ofNullable(ecApplicationEntity.getAffectedDateStart()).
