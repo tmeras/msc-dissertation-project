@@ -240,6 +240,38 @@ public class UserControllerIntegrationTests {
     }
 
     @Test
+    public void testGetAllUsersByEmail() throws Exception {
+        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+
+        UserEntity testUserEntityA = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
+        UserEntity savedUserEntityA = userService.save(testUserEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/users?email=" + savedUserEntityA.getEmail())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").value(savedUserEntityA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value(savedUserEntityA.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].email").value(savedUserEntityA.getEmail())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].password").value(savedUserEntityA.getPassword())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].isApproved").value(savedUserEntityA.getIsApproved())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].roleId").value(savedRoleEntity.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].departmentId").value(savedDepartmentEntity.getId())
+        );
+    }
+
+
+    @Test
     public void testGetUserById() throws Exception {
         RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
         DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();

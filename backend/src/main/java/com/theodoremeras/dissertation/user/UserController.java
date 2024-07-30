@@ -46,7 +46,7 @@ public class UserController {
         UserEntity userEntity = userMapper.mapFromDto(userDto);
 
         // User email must be unique
-        if (userService.existsByEmail(userEntity.getEmail()))
+        if (!userService.findAllByEmail(userEntity.getEmail()).isEmpty())
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
         // Verify that the specified role exists
@@ -72,11 +72,19 @@ public class UserController {
 
     @GetMapping(path = "/users")
     public List<UserDto> getAllUsers(
-            @RequestParam(value = "ids", required = false) List<Integer> ids
+            @RequestParam(value = "ids", required = false) List<Integer> ids,
+            @RequestParam(value = "email", required = false) String email
     ) {
-        // Determine whether to fetch all users or only those whose id is in the provided list
-        List<UserEntity> userEntities = (ids == null) ? userService.findAll():
-                userService.findAllByIdIn(ids);
+        List<UserEntity> userEntities;
+        // Fetch all users whose id is in the provided list
+        if (ids != null)
+               userEntities = userService.findAllByIdIn(ids);
+        // Fetch the user who has the specified email
+        else if (email != null)
+                userEntities = userService.findAllByEmail(email);
+        // Otherwise, fetch all users
+        else
+            userEntities = userService.findAll();
 
         return userEntities.stream()
                 .map(userMapper::mapToDto)
@@ -84,7 +92,7 @@ public class UserController {
     }
 
     @GetMapping(path = "/users/{id}")
-    public ResponseEntity<UserDto> GetUserById(@PathVariable("id") Integer id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Integer id) {
         Optional<UserEntity> foundUser = userService.findOneById(id);
 
         return foundUser.map(userEntity -> {

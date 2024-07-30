@@ -26,16 +26,16 @@ public class UserService {
         return userRepository.findAllByIdIn(ids);
     }
 
+    public List<UserEntity> findAllByEmail(String email) {
+        return userRepository.findAllByEmail(email);
+}
+
     public Optional<UserEntity> findOneById(Integer id) {
         return userRepository.findById(id);
     }
 
     public Boolean exists(Integer id) {
         return userRepository.existsById(id);
-    }
-
-    public Boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
     }
 
     public UserEntity partialUpdate(Integer id, UserEntity userEntity) {
