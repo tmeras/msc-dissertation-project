@@ -73,7 +73,9 @@ public class UserController {
     @GetMapping(path = "/users")
     public List<UserDto> getAllUsers(
             @RequestParam(value = "ids", required = false) List<Integer> ids,
-            @RequestParam(value = "email", required = false) String email
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "roleId", required = false) Integer roleId,
+            @RequestParam(value="departmentId", required = false) Integer departmentId
     ) {
         List<UserEntity> userEntities;
         // Fetch all users whose id is in the provided list
@@ -82,6 +84,9 @@ public class UserController {
         // Fetch the user who has the specified email
         else if (email != null)
                 userEntities = userService.findAllByEmail(email);
+        // Fetch all users that have the specified role and department id
+        else if (roleId != null && departmentId != null)
+                userEntities = userService.findAllByDepartmentIdAndRoleId(departmentId, roleId);
         // Otherwise, fetch all users
         else
             userEntities = userService.findAll();

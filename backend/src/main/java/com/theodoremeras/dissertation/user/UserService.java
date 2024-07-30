@@ -22,13 +22,17 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public List<UserEntity> findAllByIdIn(List<Integer> ids) {
-        return userRepository.findAllByIdIn(ids);
-    }
-
     public List<UserEntity> findAllByEmail(String email) {
         return userRepository.findAllByEmail(email);
 }
+
+    public List<UserEntity> findAllByDepartmentIdAndRoleId(Integer departmentId, Integer roleId) {
+        return userRepository.findAllByDepartmentIdAndRoleId(departmentId, roleId);
+    }
+
+    public List<UserEntity> findAllByIdIn(List<Integer> ids) {
+        return userRepository.findAllByIdIn(ids);
+    }
 
     public Optional<UserEntity> findOneById(Integer id) {
         return userRepository.findById(id);

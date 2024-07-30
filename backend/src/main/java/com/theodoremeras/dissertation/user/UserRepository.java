@@ -8,5 +8,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
     List<UserEntity> findAllByEmail(String email);
 
+    List<UserEntity> findAllByDepartmentIdAndRoleId(Integer departmentId, Integer roleId);
+
     List<UserEntity> findAllByIdIn(List<Integer> ids);
 }
