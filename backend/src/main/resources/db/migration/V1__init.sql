@@ -42,6 +42,7 @@ CREATE TABLE ec_application
     affected_date_start   date    NOT NULL,
     affected_date_end     date    NOT NULL,
     submitted_on          date    NOT NULL,
+    requires_further_evidence BOOLEAN,
     is_referred           BOOLEAN,
     student_id            INTEGER NOT NULL,
     CONSTRAINT pk_ec_application PRIMARY KEY (id)
