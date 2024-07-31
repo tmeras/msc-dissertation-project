@@ -77,6 +77,24 @@ public class RoleControllerIntegrationTests {
     }
 
     @Test
+    public void testGetAllRolesByRoleName() throws Exception {
+        RoleEntity testRoleEntityA = TestDataUtil.createTestRoleEntityA();
+        RoleEntity savedRoleEntityA = roleService.save(testRoleEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .get("/roles?name=" + savedRoleEntityA.getName())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").value(savedRoleEntityA.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].name").value(savedRoleEntityA.getName())
+        );
+    }
+
+    @Test
     public void testGetRoleById() throws Exception {
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
         RoleEntity savedRoleEntity = roleService.save(testRoleEntity);

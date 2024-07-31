@@ -36,8 +36,12 @@ public class RoleController {
     }
 
     @GetMapping(path = "/roles")
-    public List<RoleDto> getAllRoles() {
-        List<RoleEntity> roleEntities = roleService.findAll();
+    public List<RoleDto> getAllRoles(
+            @RequestParam(value = "name", required = false) String roleName
+    ) {
+        // Determine whether to fetch all roles or only those matching the provided role name
+        List<RoleEntity> roleEntities = (roleName == null) ? roleService.findAll():
+                roleService.findAllByRoleName(roleName);
 
         return roleEntities.stream()
                 .map(roleMapper::mapToDto)
