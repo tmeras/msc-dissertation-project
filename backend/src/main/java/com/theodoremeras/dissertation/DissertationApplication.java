@@ -19,7 +19,7 @@ public class DissertationApplication {
 	@Bean
 	CommandLineRunner init(EvidenceService evidenceService) {
 		return (args) -> {
-			evidenceService.deleteAll();
+			//evidenceService.deleteAll();
 			evidenceService.init();
 		};
 	}

@@ -1,6 +1,7 @@
 package com.theodoremeras.dissertation.conf;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -9,10 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
-    // Enable CORS
+    // Enable CORS for all HTTP methods
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        CorsRegistration corsRegistration = registry.addMapping("/**");
+        corsRegistration.allowedMethods("*");
+        corsRegistration.allowedOrigins("http://localhost:5173/");
     }
 
 }

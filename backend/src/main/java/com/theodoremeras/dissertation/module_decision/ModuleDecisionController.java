@@ -69,7 +69,6 @@ public class ModuleDecisionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         ModuleDecisionEntity savedModuleDecisionEntity = moduleDecisionService.save(moduleDecisionEntity);
-        System.out.println(savedModuleDecisionEntity);
         return new ResponseEntity<>(moduleDecisionMapper.mapToDto(savedModuleDecisionEntity), HttpStatus.CREATED);
     }
 
