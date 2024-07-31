@@ -30,4 +30,8 @@ export function updateEcApplication(data) {
     .then(res => res.data)
 }
 
-
+export function createEcApplication(data) {
+    return axios
+    .post(`/ec-applications`, data)
+    .then(res => res.data)
+}

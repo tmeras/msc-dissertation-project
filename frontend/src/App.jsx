@@ -7,6 +7,7 @@ import AuthProvider from "./providers/AuthProvider"
 import ClericalStaffEcApplications from "./components/clerical_staff/ClericalStaffEcApplications"
 import ClericalStaffNavBar from "./components/clerical_staff/ClericalStaffNavBar"
 import ClericalStaffEcDetails from "./components/clerical_staff/ClericalStaffEcDetails"
+import StudentEcApplicationForm from "./components/student/StudentEcApplicationForm"
 
 export default function App() {
 
@@ -15,7 +16,8 @@ export default function App() {
       <AuthProvider>
         <ClericalStaffNavBar />
         {/* <ClericalStaffEcApplications /> */}
-        <ClericalStaffEcDetails />
+        {/* <ClericalStaffEcDetails /> */}
+        <StudentEcApplicationForm />
       </AuthProvider>
     </>
   )

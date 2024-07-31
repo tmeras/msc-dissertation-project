@@ -50,7 +50,6 @@ public class EcApplicationController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         EcApplicationEntity savedEcApplicationEntity = ecApplicationService.save(ecApplicationEntity);
-        System.out.println(savedEcApplicationEntity);
         return new ResponseEntity<>(ecApplicationMapper.mapToDto(savedEcApplicationEntity), HttpStatus.CREATED);
     }
 

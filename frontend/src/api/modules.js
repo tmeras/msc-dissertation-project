@@ -6,3 +6,9 @@ export function getModulesByCodes(moduleCodes) {
     .then(res => res.data)
 }
 
+export function getModules() {
+    return axios
+    .get(`/modules`)
+    .then(res => res.data)
+}
+

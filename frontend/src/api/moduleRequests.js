@@ -6,4 +6,8 @@ export function getModuleRequestsByEcApplicationIds(ids) {
     .then(res => res.data)
 }
 
-
+export function createModuleRequest(data) {
+    return axios
+    .post(`/module-requests`, data)
+    .then(res => res.data)
+}

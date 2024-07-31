@@ -32,7 +32,7 @@ export default function ClericalStaffEcDetails() {
     enabled: !!ecApplicationQuery.data?.studentId
   })
   const studentInformationQuery = useQuery({
-    queryKey: ["student-information", {studentId: ecApplicationQuery.data?.studentId}],
+    queryKey: ["studentInformation", {studentId: ecApplicationQuery.data?.studentId}],
     queryFn: () => getStudentInformationByStudentId(ecApplicationQuery.data?.studentId),
     enabled: !!ecApplicationQuery.data?.studentId
   })
@@ -101,7 +101,6 @@ export default function ClericalStaffEcDetails() {
       </Container>
     )
 
-
   if (ecApplicationQuery.isError)
     return <h1>Error fetching EC applications: {ecApplicationQuery.error.response?.status}</h1>
 
@@ -132,13 +131,13 @@ export default function ClericalStaffEcDetails() {
   if (updateEcApplicationMutation.isError)
     return <h1>Error while updating EC application: {updateEcApplicationMutation.error.response?.status}</h1>
 
+
   const student = {...studentQuery.data, ...studentInformationQuery.data[0]}
   const ecApplication = {...ecApplicationQuery.data}
   const evidence = evidenceQuery.data
   const moduleRequests = moduleRequestsQuery.data
   const modules = modulesQuery.data
   const academicStaff = staffQuery.data
-
 
   function downloadEvidence(fileName) {
     axios.get(`/evidence/${fileName}`, {responseType: 'blob'})
