@@ -76,7 +76,7 @@ public class ModuleDecisionController {
     public List<ModuleDecisionDto> getAllModuleDecisions(
             @RequestParam(value = "moduleRequestId", required = false) Integer moduleRequestId,
             @RequestParam(value = "staffMemberId", required = false) Integer staffMemberId,
-            @RequestParam(value = "ecApplicationId", required = false) Integer ecApplicationId
+            @RequestParam(value = "ecApplicationIds", required = false) List<Integer> ecApplicationIds
     ) {
         List<ModuleDecisionEntity>  moduleDecisionEntities;
 
@@ -87,8 +87,8 @@ public class ModuleDecisionController {
         else if (staffMemberId != null)
             moduleDecisionEntities = moduleDecisionService.findAllByStaffMemberId(staffMemberId);
         // Fetch the module decisions matching the provided EC application id
-        else if (ecApplicationId != null)
-            moduleDecisionEntities = moduleDecisionService.findAllByEcApplicationId(ecApplicationId);
+        else if (ecApplicationIds != null)
+            moduleDecisionEntities = moduleDecisionService.findAllByEcApplicationIdIn(ecApplicationIds);
         // Otherwise, fetch all module decisions
         else
             moduleDecisionEntities = moduleDecisionService.findAll();

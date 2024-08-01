@@ -26,12 +26,12 @@ public class ModuleDecisionService {
         return moduleDecisionRepository.findAllByModuleRequestId(moduleRequestId);
     }
 
-   public List<ModuleDecisionEntity> findAllByStaffMemberId(Integer staffMemberId) {
+    public List<ModuleDecisionEntity> findAllByStaffMemberId(Integer staffMemberId) {
         return moduleDecisionRepository.findAllByStaffMemberId(staffMemberId);
     }
 
-  public List<ModuleDecisionEntity> findAllByEcApplicationId(Integer ecApplicationId) {
-        return moduleDecisionRepository.findAllByEcApplicationId(ecApplicationId);
+    public List<ModuleDecisionEntity> findAllByEcApplicationIdIn(List<Integer> ecApplicationIds) {
+        return moduleDecisionRepository.findAllByEcApplicationIdIn(ecApplicationIds);
     }
 
     public Optional<ModuleDecisionEntity> findOneById(Integer id) {

@@ -326,7 +326,7 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleDecisionsByEcApplicationId() throws  Exception {
+    public void testGetAllModuleDecisionsByEcApplicationIds() throws  Exception {
         ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
         UserEntity savedStaff =  parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication =
@@ -341,7 +341,7 @@ public class ModuleDecisionControllerIntegrationTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/module-decisions?ecApplicationId=" + savedEcApplication.getId())
+                        .get("/module-decisions?ecApplicationIds=" + savedEcApplication.getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
