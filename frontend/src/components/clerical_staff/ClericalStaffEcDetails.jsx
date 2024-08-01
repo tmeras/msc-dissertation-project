@@ -21,8 +21,8 @@ export default function ClericalStaffEcDetails() {
 
   // Get the details of the EC application
   const ecApplicationQuery = useQuery({
-    queryKey: ["ecApplications", 1],
-    queryFn: () => getEcApplication(1)
+    queryKey: ["ecApplications", 152],
+    queryFn: () => getEcApplication(152)
   })
 
   // Get the details of the student who submitted the EC application
@@ -138,6 +138,7 @@ export default function ClericalStaffEcDetails() {
   const moduleRequests = moduleRequestsQuery.data
   const modules = modulesQuery.data
   const academicStaff = staffQuery.data
+  console.log(moduleRequests)
 
   function downloadEvidence(fileName) {
     axios.get(`/evidence/${fileName}`, {responseType: 'blob'})
@@ -184,6 +185,22 @@ export default function ClericalStaffEcDetails() {
       id: ecApplication.id,
       isReferred: true
     })
+  }
+
+  // Request more evidence from the student
+  function requestMoreEvidence() {
+    updateEcApplicationMutation.mutate({
+      id: ecApplication.id,
+      requiresFurtherEvidence: true
+    })
+  }
+
+  // Reject applicatiion
+  function rejectApplication() {
+      updateEcApplicationMutation.mutate({
+        id: ecApplication.id,
+        isReferred: false
+      })
   }
 
   return (
@@ -256,20 +273,23 @@ export default function ClericalStaffEcDetails() {
             </Card.Body>
           </Card>
 
-          {ecApplication.isReferred ? 
-              <Button variant='disabled' className='me-2 btn-outline-success' style={{"pointerEvents": "none"}} disabled> Application has been referred to academic staff</Button>
+          {ecApplication.isReferred != null? 
+            <>
+              {ecApplication.isReferred == true && <Button variant='disabled' className='me-2 btn-outline-success' style={{"pointerEvents": "none"}} disabled> Application has been referred to academic staff</Button>}
+              {ecApplication.isReferred == false && <Button variant='disabled' className='me-2 btn-outline-danger' style={{"pointerEvents": "none"}} disabled> Application has been rejected</Button>}
+            </>
           : <>
             {academicStaff.length >= 2 ? <Button variant='primary' className='me-2' onClick={assignAcademicStaff}> Refer to Academic Staff</Button>
             : (
-            <span className="d-inline-block" tabIndex="0" data-toggle="tooltip" 
-                  title="Not enough academic staff in the department to review application (mininum 2 are required) - Please contact department">
-                <Button variant='disabled' className='me-2' style={{"pointerEvents": "none"}} disabled> Refer to Academic Staff</Button>
-            </span>
+              <span className="d-inline-block" tabIndex="0" data-toggle="tooltip" 
+                    title="Not enough academic staff in the department to review application (mininum 2 are required) - Please contact department">
+                  <Button variant='disabled' className='me-2' style={{"pointerEvents": "none"}} disabled> Refer to Academic Staff</Button>
+              </span>
             )}
-
-            <Button variant='info' className='me-2'>Request More Evidence</Button>
-            <Button variant='danger' className='me-2'> Reject Application</Button>
-          </>
+            {!ecApplication.requiresFurtherEvidence ?  <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
+              : <Button variant='disabled' className='me-2 btn-outline-info' style={{"pointerEvents": "none"}}>More evidence has been requested </Button>}
+            <Button variant='danger' className='me-2' onClick={rejectApplication}> Reject Application</Button>
+            </>
           }
         </Col>
       </Row>

@@ -16,8 +16,8 @@ export default function App() {
       <AuthProvider>
         <ClericalStaffNavBar />
         {/* <ClericalStaffEcApplications /> */}
-        {/* <ClericalStaffEcDetails /> */}
-        <StudentEcApplicationForm />
+        <ClericalStaffEcDetails />
+        {/* <StudentEcApplicationForm /> */}
       </AuthProvider>
     </>
   )

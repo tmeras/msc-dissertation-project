@@ -208,6 +208,7 @@ export default function StudentEcApplicationForm() {
                 target='_blank'>here. </a>
               </Form.Text>
             </Form.Group>
+            <hr/>
 
             <Form.Group className='mb-5' controlId='ecForm.DateArea1'>
               <Form.Label>Period Affected By Circumstances</Form.Label>
@@ -246,6 +247,7 @@ export default function StudentEcApplicationForm() {
                 </Alert>
               }
             </Form.Group>
+            <hr className='mb-3'/>
 
             <Form.Group className='mb-5' controlId='ecForm.SelectArea1'>
               <Form.Label>Module Outcome Requests</Form.Label>
@@ -292,6 +294,8 @@ export default function StudentEcApplicationForm() {
                 <Button size='sm' className='mt-2' variant='danger' onClick={removeModuleRequest}>Remove Module Request</Button>
               }
             </Form.Group>
+            <hr className='mb-3'/>
+
             
             <Form.Group className='mb-3' controlId='ecForm.FileMutilple'>
                 <Form.Label>Evidence</Form.Label>
