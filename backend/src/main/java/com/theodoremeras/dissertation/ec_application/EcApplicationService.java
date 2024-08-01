@@ -35,6 +35,10 @@ public class EcApplicationService {
         return ecApplicationRepository.findAllByStudentDepartmentId(departmentId);
     }
 
+    public List<EcApplicationEntity> findAllByStudentDepartmentIdAndIsReferred(Integer departmentId, Boolean isReferred) {
+        return ecApplicationRepository.findAllByStudentDepartmentIdAndIsReferred(departmentId, isReferred);
+    }
+
     public Optional<EcApplicationEntity> findOneById(Integer id) {
         return ecApplicationRepository.findById(id);
     }
