@@ -123,10 +123,10 @@ export default function StudentEcApplicationForm() {
   }
 
   // Handle file input change
-  const handleFileChange = (e) => {
+  const handleFileChange = (event) => {
     setFormData(prevFormData => ({
       ...prevFormData,
-      files: e.target.files
+      files: event.target.files
     }))
   }
 

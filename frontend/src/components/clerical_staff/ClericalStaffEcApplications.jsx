@@ -1,6 +1,6 @@
 import { formatDate } from "../../utils"
 import Table from "react-bootstrap/Table"
-import { Badge, Container, Spinner } from 'react-bootstrap'
+import { Badge, Container, Spinner, Row, Col } from 'react-bootstrap'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useAuth } from "../../providers/AuthProvider"
 import { getEcApplications, getEcApplicationsByStudentDepartmentId } from '../../api/ecApplications'
@@ -13,7 +13,7 @@ export default function ClericalStaffEcApplications() {
 
     // Get all EC applications submitted by students in the same department as the staff member
     const ecApplicationsQuery = useQuery({
-        queryKey: ["ecApplications", {departmentId: user.departmentId}],
+        queryKey: ["ecApplications", {studentDepartmentId: user.departmentId}],
         queryFn: () => getEcApplicationsByStudentDepartmentId(user.departmentId),
     })
 
@@ -27,11 +27,11 @@ export default function ClericalStaffEcApplications() {
     })
 
     // Fetch all students that submitted the fetched EC applications
-    const studentIds = new Set(ecApplicationsQuery.data?.map(ecApplication => ecApplication.studentId))
+    const studentIds =  Array.from(new Set(ecApplicationsQuery.data?.map(ecApplication => ecApplication.studentId)))
     const studentsQuery = useQuery({
-        queryKey: ["users", {ids: Array.from(studentIds)}],
-        queryFn: () => getUsersByIds(Array.from(studentIds)),
-        enabled: !(studentIds.size == 0)
+        queryKey: ["users", {ids: studentIds}],
+        queryFn: () => getUsersByIds(studentIds),
+        enabled: !(studentIds.length == 0)
     }) 
 
     if (ecApplicationsQuery.isLoading || moduleRequestsQuery.isLoading ||studentsQuery.isLoading )
@@ -58,8 +58,8 @@ export default function ClericalStaffEcApplications() {
     function isEcApplicationUrgent(ecApplicationId) {
         let isUrgent = false
         moduleRequestsQuery.data.forEach(moduleRequest =>{
-            if (moduleRequest.ecApplicationId == ecApplicationId &&
-                moduleRequest.requestedOutcome === "Deadline Extension") {
+            if (moduleRequest.ecApplicationId == ecApplicationId && (moduleRequest.requestedOutcome === "Deadline Extension" 
+                || moduleRequest.requestedOutcome == "Defer Formal Examination" || moduleRequest.requestedOutcome == "Defer Formal Assessment")) {
                 isUrgent = true
                 return
             }

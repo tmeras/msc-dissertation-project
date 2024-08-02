@@ -12,6 +12,12 @@ export function getEcApplicationsByStudentDepartmentId(departmentId) {
     .then(res => res.data)
 }
 
+export function getEcApplicationsByStudentDepartmentIdAndIsReferred(data) {
+    return axios
+    .get(`/ec-applications?studentDepartmentId=${data.studentDepartmentId}&isReferred=${data.isReferred}`)
+    .then(res => res.data)
+}
+
 export function getEcApplicationsByIds(ids) {
     return axios
     .get(`/ec-applications?ids=${ids}`)
