@@ -2,19 +2,25 @@ import axios from "./axiosConfig"
 
 export function getEcApplications() {
     return axios
-    .get("/ec-applications")
+    .get(`/ec-applications`)
     .then(res => res.data)
 }
 
 export function getEcApplicationsByStudentDepartmentId(departmentId) {
     return axios
-    .get("/ec-applications?studentDepartmentId=" + departmentId)
+    .get(`/ec-applications?studentDepartmentId=${departmentId}`)
     .then(res => res.data)
 }
 
 export function getEcApplicationsByStudentDepartmentIdAndIsReferred(data) {
     return axios
     .get(`/ec-applications?studentDepartmentId=${data.studentDepartmentId}&isReferred=${data.isReferred}`)
+    .then(res => res.data)
+}
+
+export function getEcApplicationsByStudentId(studentId) {
+    return axios
+    .get(`/ec-applications?studentId=${studentId}`)
     .then(res => res.data)
 }
 

@@ -10,6 +10,8 @@ import ClericalStaffEcDetails from "./components/clerical_staff/ClericalStaffEcD
 import StudentEcApplicationForm from "./components/student/StudentEcApplicationForm"
 import AcademicStaffEcApplications from "./components/academic_staff/AcademicStaffEcApplications"
 import AcademicStaffEcDetails from "./components/academic_staff/AcademicStaffEcDetails"
+import StudentInformation from "./components/student/StudentInformation"
+import StudentEcApplications from "./components/student/StudentEcApplications"
 
 export default function App() {
 
@@ -18,10 +20,12 @@ export default function App() {
       <AuthProvider>
         <ClericalStaffNavBar />
         {/* <ClericalStaffEcApplications /> */}
-        <ClericalStaffEcDetails />
+        {/* <ClericalStaffEcDetails /> */}
         {/* <AcademicStaffEcApplications /> */}
         {/* <AcademicStaffEcDetails /> */}
         {/* <StudentEcApplicationForm /> */}
+        <StudentEcApplications />
+        {/* <StudentInformation /> */}
       </AuthProvider>
     </>
   )

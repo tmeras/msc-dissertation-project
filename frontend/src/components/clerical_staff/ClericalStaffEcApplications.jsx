@@ -75,11 +75,11 @@ export default function ClericalStaffEcApplications() {
             <td>{formatDate(ecApplication.submittedOn)}</td>
             <td>
                 {ecApplication.isReferred!= null ? (
-                    ecApplication.isReferred != null && <Badge bg='success' className="me-1">Decision Submitted</Badge>
+                    ecApplication.isReferred != null && <Badge bg='success' className="me-1">Decision submitted</Badge>
                 ): (
                     <>
                     <Badge bg='primary' className="me-1">Pending Decision</Badge>
-                    {ecApplication.requiresFurtherEvidence && <Badge bg='info' className="me-1">Further Evidence Requested</Badge>}
+                    {ecApplication.requiresFurtherEvidence && <Badge bg='info' className="me-1">Further evidence requested</Badge>}
                     {isEcApplicationUrgent(ecApplication.id) && <Badge bg='danger' className="me-1">Urgent</Badge>}
                     </>
                 )}

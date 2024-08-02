@@ -3,20 +3,19 @@ import Table from "react-bootstrap/Table"
 import { Badge, Container, Spinner, Row, Col, ProgressBar } from 'react-bootstrap'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useAuth } from "../../providers/AuthProvider"
-import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDepartmentId, getEcApplicationsByStudentDepartmentIdAndIsReferred } from '../../api/ecApplications'
+import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDepartmentId, getEcApplicationsByStudentDepartmentIdAndIsReferred, getEcApplicationsByStudentId } from '../../api/ecApplications'
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
 import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
 
 
-export default function AcademicStaffEcApplications() {
+export default function StudentEcApplications() {
     const {setUser, user} = useAuth()
 
-    // Get all EC applications submitted by students in the same department as the staff member
-    // and which have been referred by clerical staff
+    // Get all EC applications submitted by the student
     const ecApplicationsQuery = useQuery({
-        queryKey: ["ecApplications", {studentDepartmentId: user.departmentId, isReferred: true}],
-        queryFn: () => getEcApplicationsByStudentDepartmentIdAndIsReferred({studentDepartmentId: user.departmentId, isReferred: true}),
+        queryKey: ["ecApplications", {studentId: user.id}],
+        queryFn: () => getEcApplicationsByStudentId(user.id),
     })
 
     const ecApplicationIds = ecApplicationsQuery.data?.map(ecApplication => ecApplication.id)
@@ -35,15 +34,8 @@ export default function AcademicStaffEcApplications() {
         enabled: !!ecApplicationIds
     })
 
-    // Fetch all students that submitted the fetched EC applications
-    const studentIds = Array.from(new Set(ecApplicationsQuery.data?.map(ecApplication => ecApplication.studentId)))
-    const studentsQuery = useQuery({
-        queryKey: ["users", {ids: studentIds}],
-        queryFn: () => getUsersByIds(studentIds),
-        enabled: !(studentIds.length == 0)
-    }) 
 
-    if (moduleDecisionsQuery.isLoading || ecApplicationsQuery.isLoading || moduleRequestsQuery.isLoading ||studentsQuery.isLoading )
+    if (moduleDecisionsQuery.isLoading || ecApplicationsQuery.isLoading || moduleRequestsQuery.isLoading )
         return (
             <Container className='mt-3'>
               <Row>
@@ -63,39 +55,20 @@ export default function AcademicStaffEcApplications() {
     if (moduleRequestsQuery.isError)
         return <h1>Error fetching module requests: {moduleRequestsQuery.error.response?.status}</h1>
     
-    if (studentsQuery.isError)
-        return <h1>Error fetching students: {studentsQuery.error.response?.status}</h1>
 
     const ecApplications = ecApplicationsQuery.data
     const moduleRequests = moduleRequestsQuery.data
     const moduleDecisions = moduleDecisionsQuery.data
-    const students = studentsQuery.data
     console.log("EC applications", ecApplications)
     console.log("module requests", moduleRequests)
     console.log("module decisions", moduleDecisions)
-    console.log("students", students)
 
-
-    // Mark any application with requests for deadline extensions or assessment/exam deferment as urgent
-    function isEcApplicationUrgent(ecApplicationId) {
-            let isUrgent = false
-            moduleRequests.forEach(moduleRequest =>{
-                if (moduleRequest.ecApplicationId == ecApplicationId && (moduleRequest.requestedOutcome === "Deadline Extension" 
-                    || moduleRequest.requestedOutcome == "Defer Formal Examination" || moduleRequest.requestedOutcome == "Defer Formal Assessment")
-                ) {
-                    isUrgent = true
-                    return
-                }
-            })
-    
-            return isUrgent
-    }
 
     // Calculate the progress of the EC application
     function calculateProgress(ecApplicationId) {
         // Find module requests that were made as part of this application
         let applicationModuleRequests = []
-        
+
         moduleRequests.forEach(request =>{
             if (request.ecApplicationId == ecApplicationId)
                 applicationModuleRequests.push(request)
@@ -133,31 +106,35 @@ export default function AcademicStaffEcApplications() {
             <Table striped hover className="mt-3 shadow">
                 <thead className="table-light">
                 <tr>
-                    <th>#</th>
-                    <th>Submitted By</th>
-                    <th>Submitted On</th>
-                    <th>Progress</th>
-                    <th>Status</th>
+                    <th scope="col" className="col-1">#</th>
+                    <th scope="col" className="col-2"> Submitted On</th>
+                    <th scope="col" className="col-2">Progress</th>
+                    <th scope="col" className="col-6">Status</th>
                 </tr>
                 </thead>
                 <tbody className="table-group-divider">
                 {ecApplications.map(ecApplication =>{ 
                     let {finalDecisionsRequired, finalDecisionsMade} = calculateProgress(ecApplication.id)
                     let percentage = parseInt(parseFloat(finalDecisionsMade) / finalDecisionsRequired * 100)
+
                     return (
-                        <tr key={ecApplication.id} >
+                        <tr key={ecApplication.id}>
                             <td>{ecApplication.id}</td>
-                            <td>{students.find(student => student.id == ecApplication.studentId).name}</td>
-                            <td>{formatDate(ecApplication.submittedOn)}</td>
+                            <td >{formatDate(ecApplication.submittedOn)}</td>
                             <td> <ProgressBar className="mt-1" now={percentage} label={`${percentage}%`} variant={`${percentage == 100 && "success"}`}/> </td>
                             <td>
-                                {percentage == 100 ? (
-                                    <Badge bg='success' className="me-1">Closed</Badge>
+                                {percentage == 100 || ecApplication.isReferred == false ? (
+                                    <Badge bg='success' className="me-1">Application outcome available</Badge>
                                 ): (
                                     <>
-                                    <Badge bg='primary' className="me-1">Pending review</Badge>
-                                    {ecApplication.requiresFurtherEvidence && <Badge bg='info' className="me-1">Further evidence requested</Badge>}
-                                    {isEcApplicationUrgent(ecApplication.id) && <Badge bg='danger' className="me-1">Urgent</Badge>}
+                                    {ecApplication.isReferred == true ? 
+                                        <Badge bg="primary" className="me-1">Under review by academic staff</Badge>
+                                        :
+                                        <Badge bg="primary" className="me-1">Under review by clerical staff</Badge>
+                                    }
+                                    {ecApplication.requiresFurtherEvidence && 
+                                        <Badge bg='danger' className="me-1">Further evidence requested</Badge>
+                                    }
                                     </>
                                 )}
                             </td>
