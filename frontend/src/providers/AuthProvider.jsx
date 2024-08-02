@@ -5,7 +5,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   // State to hold the authentated user's id (detetails?)
-  const [user, setUser] = useState({id: 5, role:"Clerical Staff", departmentId: 1});
+  const [user, setUser] = useState({id: 4, role:"Clerical Staff", departmentId: 1});
 
   // Function to set the authentication token
 //   const setToken = (newToken) => {

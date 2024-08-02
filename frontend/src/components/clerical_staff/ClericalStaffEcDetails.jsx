@@ -21,8 +21,8 @@ export default function ClericalStaffEcDetails() {
 
   // Get the details of the EC application
   const ecApplicationQuery = useQuery({
-    queryKey: ["ecApplications", 152],
-    queryFn: () => getEcApplication(152)
+    queryKey: ["ecApplications", 1],
+    queryFn: () => getEcApplication(1)
   })
 
   // Get the details of the student who submitted the EC application
@@ -52,20 +52,20 @@ export default function ClericalStaffEcDetails() {
   })
 
   // Fetch all modules for which requests have been made
-  const moduleCodes = new Set(moduleRequestsQuery.data?.map(moduleRequest => moduleRequest.moduleCode))
+  const moduleCodes = Array.from(new Set(moduleRequestsQuery.data?.map(moduleRequest => moduleRequest.moduleCode)))
   const modulesQuery = useQuery({
-    queryKey: ["modules", {codes: Array.from(moduleCodes)}],
-    queryFn: () => getModulesByCodes(Array.from(moduleCodes)),
-    enabled: !(moduleCodes.size == 0)
+    queryKey: ["modules", {codes: moduleCodes}],
+    queryFn: () => getModulesByCodes(moduleCodes),
+    enabled: !(moduleCodes.length == 0)
   })
 
-  // Fetch the role id for the clerical staff role
+  // Fetch the id of the academic staff role
   const roleQuery = useQuery({
     queryKey: ["roles", {name: "Academic Staff"}],
     queryFn: () => getRoleByName("Academic Staff"),
   })
 
-  // Fetch all clerical staff members that are in the same department
+  // Fetch all academic staff members that are in the same department
   const staffQuery = useQuery({
     queryKey: ["users", {departmentId: user.departmentId, roleId: roleQuery.data?.[0]?.id}],
     queryFn: () => getUserByDepartmentIdAndRoleId(user.departmentId, roleQuery.data?.[0]?.id),
@@ -144,47 +144,24 @@ export default function ClericalStaffEcDetails() {
     axios.get(`/evidence/${fileName}`, {responseType: 'blob'})
       .then(response => {
         // Create a URL for the blob object
-        const blob = new Blob([response.data], { type: response.headers['content-type'] });
-        const url = window.URL.createObjectURL(blob);
+        const blob = new Blob([response.data], { type: response.headers['content-type'] })
+        const url = window.URL.createObjectURL(blob)
 
         // Create a temporary link element
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', fileName); // Replace with the desired file name
-        document.body.appendChild(link);
+        const link = document.createElement('a')
+        link.href = url
+        link.setAttribute('download', fileName) // Replace with the desired file name
+        document.body.appendChild(link)
 
         // Trigger the download by simulating a click
-        link.click();
+        link.click()
 
         // Clean up and remove the link
-        link.parentNode.removeChild(link);
-        window.URL.revokeObjectURL(url);
-    }) .catch(error => {
-      setShowAlert(true)
+        link.parentNode.removeChild(link)
+        window.URL.revokeObjectURL(url)
+    }).catch(error => {
+        setShowAlert(true)
     });
-  }
-
-  // Assign academic staff to review and decide on each of the module requests made 
-  // as part of the EC application
-  function assignAcademicStaff() {
-
-    // Assign at most 3 academic staff
-    for (let i = 0; i < academicStaff.length && i < 3; i++) {
-      moduleRequests.forEach(request => {
-          createModuleDecisionMutation.mutate({
-            // Pending decision by the academic staff
-            isApproved: null,
-            moduleRequestId: request.id,
-            staffMemberId: academicStaff[i].id,
-            ecApplicationId: ecApplication.id
-          })
-      })
-    }
-    // Mark EC application as referred
-    updateEcApplicationMutation.mutate({
-      id: ecApplication.id,
-      isReferred: true
-    })
   }
 
   // Request more evidence from the student
@@ -195,12 +172,20 @@ export default function ClericalStaffEcDetails() {
     })
   }
 
+  // Refer EC application to academic staff
+  function referApplication() {
+    updateEcApplicationMutation.mutate({
+      id: ecApplication.id,
+      isReferred: true
+    })
+  }
+
   // Reject applicatiion
   function rejectApplication() {
-      updateEcApplicationMutation.mutate({
-        id: ecApplication.id,
-        isReferred: false
-      })
+    updateEcApplicationMutation.mutate({
+      id: ecApplication.id,
+      isReferred: false
+    })
   }
 
   return (
@@ -244,7 +229,7 @@ export default function ClericalStaffEcDetails() {
                     There was an error when downloading the file
                 </Alert>
               }
-              <ListGroup>
+              <ListGroup className='mb-2'>
                 {evidence.map((ev, index) => 
                   <ListGroup.Item style={{width: "10rem"}} key={ev.id}> 
                   <span className='fw-semibold'> Evidence #{index + 1} </span>
@@ -254,6 +239,8 @@ export default function ClericalStaffEcDetails() {
                   </ListGroup.Item>
                 )}
               </ListGroup>
+              {!ecApplication.requiresFurtherEvidence ?  <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
+              : <Button variant='disabled' className='me-2 btn-outline-info' style={{"pointerEvents": "none"}}>More evidence has been requested </Button>}
             </Card.Body>
           </Card>
 
@@ -279,15 +266,13 @@ export default function ClericalStaffEcDetails() {
               {ecApplication.isReferred == false && <Button variant='disabled' className='me-2 btn-outline-danger' style={{"pointerEvents": "none"}} disabled> Application has been rejected</Button>}
             </>
           : <>
-            {academicStaff.length >= 2 ? <Button variant='primary' className='me-2' onClick={assignAcademicStaff}> Refer to Academic Staff</Button>
+            {academicStaff.length >= 2 ? <Button variant='primary' className='me-2' onClick={referApplication}> Refer to Academic Staff</Button>
             : (
               <span className="d-inline-block" tabIndex="0" data-toggle="tooltip" 
                     title="Not enough academic staff in the department to review application (mininum 2 are required) - Please contact department">
                   <Button variant='disabled' className='me-2' style={{"pointerEvents": "none"}} disabled> Refer to Academic Staff</Button>
               </span>
             )}
-            {!ecApplication.requiresFurtherEvidence ?  <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
-              : <Button variant='disabled' className='me-2 btn-outline-info' style={{"pointerEvents": "none"}}>More evidence has been requested </Button>}
             <Button variant='danger' className='me-2' onClick={rejectApplication}> Reject Application</Button>
             </>
           }
