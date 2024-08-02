@@ -16,7 +16,7 @@ import { createModuleDecision } from '../../api/moduleDecisions'
 
 export default function ClericalStaffEcDetails() {
   const {user} = useAuth()
-  const [showAlert, setShowAlert] = useState(false)
+  const [showFileAlert, setShowFileAlert] = useState(false)
   const queryClient = useQueryClient()
 
   // Get the details of the EC application
@@ -160,7 +160,7 @@ export default function ClericalStaffEcDetails() {
         link.parentNode.removeChild(link)
         window.URL.revokeObjectURL(url)
     }).catch(error => {
-        setShowAlert(true)
+        setShowFileAlert(true)
     });
   }
 
@@ -224,8 +224,8 @@ export default function ClericalStaffEcDetails() {
               <Card.Text>
                 {ecApplication.circumstancesDetails}
               </Card.Text>
-              {showAlert && 
-                <Alert variant="danger" onClose={() => setShowAlert(false)} style={{width: "25rem"}} dismissible>
+              {showFileAlert && 
+                <Alert variant="danger" onClose={() => setShowFileAlert(false)} style={{width: "25rem"}} dismissible>
                     There was an error when downloading the file
                 </Alert>
               }

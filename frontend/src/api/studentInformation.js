@@ -6,3 +6,10 @@ export function getStudentInformationByStudentId(studentId) {
     .then(res => res.data)
 }
 
+export function updateStudentInformation(data) {
+    return axios
+    .patch(`/student-information/${data.id}`, data)
+    .then(res => res.data)
+}
+
+

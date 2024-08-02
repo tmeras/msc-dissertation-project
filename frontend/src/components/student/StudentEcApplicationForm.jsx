@@ -160,6 +160,7 @@ export default function StudentEcApplicationForm() {
       submittedOn: getCurrentDate(),
       studentId: user.id
     }, {
+      
       onSuccess: data =>{
         // Upload the evidence
         Array.from(formData.files).forEach((file, index) => {

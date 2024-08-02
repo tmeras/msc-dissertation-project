@@ -22,8 +22,8 @@ export default function ClericalStaffEcDetails() {
 
     // Get the details of the EC application
     const ecApplicationQuery = useQuery({
-    queryKey: ["ecApplications", 1],
-    queryFn: () => getEcApplication(1)
+        queryKey: ["ecApplications", 1],
+        queryFn: () => getEcApplication(1)
     })
 
     // Get the details of the student who submitted the EC application
@@ -119,11 +119,10 @@ export default function ClericalStaffEcDetails() {
         return <h1>Error fetching modules: {modulesQuery.error.response?.status}</h1>
     
     if (createModuleDecisionMutation.isError)
-        return <h1>Error while assigning EC application to academic staff: {createModuleDecisionMutation.error.response?.status}</h1>
+        return <h1>Error assigning EC application to academic staff: {createModuleDecisionMutation.error.response?.status}</h1>
     
     if (updateEcApplicationMutation.isError)
-        return <h1>Error while updating EC application: {updateEcApplicationMutation.error.response?.status}</h1>
-
+        return <h1>Error updating EC application: {updateEcApplicationMutation.error.response?.status}</h1>
 
 
     const student = {...studentQuery.data, ...studentInformationQuery.data[0]}
@@ -133,8 +132,6 @@ export default function ClericalStaffEcDetails() {
     const modules = modulesQuery.data
     const moduleDecisions = moduleDecisionsQuery.data
 
-
-    console.log("COMMENTS:", comments)
 
     function downloadEvidence(fileName) {
         axios.get(`/evidence/${fileName}`, {responseType: 'blob'})
@@ -248,102 +245,102 @@ export default function ClericalStaffEcDetails() {
         </Row>
         <Row>
             <Col md={{offset: 3 }}>
-            <Card className='w-75'> 
-                <Card.Header as="h5">Student Information</Card.Header>
-                <Card.Body>
-                <Card.Title>Name: {student.name}</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">Student ID #{student.id}</Card.Subtitle>
-                {student.additionalDetails &&
-                <Card.Text>
-                    <span className="fw-medium">Student-provided details:</span> Student suffers from PTSD
-                </Card.Text>}
-                </Card.Body>
-                <ListGroup variant="flush">
-                {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
-                {student.hasHealthIssues && <ListGroup.Item>Student suffers from health issues</ListGroup.Item>}
-                {student.hasDisability && <ListGroup.Item>Student suffers from a disability</ListGroup.Item>}
-                </ListGroup>
-            </Card>
+                <Card className='w-75'> 
+                    <Card.Header as="h5">Student Information</Card.Header>
+                    <Card.Body>
+                    <Card.Title>Name: {student.name}</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">Student ID #{student.id}</Card.Subtitle>
+                    {student.additionalDetails &&
+                    <Card.Text>
+                        <span className="fw-medium">Student-provided details:</span> Student suffers from PTSD
+                    </Card.Text>}
+                    </Card.Body>
+                    <ListGroup variant="flush">
+                    {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
+                    {student.hasHealthIssues && <ListGroup.Item>Student suffers from health issues</ListGroup.Item>}
+                    {student.hasDisability && <ListGroup.Item>Student suffers from a disability</ListGroup.Item>}
+                    </ListGroup>
+                </Card>
 
-            <Card className='mt-3 w-75'> 
-                <Card.Header as="h5">Application Details</Card.Header>
-                <Card.Body>
-                <Card.Title>Student Circumstances</Card.Title>
-                <Card.Subtitle className="mb-2 text-muted">
-                    Affected Date: {formatDate(ecApplication.affectedDateStart)} - {formatDate(ecApplication.affectedDateEnd)}
-                    </Card.Subtitle>
-                <Card.Text>
-                    {ecApplication.circumstancesDetails}
-                </Card.Text>
-                {showFileAlert && 
-                    <Alert variant="danger" onClose={() => setShowFileAlert(false)} style={{width: "25rem"}} dismissible>
-                        There was an error when downloading the file
-                    </Alert>
-                }
-                <ListGroup className='mb-2'>
-                    {evidence.map((ev, index) => 
-                    <ListGroup.Item style={{width: "10rem"}} key={ev.id}> 
-                    <span className='fw-semibold'> Evidence #{index + 1} </span>
-                    <Button variant="light" className=' mb-1' size='sm' onClick={() => downloadEvidence(ev.fileName)}>
-                        <img src='/download.svg'/>
-                    </Button>
-                    </ListGroup.Item>
-                    )}
-                </ListGroup>
-                {!ecApplication.requiresFurtherEvidence ?  
-                    <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
-                    : <Button variant='disabled' className='me-2 btn-outline-info' style={{"pointerEvents": "none"}}>More evidence has been requested </Button>
-                } 
-                </Card.Body>
-            </Card>
+                <Card className='mt-3 w-75'> 
+                    <Card.Header as="h5">Application Details</Card.Header>
+                    <Card.Body>
+                    <Card.Title>Student Circumstances</Card.Title>
+                    <Card.Subtitle className="mb-2 text-muted">
+                        Affected Date: {formatDate(ecApplication.affectedDateStart)} - {formatDate(ecApplication.affectedDateEnd)}
+                        </Card.Subtitle>
+                    <Card.Text>
+                        {ecApplication.circumstancesDetails}
+                    </Card.Text>
+                    {showFileAlert && 
+                        <Alert variant="danger" onClose={() => setShowFileAlert(false)} style={{width: "25rem"}} dismissible>
+                            There was an error when downloading the file
+                        </Alert>
+                    }
+                    <ListGroup className='mb-2'>
+                        {evidence.map((ev, index) => 
+                        <ListGroup.Item style={{width: "10rem"}} key={ev.id}> 
+                        <span className='fw-semibold'> Evidence #{index + 1} </span>
+                        <Button variant="light" className=' mb-1' size='sm' onClick={() => downloadEvidence(ev.fileName)}>
+                            <img src='/download.svg'/>
+                        </Button>
+                        </ListGroup.Item>
+                        )}
+                    </ListGroup>
+                    {!ecApplication.requiresFurtherEvidence ?  
+                        <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
+                        : <Button variant='disabled' className='me-2 btn-outline-info' style={{"pointerEvents": "none"}}>More evidence has been requested </Button>
+                    } 
+                    </Card.Body>
+                </Card>
 
-            <Card className='mt-3 mb-3 w-75'> 
-                <Card.Header as="h5">Module Requests</Card.Header>
-                <Card.Body>
-                <ListGroup>
-                    {moduleRequests.map((moduleRequest, index) => {
-                        const finalDecision = getDecisionMade(moduleRequest.id)
+                <Card className='mt-3 mb-3 w-75'> 
+                    <Card.Header as="h5">Module Requests</Card.Header>
+                    <Card.Body>
+                    <ListGroup>
+                        {moduleRequests.map((moduleRequest, index) => {
+                            const finalDecision = getDecisionMade(moduleRequest.id)
 
-                        return (
-                            <ListGroup.Item key={moduleRequest.id}>
-                                <Card.Title>ID#{moduleRequest.id} {moduleRequest.requestedOutcome}</Card.Title>
-                                <Card.Subtitle className="mb-2 text-muted">
-                                    {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
-                                </Card.Subtitle>
-                                {finalDecision == true && 
-                                    <h5><Badge bg='success'>Approved</Badge> </h5>
-                                }
-                                {finalDecision == false && 
-                                    <h5><Badge bg='danger'>Rejected</Badge> </h5>
-                                }
-                                {finalDecision == null && !hasDecided(moduleRequest.id) &&
-                                <>                                    
-                                    <Form.Group className='mb-2'>
-                                        <Form.Text muted> 
-                                            Please type any comments explaining your decision here
-                                        </Form.Text>
-                                        <Form.Control 
-                                            as="textarea" 
-                                            rows={3}
-                                            value={comments[index]}
-                                            onChange={(event) => handleCommentsChange(event, index)}
-                                        />
-                                    </Form.Group>
-                                    <ButtonGroup className='mb-1'>
-                                        <Button variant='success' onClick={() => handleApprove(index, moduleRequest.id)} >Approve</Button>
-                                        <Button variant='danger' onClick={() => handleReject(index, moduleRequest.id)}>Reject</Button>
-                                    </ButtonGroup>
-                                </>  
-                                }
-                                {finalDecision == null && hasDecided(moduleRequest.id) &&
-                                    <h5><Badge bg='warning'>Pending decisions from other academic staff members</Badge></h5>
-                                }
-                            </ListGroup.Item>
-                        )
-                    })}
-                </ListGroup>
-                </Card.Body>
-            </Card>       
+                            return (
+                                <ListGroup.Item key={moduleRequest.id}>
+                                    <Card.Title>ID#{moduleRequest.id} {moduleRequest.requestedOutcome}</Card.Title>
+                                    <Card.Subtitle className="mb-2 text-muted">
+                                        {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
+                                    </Card.Subtitle>
+                                    {finalDecision == true && 
+                                        <h5><Badge bg='success'>Approved</Badge> </h5>
+                                    }
+                                    {finalDecision == false && 
+                                        <h5><Badge bg='danger'>Rejected</Badge> </h5>
+                                    }
+                                    {finalDecision == null && !hasDecided(moduleRequest.id) &&
+                                    <>                                    
+                                        <Form.Group className='mb-2'>
+                                            <Form.Text muted> 
+                                                Please type any comments explaining your decision here
+                                            </Form.Text>
+                                            <Form.Control 
+                                                as="textarea" 
+                                                rows={3}
+                                                value={comments[index]}
+                                                onChange={(event) => handleCommentsChange(event, index)}
+                                            />
+                                        </Form.Group>
+                                        <ButtonGroup className='mb-1'>
+                                            <Button variant='success' onClick={() => handleApprove(index, moduleRequest.id)} >Approve</Button>
+                                            <Button variant='danger' onClick={() => handleReject(index, moduleRequest.id)}>Reject</Button>
+                                        </ButtonGroup>
+                                    </>  
+                                    }
+                                    {finalDecision == null && hasDecided(moduleRequest.id) &&
+                                        <h5><Badge bg='warning'>Pending decisions from other academic staff members</Badge></h5>
+                                    }
+                                </ListGroup.Item>
+                            )
+                        })}
+                    </ListGroup>
+                    </Card.Body>
+                </Card>       
             </Col>
         </Row>
         </Container>

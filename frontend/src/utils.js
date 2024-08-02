@@ -1,6 +1,14 @@
 
 export function formatDate(date) {
-    return (date?.length === 3) ? (date[2] + "/" + date[1] + "/" + date[0]) : null
+    if (date?.length != 3) 
+        return null 
+    else {
+        const year = date[2].toString().padStart(2, '0')
+        const month = date[1].toString().padStart(2, '0')
+        const day = date[0].toString().padStart(2, '0')
+
+        return (year + "/" + month + "/" + day) 
+    }
 }
 
 export function wait(duration) {
