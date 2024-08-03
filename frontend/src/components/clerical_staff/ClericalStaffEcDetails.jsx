@@ -204,13 +204,13 @@ export default function ClericalStaffEcDetails() {
               <Card.Subtitle className="mb-2 text-muted">Student ID #{student.id}</Card.Subtitle>
               {student.additionalDetails &&
               <Card.Text>
-                <span className="fw-medium">Student-provided details:</span> Student suffers from PTSD
+                {student.additionalDetails}
               </Card.Text>}
             </Card.Body>
             <ListGroup variant="flush">
               {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
-              {student.hasHealthIssues && <ListGroup.Item>Student suffers from health issues</ListGroup.Item>}
-              {student.hasDisability && <ListGroup.Item>Student suffers from a disability</ListGroup.Item>}
+              {student.hasHealthIssues && <ListGroup.Item>Student has health issues</ListGroup.Item>}
+              {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
             </ListGroup>
           </Card>
 

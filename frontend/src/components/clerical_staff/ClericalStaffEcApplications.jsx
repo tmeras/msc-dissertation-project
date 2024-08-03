@@ -88,24 +88,22 @@ export default function ClericalStaffEcApplications() {
     ))
 
     return (
-        <>
         <Container className="mt-3">
             <h2 className="text-center">Extenuating Circumstances Applications</h2>
             <Table striped hover className="mt-3 shadow">
                 <thead className="table-light">
-                <tr>
-                    <th>#</th>
-                    <th>Submitted By</th>
-                    <th>Submitted On</th>
-                    <th>Status</th>
-                </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Submitted By</th>
+                        <th>Submitted On</th>
+                        <th>Status</th>
+                    </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                {posts}
+                    {posts}
                 </tbody>
             </Table>
-            </Container>
-        </>
+        </Container>
     )
 }
 

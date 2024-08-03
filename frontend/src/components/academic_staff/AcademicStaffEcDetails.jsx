@@ -13,7 +13,7 @@ import { getModulesByCodes } from '../../api/modules'
 import { createModuleDecision, getModuleDecisionsByEcApplicationIds } from '../../api/moduleDecisions'
 
 
-export default function ClericalStaffEcDetails() {
+export default function AcademicStaffEcDetails() {
     const {user} = useAuth()
     const queryClient = useQueryClient()
     const [showFileAlert, setShowFileAlert] = useState(false)
@@ -173,7 +173,7 @@ export default function ClericalStaffEcDetails() {
         })
     }
 
-    // Determine if a final decision has been made for this module request
+    // Determine if a final decision has been made for a module request
     function getDecisionMade(requestId) {
         let approvals = 0;
         let rejections = 0;
@@ -196,7 +196,7 @@ export default function ClericalStaffEcDetails() {
 
     }
 
-    // Determine if the staff member has decided before on this request
+    // Determine if the staff member has decided before on a request
     function hasDecided(requestId) {
         let hasDecided = false
         moduleDecisions.forEach(decision => {
@@ -252,13 +252,13 @@ export default function ClericalStaffEcDetails() {
                     <Card.Subtitle className="mb-2 text-muted">Student ID #{student.id}</Card.Subtitle>
                     {student.additionalDetails &&
                     <Card.Text>
-                        <span className="fw-medium">Student-provided details:</span> Student suffers from PTSD
+                        {student.additionalDetails}
                     </Card.Text>}
                     </Card.Body>
                     <ListGroup variant="flush">
                     {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
-                    {student.hasHealthIssues && <ListGroup.Item>Student suffers from health issues</ListGroup.Item>}
-                    {student.hasDisability && <ListGroup.Item>Student suffers from a disability</ListGroup.Item>}
+                    {student.hasHealthIssues && <ListGroup.Item>Student has health issues</ListGroup.Item>}
+                    {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
                     </ListGroup>
                 </Card>
 

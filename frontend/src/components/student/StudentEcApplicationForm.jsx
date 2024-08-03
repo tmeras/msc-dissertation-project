@@ -100,21 +100,21 @@ export default function StudentEcApplicationForm() {
   )}
 
   // Handle change for the module outcome request select
-  const handleOutcomeRequestChange = (index, event) => {
+  function handleOutcomeRequestChange(index, event) {
     const newModuleRequests = [...moduleRequests];
     newModuleRequests[index].requestedOutcome = event.target.value;
     setModuleRequests(newModuleRequests)
   }
 
   // Handle change for the module select
-  const handleModuleChange = (index, event) => {
+  function handleModuleChange(index, event) {
     const newModuleRequests = [...moduleRequests];
     newModuleRequests[index].moduleCode = event.target.value;
     setModuleRequests(newModuleRequests)
   }
 
   // Handle change for the text area and date inputs
-  const handleChange = (event) => {
+  function handleChange(event) {
     const { name, value } = event.target;
     setFormData(prevFormData => ({
       ...prevFormData,
@@ -123,7 +123,7 @@ export default function StudentEcApplicationForm() {
   }
 
   // Handle file input change
-  const handleFileChange = (event) => {
+  function handleFileChange(event) {
     setFormData(prevFormData => ({
       ...prevFormData,
       files: event.target.files
@@ -131,7 +131,7 @@ export default function StudentEcApplicationForm() {
   }
 
   // Handle form submission
-  const handleSubmit = (event) => {
+  function handleSubmit(event) {
     event.preventDefault()
 
     console.log('Selected modules:', moduleRequests)
@@ -141,16 +141,21 @@ export default function StudentEcApplicationForm() {
     const startDate = new Date(formData.startDate);
     const endDate = new Date(formData.endDate);
     if (startDate > endDate) {
-      setShowDateAlert(true)
+      setShowDateAlert(true) //TODO: DOES SUBMISSION GO THROUGH?
       return;
     }
 
     // Validate file sizes
+    let fileValidationFailed = false
     Array.from(formData.files).forEach(file => {
-      if (bytesToMb(file.size) > 50 )
+      if (bytesToMb(file.size) > 50 ){
+        fileValidationFailed = true
         setShowFileAlert(true)
-      return;
+        return
+      }
     })
+    if (fileValidationFailed)
+      return
 
     // Create the EC application
     createEcApplicationMutation.mutate({
@@ -203,7 +208,7 @@ export default function StudentEcApplicationForm() {
                 onChange={handleChange}
                 required
               />
-              <Form.Text id='circumstancesHelpBlock' muted>
+              <Form.Text muted>
                 Please thoroughly explain your extenuating circumstances. Details on the university's policy regarding exteunating circumstances can be
                 found <a href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#extenuating-circumstances-policy-and-procedure'
                 target='_blank'>here. </a>
@@ -215,10 +220,10 @@ export default function StudentEcApplicationForm() {
               <Form.Label>Period Affected By Circumstances</Form.Label>
               <Row>
                 <Col>
-                <Form.Text id='startDateHelpBlock' muted>Start Date</Form.Text>
+                <Form.Text muted>Start Date</Form.Text>
                 </Col>
                 <Col>
-                <Form.Text id='startDateHelpBlock' muted>End Date</Form.Text>
+                <Form.Text muted>End Date</Form.Text>
                 </Col>
               </Row>
               <Row>
@@ -254,19 +259,19 @@ export default function StudentEcApplicationForm() {
               <Form.Label>Module Outcome Requests</Form.Label>
               <Row>
                 <Col>
-                <Form.Text id='moduleHelpBlock' muted>Module</Form.Text>
+                <Form.Text muted>Module</Form.Text>
                 </Col>
                 <Col>
-                <Form.Text id='requestHelpBlock' muted>Request</Form.Text>
+                <Form.Text muted>Request</Form.Text>
                 </Col>
               </Row>
               {moduleRequests.map((value, index) => 
                 <Row key={index} className='mb-1'>
                   <Col>
                     <Form.Select
-                    value={moduleRequests[index].requestedOutcome}
-                    onChange={(event) => handleOutcomeRequestChange(index, event)}
-                    required
+                      value={moduleRequests[index].requestedOutcome}
+                      onChange={(event) => handleOutcomeRequestChange(index, event)}
+                      required
                     >
                       <option value="">Select an option</option>
                       <option value="Deadline Extension">Deadline Extension</option>
@@ -301,7 +306,7 @@ export default function StudentEcApplicationForm() {
             <Form.Group className='mb-3' controlId='ecForm.FileMutilple'>
                 <Form.Label>Evidence</Form.Label>
                 <Form.Control type='file' multiple onChange={handleFileChange} />
-                <Form.Text id='filesHelpBlock' muted>Please submit your evidence here (max 50MB per file)</Form.Text>
+                <Form.Text muted>Please submit your evidence here (max 50MB per file)</Form.Text>
             </Form.Group>
             {showFileAlert && 
                 <Alert variant="danger" onClose={() => setShowFileAlert(false)} style={{width: "20rem"}} dismissible>
