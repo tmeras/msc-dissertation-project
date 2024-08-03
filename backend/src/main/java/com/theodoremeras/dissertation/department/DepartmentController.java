@@ -60,6 +60,19 @@ public class DepartmentController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PatchMapping(path = "/departments/{id}")
+    public ResponseEntity<DepartmentDto> partialUpdateDepartment(
+            @PathVariable("id") Integer id, @RequestBody DepartmentDto departmentDto
+    ) {
+        if (!departmentService.exists(id))
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        departmentDto.setId(id);
+        DepartmentEntity departmentEntity = departmentMapper.mapFromDto(departmentDto);
+        DepartmentEntity updatedDepartmentEntity = departmentService.partialUpdate(id ,departmentEntity);
+        return new ResponseEntity<>(departmentMapper.mapToDto(updatedDepartmentEntity), HttpStatus.OK);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(

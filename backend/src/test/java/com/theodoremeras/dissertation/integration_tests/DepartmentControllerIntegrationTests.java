@@ -104,6 +104,28 @@ public class DepartmentControllerIntegrationTests {
     }
 
     @Test
+    public void testPartialUpdateDepartment() throws Exception {
+        DepartmentEntity testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
+        DepartmentEntity savedDepartmentEntity = departmentService.save(testDepartmentEntity);
+
+        DepartmentDto testDepartmentDto = TestDataUtil.createTestDepartmentDtoB();
+        String departmentUpdateJson = objectMapper.writeValueAsString(testDepartmentDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .patch("/departments/" + savedDepartmentEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(departmentUpdateJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(savedDepartmentEntity.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.name").value(testDepartmentDto.getName())
+        );
+    }
+
+    @Test
     public void testDeleteDepartment() throws Exception {
         DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
         DepartmentEntity savedDepartment = departmentService.save(testDepartment);

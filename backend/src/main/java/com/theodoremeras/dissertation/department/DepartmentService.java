@@ -33,6 +33,15 @@ public class DepartmentService {
         return departmentRepository.existsById(id);
     }
 
+    public DepartmentEntity partialUpdate(Integer id, DepartmentEntity departmentEntity) {
+        departmentEntity.setId(id);
+
+        return departmentRepository.findById(id).map(existingDepartment -> {
+            Optional.ofNullable(departmentEntity.getName()).ifPresent(existingDepartment::setName);
+            return departmentRepository.save(existingDepartment);
+        }).orElseThrow(() -> new RuntimeException("Could not find department with id " + id));
+    }
+
     public void delete(Integer id) {
         departmentRepository.deleteById(id);
     }
