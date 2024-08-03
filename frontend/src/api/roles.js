@@ -6,3 +6,9 @@ export function getRoleByName(roleName) {
     .then(res => res.data)
 }
 
+export function getRoles() {
+    return axios
+    .get(`/roles`)
+    .then(res => res.data)
+}
+

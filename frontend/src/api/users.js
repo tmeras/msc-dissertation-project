@@ -1,5 +1,11 @@
 import axios from "./axiosConfig"
 
+export function getUsers() {
+    return axios
+    .get(`/users`)
+    .then(res => res.data)
+}
+
 export function getUsersByIds(ids) {
     return axios
     .get(`/users?ids=${ids}`)
@@ -15,6 +21,12 @@ export function getUser(id) {
 export function getUserByDepartmentIdAndRoleId(departmentId, roleId) {
     return axios
     .get(`/users?departmentId=${departmentId}&roleId=${roleId}`)
+    .then(res => res.data)
+}
+
+export function updateUser(data) {
+    return axios
+    .patch(`/users/${data.id}`, data)
     .then(res => res.data)
 }
 

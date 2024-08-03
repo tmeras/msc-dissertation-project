@@ -48,10 +48,10 @@ export default function StudentInformation() {
         )
     
     if (studentInformationQuery.isError)
-        return <h1>Error fetching student information: {studentInformationQuery.error.response?.status}</h1>
+        return <h1>Error fetching your information: {studentInformationQuery.error.response?.status}</h1>
     
     if (updateStudentInformationMutation.isError)
-        return <h1>Error updating personal information: {updateStudentInformationMutation.error.response?.status}</h1>
+        return <h1>Error updating your information: {updateStudentInformationMutation.error.response?.status}</h1>
 
 
     console.log("Student info:", formData)

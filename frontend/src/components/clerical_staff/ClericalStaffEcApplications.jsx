@@ -34,6 +34,7 @@ export default function ClericalStaffEcApplications() {
         enabled: !(studentIds.length == 0)
     }) 
 
+    
     if (ecApplicationsQuery.isLoading || moduleRequestsQuery.isLoading ||studentsQuery.isLoading )
         return (
             <Container className='mt-3'>

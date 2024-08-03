@@ -12,6 +12,8 @@ import AcademicStaffEcApplications from "./components/academic_staff/AcademicSta
 import AcademicStaffEcDetails from "./components/academic_staff/AcademicStaffEcDetails"
 import StudentInformation from "./components/student/StudentInformation"
 import StudentEcApplications from "./components/student/StudentEcApplications"
+import StudentEcDetails from "./components/student/StudentEcDetails"
+import AdminUsers from "./components/admin/AdminUsers"
 
 export default function App() {
 
@@ -24,8 +26,10 @@ export default function App() {
         {/* <AcademicStaffEcApplications /> */}
         {/* <AcademicStaffEcDetails /> */}
         {/* <StudentEcApplicationForm /> */}
-        <StudentEcApplications />
+        {/* <StudentEcApplications /> */}
+        {/* <StudentEcDetails /> */}
         {/* <StudentInformation /> */}
+        <AdminUsers />
       </AuthProvider>
     </>
   )
