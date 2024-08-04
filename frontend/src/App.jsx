@@ -14,6 +14,8 @@ import StudentInformation from "./components/student/StudentInformation"
 import StudentEcApplications from "./components/student/StudentEcApplications"
 import StudentEcDetails from "./components/student/StudentEcDetails"
 import AdminUsers from "./components/admin/AdminUsers"
+import AdminModules from "./components/admin/AdminModules"
+import AdminDepartments from "./components/admin/AdminDepartments"
 
 export default function App() {
 
@@ -29,7 +31,9 @@ export default function App() {
         {/* <StudentEcApplications /> */}
         {/* <StudentEcDetails /> */}
         {/* <StudentInformation /> */}
-        <AdminUsers />
+        {/* <AdminUsers /> */}
+        <AdminModules />
+        {/* <AdminDepartments /> */}
       </AuthProvider>
     </>
   )

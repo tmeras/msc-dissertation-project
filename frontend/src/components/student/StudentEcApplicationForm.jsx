@@ -141,7 +141,7 @@ export default function StudentEcApplicationForm() {
     const startDate = new Date(formData.startDate);
     const endDate = new Date(formData.endDate);
     if (startDate > endDate) {
-      setShowDateAlert(true) //TODO: DOES SUBMISSION GO THROUGH?
+      setShowDateAlert(true) //TODO: DOES SUBMISSION GO THROUGH? + CUSTOM VALIDATION
       return;
     }
 
@@ -175,17 +175,17 @@ export default function StudentEcApplicationForm() {
               formData: fData,
               ecApplicationId: data.id
           })
-      })
-
-      // Create the module requests
-      moduleRequests.forEach(request => {
-        createModuleRequestMutation.mutate({
-          requestedOutcome: request.requestedOutcome,
-          moduleCode: request.moduleCode,
-          ecApplicationId: data.id
         })
-      })
-    }
+
+        // Create the module requests
+        moduleRequests.forEach(request => {
+          createModuleRequestMutation.mutate({
+            requestedOutcome: request.requestedOutcome,
+            moduleCode: request.moduleCode,
+            ecApplicationId: data.id
+          })
+        })
+      }
     })
   }
 
@@ -255,7 +255,7 @@ export default function StudentEcApplicationForm() {
             </Form.Group>
             <hr className='mb-3'/>
 
-            <Form.Group className='mb-5' controlId='ecForm.SelectArea1'>
+            <Form.Group className='mb-5' controlId='ecForm.Select1'>
               <Form.Label>Module Outcome Requests</Form.Label>
               <Row>
                 <Col>
