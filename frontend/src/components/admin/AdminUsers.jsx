@@ -10,16 +10,19 @@ export default function AdminUsers() {
     const {setUser, user} = useAuth()
     const queryClient = useQueryClient()
 
+    // Get all the users
     const usersQuery = useQuery({
         queryKey: ["users"],
         queryFn: () => getUsers()
     })
 
+    // Get all the departments
     const departmentsQuery = useQuery({
         queryKey: ["departments"],
         queryFn: () => getDepartments()
     })
 
+    // Get all the roles
     const rolesQuery = useQuery({
         queryKey: ["roles"],
         queryFn: () => getRoles()

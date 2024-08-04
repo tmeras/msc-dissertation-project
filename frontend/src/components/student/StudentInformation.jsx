@@ -4,6 +4,7 @@ import { useAuth } from '../../providers/AuthProvider'
 import { getStudentInformationByStudentId, updateStudentInformation } from '../../api/studentInformation'
 import { Container, Row, Col, Spinner, Form, Button, Alert } from 'react-bootstrap'
 
+
 export default function StudentInformation() {
     const {user} = useAuth()
     const queryClient = useQueryClient()    

@@ -12,3 +12,15 @@ export function getModules() {
     .then(res => res.data)
 }
 
+export function createModule(data) {
+    return axios
+    .post(`/modules`, data)
+    .then(res => res.data)
+}
+
+export function updateModule(data) {
+    return axios
+    .patch(`/modules/${data.code}`, data)
+    .then(res => res.data)
+}
+
