@@ -27,12 +27,12 @@ export default function App() {
         {/* <ClericalStaffEcDetails /> */}
         {/* <AcademicStaffEcApplications /> */}
         {/* <AcademicStaffEcDetails /> */}
-        {/* <StudentEcApplicationForm /> */}
+        <StudentEcApplicationForm />
         {/* <StudentEcApplications /> */}
         {/* <StudentEcDetails /> */}
         {/* <StudentInformation /> */}
         {/* <AdminUsers /> */}
-        <AdminModules />
+        {/* <AdminModules /> */}
         {/* <AdminDepartments /> */}
       </AuthProvider>
     </>

@@ -11,6 +11,7 @@ import { createModuleRequest } from '../../api/moduleRequests'
 export default function StudentEcApplicationForm() {
   const {user} = useAuth()
   const queryClient = useQueryClient()
+  const [showCircumstancesAlert, setShowCircumstancesAlert] = useState(false)
   const [showDateAlert, setShowDateAlert] = useState(false)
   const [showFileAlert, setShowFileAlert] = useState(false)
 
@@ -54,7 +55,6 @@ export default function StudentEcApplicationForm() {
     mutationFn: createModuleRequest,
     onSuccess: data => {
       queryClient.invalidateQueries(["moduleRequests"])
-      console.log("RESULT: ", data)
     }
   })
 
@@ -134,16 +134,21 @@ export default function StudentEcApplicationForm() {
   function handleSubmit(event) {
     event.preventDefault()
 
-    console.log('Selected modules:', moduleRequests)
-    console.log('rest: ', formData)
+    // Validate circumstances details
+    if (formData.circumstancesDetails.trim() === "") {
+      setShowCircumstancesAlert(true)
+      return
+    }
+    setShowCircumstancesAlert(false)
 
     // Validate start and end dates
     const startDate = new Date(formData.startDate);
     const endDate = new Date(formData.endDate);
     if (startDate > endDate) {
-      setShowDateAlert(true) //TODO: DOES SUBMISSION GO THROUGH? + CUSTOM VALIDATION
+      setShowDateAlert(true)
       return;
     }
+    setShowDateAlert(false)
 
     // Validate file sizes
     let fileValidationFailed = false
@@ -213,7 +218,12 @@ export default function StudentEcApplicationForm() {
                 found <a href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#extenuating-circumstances-policy-and-procedure'
                 target='_blank'>here. </a>
               </Form.Text>
-            </Form.Group>
+              {showCircumstancesAlert && 
+                <Alert className=' mt-2' variant="danger" onClose={() => setShowCircumstancesAlert(false)} style={{width: "20rem"}}>
+                    Please explain your circumstances!
+                </Alert>
+              }            
+              </Form.Group>
             <hr/>
 
             <Form.Group className='mb-5' controlId='ecForm.DateArea1'>
@@ -248,7 +258,7 @@ export default function StudentEcApplicationForm() {
                 </Col>
               </Row>
               {showDateAlert && 
-                <Alert className=' mt-2' variant="danger" onClose={() => setShowDateAlert(false)} style={{width: "20rem"}} dismissible>
+                <Alert className=' mt-2' variant="danger" onClose={() => setShowDateAlert(false)} style={{width: "20rem"}}>
                     Start date cannot be after end date
                 </Alert>
               }
@@ -309,7 +319,7 @@ export default function StudentEcApplicationForm() {
                 <Form.Text muted>Please submit your evidence here (max 50MB per file)</Form.Text>
             </Form.Group>
             {showFileAlert && 
-                <Alert variant="danger" onClose={() => setShowFileAlert(false)} style={{width: "20rem"}} dismissible>
+                <Alert variant="danger" onClose={() => setShowFileAlert(false)} style={{width: "20rem"}}>
                     One of the files is larger than 50MB
                 </Alert>
             }
