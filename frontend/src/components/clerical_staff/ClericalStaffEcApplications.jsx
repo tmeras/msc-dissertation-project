@@ -6,10 +6,13 @@ import { useAuth } from "../../providers/AuthProvider"
 import { getEcApplications, getEcApplicationsByStudentDepartmentId } from '../../api/ecApplications'
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
+import { Link, useNavigate } from "react-router-dom"
 
 
 export default function ClericalStaffEcApplications() {
     const {setUser, user} = useAuth()
+    const navigate = useNavigate()
+    console.log(user)
 
     // Get all EC applications submitted by students in the same department as the staff member
     const ecApplicationsQuery = useQuery({
@@ -54,6 +57,8 @@ export default function ClericalStaffEcApplications() {
     
     if (studentsQuery.isError)
         return <h1>Error fetching students: {studentsQuery.error.response?.status}</h1>
+    
+    const ecApplications = ecApplicationsQuery.data
 
     // Any requests for deadline extensions are urgent
     function isEcApplicationUrgent(ecApplicationId) {
@@ -69,25 +74,6 @@ export default function ClericalStaffEcApplications() {
         return isUrgent
     }
 
-    const posts = ecApplicationsQuery.data.map(ecApplication => (
-        <tr key={ecApplication.id} >
-            <td>{ecApplication.id}</td>
-            <td>{studentsQuery.data.find(student => student.id == ecApplication.studentId).name}</td>
-            <td>{formatDate(ecApplication.submittedOn)}</td>
-            <td>
-                {ecApplication.isReferred!= null ? (
-                    ecApplication.isReferred != null && <Badge bg='success' className="me-1">Decision submitted</Badge>
-                ): (
-                    <>
-                    <Badge bg='primary' className="me-1">Pending Decision</Badge>
-                    {ecApplication.requiresFurtherEvidence && <Badge bg='info' className="me-1">Further evidence requested</Badge>}
-                    {isEcApplicationUrgent(ecApplication.id) && <Badge bg='danger' className="me-1">Urgent</Badge>}
-                    </>
-                )}
-            </td>
-        </tr>
-    ))
-
     return (
         <Container className="mt-3">
             <h2 className="text-center">Extenuating Circumstances Applications</h2>
@@ -101,7 +87,28 @@ export default function ClericalStaffEcApplications() {
                     </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                    {posts}
+                    {ecApplications.sort((a, b) => a.id - b.id).map(ecApplication => (
+                        <tr
+                            key={ecApplication.id} 
+                            onClick={() => navigate(`/clerical-staff/ec-applications/${ecApplication.id}`)} 
+                            style={{cursor: "pointer"}}
+                        >
+                            <td>{ecApplication.id}</td>
+                            <td>{studentsQuery.data.find(student => student.id == ecApplication.studentId).name}</td>
+                            <td>{formatDate(ecApplication.submittedOn)}</td>
+                            <td>
+                                {ecApplication.isReferred!= null ? (
+                                    ecApplication.isReferred != null && <Badge bg='success' className="me-1">Decision submitted</Badge>
+                                ): (
+                                    <>
+                                    <Badge bg='primary' className="me-1">Pending Decision</Badge>
+                                    {ecApplication.requiresFurtherEvidence && <Badge bg='info' className="me-1">Further evidence requested</Badge>}
+                                    {isEcApplicationUrgent(ecApplication.id) && <Badge bg='danger' className="me-1">Urgent</Badge>}
+                                    </>
+                                )}
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
         </Container>

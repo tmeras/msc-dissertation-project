@@ -14,9 +14,12 @@
     "@tanstack/react-query-devtools": "^5.51.15",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "dom": "^0.0.3",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.4",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router": "^6.26.0",
+    "react-router-dom": "^6.26.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

@@ -1,16 +1,18 @@
 import { formatDate } from "../../utils"
 import Table from "react-bootstrap/Table"
-import { Badge, Container, Spinner, Row, Col, ProgressBar } from 'react-bootstrap'
+import { Badge, Container, Spinner, Row, Col, ProgressBar, Button } from 'react-bootstrap'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useAuth } from "../../providers/AuthProvider"
 import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDepartmentId, getEcApplicationsByStudentDepartmentIdAndIsReferred, getEcApplicationsByStudentId } from '../../api/ecApplications'
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
 import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
+import { useNavigate } from "react-router"
 
 
 export default function StudentEcApplications() {
     const {setUser, user} = useAuth()
+    const navigate = useNavigate()
 
     // Get all EC applications submitted by the student
     const ecApplicationsQuery = useQuery({
@@ -102,23 +104,35 @@ export default function StudentEcApplications() {
     return (
         <>
         <Container className="mt-3">
-            <h2 className="text-center">Extenuating Circumstances Applications</h2>
+            <h2 className="text-center mb-3">Extenuating Circumstances Applications</h2>
+
+            <div className="d-flex justify-content-end">
+                <Button variant='primary' className='ms-auto' onClick={() => navigate("/student/ec-form")}>
+                    <img src='/plus.svg' className='mb-1 me-1'/>
+                    Submit New Application
+                </Button>
+            </div>
+
             <Table striped hover className="mt-3 shadow">
                 <thead className="table-light">
                 <tr>
                     <th scope="col" className="col-1">#</th>
-                    <th scope="col" className="col-2"> Submitted On</th>
+                    <th scope="col" className="col-1"> Submitted On</th>
                     <th scope="col" className="col-2">Progress</th>
-                    <th scope="col" className="col-6">Status</th>
+                    <th scope="col" className="col-3">Status</th>
                 </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                {ecApplications.map(ecApplication =>{ 
+                {ecApplications.sort((a, b) => a.id - b.id).map(ecApplication =>{ 
                     let {finalDecisionsRequired, finalDecisionsMade} = calculateProgress(ecApplication.id)
                     let percentage = parseInt(parseFloat(finalDecisionsMade) / finalDecisionsRequired * 100)
 
                     return (
-                        <tr key={ecApplication.id}>
+                        <tr
+                            key={ecApplication.id} 
+                            onClick={() => navigate(`/student/ec-applications/${ecApplication.id}`)} 
+                            style={{cursor: "pointer"}}
+                        >
                             <td>{ecApplication.id}</td>
                             <td >{formatDate(ecApplication.submittedOn)}</td>
                             <td> <ProgressBar className="mt-1" now={percentage} label={`${percentage}%`} variant={`${percentage == 100 && "success"}`}/> </td>

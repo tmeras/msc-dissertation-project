@@ -11,10 +11,13 @@ import { getEvidenceByEcApplicationId } from '../../api/evidence'
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
 import { getModulesByCodes } from '../../api/modules'
 import { createModuleDecision, getModuleDecisionsByEcApplicationIds } from '../../api/moduleDecisions'
+import { useParams } from 'react-router'
+import ErrorPage from '../routing/ErrorPage'
 
 
 export default function AcademicStaffEcDetails() {
     const {user} = useAuth()
+    const {id} = useParams()
     const queryClient = useQueryClient()
     const [showFileAlert, setShowFileAlert] = useState(false)
     const [comments, setComments] = useState([''])
@@ -22,8 +25,8 @@ export default function AcademicStaffEcDetails() {
 
     // Get the details of the EC application
     const ecApplicationQuery = useQuery({
-        queryKey: ["ecApplications", 1],
-        queryFn: () => getEcApplication(1)
+        queryKey: ["ecApplications", id],
+        queryFn: () => getEcApplication(id)
     })
 
     // Get the details of the student who submitted the EC application
@@ -124,13 +127,19 @@ export default function AcademicStaffEcDetails() {
     if (updateEcApplicationMutation.isError)
         return <h1>Error updating EC application: {updateEcApplicationMutation.error.response?.status}</h1>
 
-
     const student = {...studentQuery.data, ...studentInformationQuery.data[0]}
     const ecApplication = {...ecApplicationQuery.data}
     const evidence = evidenceQuery.data
     const moduleRequests = moduleRequestsQuery.data
     const modules = modulesQuery.data
     const moduleDecisions = moduleDecisionsQuery.data
+
+    // Staff is not allowed to view applications submitted by a student in another department
+    if (student.departmentId != user.departmentId)
+        return <ErrorPage 
+                    errorMessage="You are not allowed to access this EC application.
+                    It was submitted by a student in another department"
+                />
 
 
     function downloadEvidence(fileName) {

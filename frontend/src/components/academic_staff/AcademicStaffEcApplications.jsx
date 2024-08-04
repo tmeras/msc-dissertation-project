@@ -7,10 +7,12 @@ import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDe
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
 import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
+import { useNavigate } from "react-router"
 
 
 export default function AcademicStaffEcApplications() {
     const {setUser, user} = useAuth()
+    const navigate = useNavigate()
 
     // Get all EC applications submitted by students in the same department as the staff member
     // and which have been referred by clerical staff
@@ -141,11 +143,16 @@ export default function AcademicStaffEcApplications() {
                 </tr>
                 </thead>
                 <tbody className="table-group-divider">
-                {ecApplications.map(ecApplication =>{ 
+                {ecApplications.sort((a, b) => a.id - b.id).map(ecApplication =>{ 
                     let {finalDecisionsRequired, finalDecisionsMade} = calculateProgress(ecApplication.id)
                     let percentage = parseInt(parseFloat(finalDecisionsMade) / finalDecisionsRequired * 100)
+
                     return (
-                        <tr key={ecApplication.id} >
+                        <tr
+                            key={ecApplication.id} 
+                            onClick={() => navigate(`/academic-staff/ec-applications/${ecApplication.id}`)} 
+                            style={{cursor: "pointer"}}
+                        >
                             <td>{ecApplication.id}</td>
                             <td>{students.find(student => student.id == ecApplication.studentId).name}</td>
                             <td>{formatDate(ecApplication.submittedOn)}</td>

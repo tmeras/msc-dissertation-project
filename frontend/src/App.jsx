@@ -16,25 +16,14 @@ import StudentEcDetails from "./components/student/StudentEcDetails"
 import AdminUsers from "./components/admin/AdminUsers"
 import AdminModules from "./components/admin/AdminModules"
 import AdminDepartments from "./components/admin/AdminDepartments"
+import Routes from "./components/routing/Routes"
+
 
 export default function App() {
 
   return (
     <>
-      <AuthProvider>
-        <ClericalStaffNavBar />
-        {/* <ClericalStaffEcApplications /> */}
-        {/* <ClericalStaffEcDetails /> */}
-        {/* <AcademicStaffEcApplications /> */}
-        {/* <AcademicStaffEcDetails /> */}
-        <StudentEcApplicationForm />
-        {/* <StudentEcApplications /> */}
-        {/* <StudentEcDetails /> */}
-        {/* <StudentInformation /> */}
-        {/* <AdminUsers /> */}
-        {/* <AdminModules /> */}
-        {/* <AdminDepartments /> */}
-      </AuthProvider>
+      <Routes />
     </>
   )
 }

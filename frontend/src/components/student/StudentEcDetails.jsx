@@ -11,10 +11,13 @@ import { createEvidence, getEvidenceByEcApplicationId } from '../../api/evidence
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
 import { getModulesByCodes } from '../../api/modules'
 import { createModuleDecision, getModuleDecisionsByEcApplicationIds } from '../../api/moduleDecisions'
+import { useParams } from 'react-router'
+import ErrorPage from '../routing/ErrorPage'
 
 
 export default function StudentEcDetails() {
     const {user} = useAuth()
+    const {id} = useParams()
     const queryClient = useQueryClient()
     const [showFileDownloadAlert, setShowFileDownloadAlert] = useState(false)
     const [showFileUploadAlert, setShowFileUploadAlert] = useState(false)
@@ -24,8 +27,8 @@ export default function StudentEcDetails() {
 
     // Get the details of the EC application
     const ecApplicationQuery = useQuery({
-        queryKey: ["ecApplications", 1],
-        queryFn: () => getEcApplication(1)
+        queryKey: ["ecApplications", id],
+        queryFn: () => getEcApplication(id)
     })
 
     // Get the details of the logged-in student who submitted the EC application
@@ -141,6 +144,13 @@ export default function StudentEcDetails() {
     const moduleRequests = moduleRequestsQuery.data
     const modules = modulesQuery.data
     const moduleDecisions = moduleDecisionsQuery.data
+
+    // Student is only allowed to view their own EC applications
+    if (user.id != ecApplication.studentId)
+        return <ErrorPage 
+                    errorMessage="You are not allowed to access this EC application.
+                    It was submitted by another student"
+                />
 
 
     function downloadEvidence(fileName) {

@@ -12,17 +12,20 @@ import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
 import { getModulesByCodes } from '../../api/modules'
 import { getRoleByName } from '../../api/roles'
 import { createModuleDecision } from '../../api/moduleDecisions'
+import { useParams } from 'react-router'
+import ErrorPage from '../routing/ErrorPage'
 
 
 export default function ClericalStaffEcDetails() {
   const {user} = useAuth()
+  const {id} = useParams()
   const [showFileAlert, setShowFileAlert] = useState(false)
   const queryClient = useQueryClient()
 
   // Get the details of the EC application
   const ecApplicationQuery = useQuery({
-    queryKey: ["ecApplications", 1],
-    queryFn: () => getEcApplication(1)
+    queryKey: ["ecApplications", id],
+    queryFn: () => getEcApplication(id)
   })
 
   // Get the details of the student who submitted the EC application
@@ -100,7 +103,7 @@ export default function ClericalStaffEcDetails() {
         </Row>
       </Container>
     )
-
+  
   if (ecApplicationQuery.isError)
     return <h1>Error fetching EC applications: {ecApplicationQuery.error.response?.status}</h1>
 
@@ -138,7 +141,14 @@ export default function ClericalStaffEcDetails() {
   const moduleRequests = moduleRequestsQuery.data
   const modules = modulesQuery.data
   const academicStaff = staffQuery.data
-  console.log(moduleRequests)
+
+  // Staff is not allowed to view applications submitted by a student in another department
+  if (student.departmentId != user.departmentId)
+    return <ErrorPage 
+              errorMessage="You are not allowed to access this EC application.
+              It was submitted by a student in another department"
+            />
+
 
   function downloadEvidence(fileName) {
     axios.get(`/evidence/${fileName}`, {responseType: 'blob'})
