@@ -147,7 +147,7 @@ export default function AdminDepartments() {
                 </Form>
                 {showNameAlert && 
                 <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                    Department name must not be empty!
+                    Department name must not be empty
                 </Alert>
                 }
             </Modal.Body>
@@ -190,7 +190,7 @@ export default function AdminDepartments() {
                 </Form>
                 {showNameAlert && 
                     <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                        Department name must not be empty!
+                        Department name must not be empty
                     </Alert>
                 }
             </Modal.Body>
@@ -205,7 +205,7 @@ export default function AdminDepartments() {
         </Modal>
 
         <Container className="mt-3 w-75">
-            <h2 className="text-center">Departments</h2>
+            <h2 className="text-center fw-normal">Departments</h2>
 
             <div className="d-flex justify-content-end">
                 <Button variant='primary' className='ms-auto' onClick={handleShowCreateModal}>

@@ -1,18 +1,30 @@
 import { formatDate } from "../../utils"
 import Table from "react-bootstrap/Table"
-import { Badge, Container, Spinner, Row, Col, ProgressBar, Button } from 'react-bootstrap'
+import { Badge, Container, Spinner, Row, Col, ProgressBar, Button, ToastContainer, Toast } from 'react-bootstrap'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useAuth } from "../../providers/AuthProvider"
 import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDepartmentId, getEcApplicationsByStudentDepartmentIdAndIsReferred, getEcApplicationsByStudentId } from '../../api/ecApplications'
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
 import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
-import { useNavigate } from "react-router"
+import { useLocation, useNavigate } from "react-router"
+import { useEffect, useState } from "react"
+import ErrorPage from "../ErrorPage"
 
 
 export default function StudentEcApplications() {
     const {setUser, user} = useAuth()
     const navigate = useNavigate()
+    const location = useLocation()
+    const [showToast, setShowToast] = useState(false)
+
+    // If redirected from EC application form page, show toast
+    useEffect(() => {
+        if (location.state?.applicationSubmitted) {
+            setShowToast(true)
+            window.history.replaceState({}, '')
+        }
+    }, [location.state])
 
     // Get all EC applications submitted by the student
     const ecApplicationsQuery = useQuery({
@@ -48,11 +60,15 @@ export default function StudentEcApplications() {
             </Container>
         )
     
+    if (ecApplicationsQuery.isError)
+        return <ErrorPage 
+                    errorTitle={`when fetching EC applications`}
+                    errorMessage={`${ecApplicationsQuery.error.code}
+                     | Server Response: ${ecApplicationsQuery.error.response?.data.status}-${ecApplicationsQuery.error.response?.data.error}`} 
+                />
+    
     if (moduleDecisionsQuery.isError)
         return <h1>Error fetching module decisions: {moduleDecisionsQuery.error.response?.status}</h1>
-    
-    if (ecApplicationsQuery.isError)
-        return <h1>Error fetching EC applications: {ecApplicationsQuery.error.response?.status}</h1>
     
     if (moduleRequestsQuery.isError)
         return <h1>Error fetching module requests: {moduleRequestsQuery.error.response?.status}</h1>
@@ -61,9 +77,6 @@ export default function StudentEcApplications() {
     const ecApplications = ecApplicationsQuery.data
     const moduleRequests = moduleRequestsQuery.data
     const moduleDecisions = moduleDecisionsQuery.data
-    console.log("EC applications", ecApplications)
-    console.log("module requests", moduleRequests)
-    console.log("module decisions", moduleDecisions)
 
 
     // Calculate the progress of the EC application
@@ -103,8 +116,21 @@ export default function StudentEcApplications() {
 
     return (
         <>
+        <ToastContainer className="p-5" position={"top-start"}>
+          <Toast bg="success" onClose={() => setShowToast(false)} show={showToast} delay={5000} autohide>
+            <Toast.Header closeButton={false}>
+              <img 
+                src="/sheffield-favicon.png"  
+                style={{width: '3rem', height: '3rem'}}
+              />
+              <strong>ECF Portal</strong>
+            </Toast.Header>
+            <Toast.Body>ECF application submitted successfully. </Toast.Body>
+          </Toast>
+        </ToastContainer>
+
         <Container className="mt-3">
-            <h2 className="text-center mb-3">Extenuating Circumstances Applications</h2>
+            <h2 className="text-center mb-3 fw-normal">Extenuating Circumstances Applications</h2>
 
             <div className="d-flex justify-content-end">
                 <Button variant='primary' className='ms-auto' onClick={() => navigate("/student/ec-form")}>

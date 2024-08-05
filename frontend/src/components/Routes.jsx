@@ -1,21 +1,23 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth } from "../../providers/AuthProvider";
-import ClericalStaffNavBar from "../clerical_staff/ClericalStaffNavBar";
-import ClericalStaffEcApplications from "../clerical_staff/ClericalStaffEcApplications";
-import ClericalStaffEcDetails from "../clerical_staff/ClericalStaffEcDetails";
+import { useAuth } from "../providers/AuthProvider";
+import ClericalStaffNavBar from "./clerical_staff/ClericalStaffNavBar";
+import ClericalStaffEcApplications from "./clerical_staff/ClericalStaffEcApplications";
+import ClericalStaffEcDetails from "./clerical_staff/ClericalStaffEcDetails";
 import ErrorPage from "./ErrorPage";
-import AcademicStaffNavBar from "../academic_staff/AcademicStaffNavBar";
-import AcademicStaffEcApplications from "../academic_staff/AcademicStaffEcApplications"
-import AcademicStaffEcDetails from "../academic_staff/AcademicStaffEcDetails"
-import StudentNavBar from "../student/StudentNavBar"
-import StudentEcApplicationForm from "../student/StudentEcApplicationForm"
-import StudentEcApplications from "../student/StudentEcApplications"
-import StudentEcDetails from "../student/StudentEcDetails"
-import StudentInformation from "../student/StudentInformation"
-import AdminNavBar from "../admin/AdminNavbar"
-import AdminDepartments from "../admin/AdminDepartments"
-import AdminModules from "../admin/AdminModules"
-import AdminUsers from "../admin/AdminUsers"
+import AcademicStaffNavBar from "./academic_staff/AcademicStaffNavBar";
+import AcademicStaffEcApplications from "./academic_staff/AcademicStaffEcApplications"
+import AcademicStaffEcDetails from "./academic_staff/AcademicStaffEcDetails"
+import StudentNavBar from "./student/StudentNavBar"
+import StudentEcApplicationForm from "./student/StudentEcApplicationForm"
+import StudentEcApplications from "./student/StudentEcApplications"
+import StudentEcDetails from "./student/StudentEcDetails"
+import StudentInformation from "./student/StudentInformation"
+import AdminNavBar from "./admin/AdminNavbar"
+import AdminDepartments from "./admin/AdminDepartments"
+import AdminModules from "./admin/AdminModules"
+import AdminUsers from "./admin/AdminUsers"
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage"
 
 
 export default function Routes() {
@@ -24,18 +26,22 @@ export default function Routes() {
     const publicRoutes = [
         {
             path: "/",
-            element: <div>Login Page</div>,
-            errorElement: <ErrorPage errorMessage="404 Not Found" redirectTo="/login" />
+            element: <LoginPage />,
+            errorElement: <ErrorPage redirectTo="/login"/>
         },
         {
             path: "/login",
-            element: <div>Login Page</div>,
-            errorElement: <ErrorPage errorMessage="404 Not Found" redirectTo="/login"  />
+            element: <LoginPage />,
+            errorElement: <ErrorPage redirectTo="/login"/>
         },
         {
             path: "/register",
-            element: <div>Register Page</div>,
-            errorElement: <ErrorPage errorMessage="404 Not Found" redirectTo="/login"  />
+            element: <RegisterPage />,
+            errorElement: <ErrorPage redirectTo="/login"/>
+        },
+        {
+            path: "*",
+            element: <ErrorPage errorMessage="404 Not Found" redirectTo="/login" />
         }
     ]
 
@@ -44,10 +50,10 @@ export default function Routes() {
         {
             path: "/clerical-staff",
             element: <ClericalStaffNavBar />,
-            errorElement: <ErrorPage errorMessage="404 Not Found" redirectTo="/login"/>,
+            errorElement: <ErrorPage redirectTo="/login"/>,
             children: [
                 {
-                    errorElement: <ErrorPage errorMessage="404 Not Found"/>,
+                    errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <ClericalStaffEcApplications />},
                         {
@@ -69,10 +75,10 @@ export default function Routes() {
         {
             path: "/academic-staff",
             element: <AcademicStaffNavBar />,
-            errorElement: <ErrorPage errorMessage="404 Not Found" redirectTo="/login"/>,
+            errorElement: <ErrorPage redirectTo="/login"/>,
             children: [
                 {
-                    errorElement: <ErrorPage errorMessage="404 Not Found"/>,
+                    errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <AcademicStaffEcApplications />},
                         {
@@ -94,10 +100,10 @@ export default function Routes() {
         {
             path: "/admin",
             element: <AdminNavBar />,
-            errorElement: <ErrorPage errorMessage="404 Not Found" redirectTo="/login"/>,
+            errorElement: <ErrorPage redirectTo="/login"/>,
             children: [
                 {
-                    errorElement: <ErrorPage errorMessage="404 Not Found"/>,
+                    errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <AdminUsers />},
                         {
@@ -123,10 +129,10 @@ export default function Routes() {
         {
             path: "/student",
             element: <StudentNavBar />,
-            errorElement: <ErrorPage errorMessage="404 Not Found" redirectTo="/login"/>,
+            errorElement: <ErrorPage redirectTo="/login"/>,
             children: [
                 {
-                    errorElement: <ErrorPage errorMessage="404 Not Found"/>,
+                    errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <StudentEcApplications />},
                         {

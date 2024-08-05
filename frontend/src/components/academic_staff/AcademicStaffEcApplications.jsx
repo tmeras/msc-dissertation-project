@@ -131,7 +131,7 @@ export default function AcademicStaffEcApplications() {
     return (
         <>
         <Container className="mt-3">
-            <h2 className="text-center">Extenuating Circumstances Applications</h2>
+            <h2 className="text-center fw-normal">Extenuating Circumstances Applications</h2>
             <Table striped hover className="mt-3 shadow">
                 <thead className="table-light">
                 <tr>

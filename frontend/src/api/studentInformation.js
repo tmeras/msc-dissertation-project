@@ -12,4 +12,9 @@ export function updateStudentInformation(data) {
     .then(res => res.data)
 }
 
+export function createStudentInformation(data) {
+    return axios
+    .post(`/student-information`, data)
+    .then(res => res.data)
+}
 

@@ -12,7 +12,7 @@ import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
 import { getModulesByCodes } from '../../api/modules'
 import { createModuleDecision, getModuleDecisionsByEcApplicationIds } from '../../api/moduleDecisions'
 import { useParams } from 'react-router'
-import ErrorPage from '../routing/ErrorPage'
+import ErrorPage from '../ErrorPage'
 
 
 export default function StudentEcDetails() {

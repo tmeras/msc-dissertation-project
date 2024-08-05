@@ -7,10 +7,12 @@ import { bytesToMb, getCurrentDate } from '../../utils'
 import { createEcApplication } from '../../api/ecApplications'
 import { createEvidence } from '../../api/evidence'
 import { createModuleRequest } from '../../api/moduleRequests'
+import { useNavigate } from 'react-router'
 
 export default function StudentEcApplicationForm() {
   const {user} = useAuth()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const [showCircumstancesAlert, setShowCircumstancesAlert] = useState(false)
   const [showDateAlert, setShowDateAlert] = useState(false)
   const [showFileAlert, setShowFileAlert] = useState(false)
@@ -99,21 +101,18 @@ export default function StudentEcApplicationForm() {
     }
   )}
 
-  // Handle change for the module outcome request select
   function handleOutcomeRequestChange(index, event) {
     const newModuleRequests = [...moduleRequests];
     newModuleRequests[index].requestedOutcome = event.target.value;
     setModuleRequests(newModuleRequests)
   }
 
-  // Handle change for the module select
   function handleModuleChange(index, event) {
     const newModuleRequests = [...moduleRequests];
     newModuleRequests[index].moduleCode = event.target.value;
     setModuleRequests(newModuleRequests)
   }
 
-  // Handle change for the text area and date inputs
   function handleChange(event) {
     const { name, value } = event.target;
     setFormData(prevFormData => ({
@@ -122,7 +121,6 @@ export default function StudentEcApplicationForm() {
     }))
   }
 
-  // Handle file input change
   function handleFileChange(event) {
     setFormData(prevFormData => ({
       ...prevFormData,
@@ -130,7 +128,6 @@ export default function StudentEcApplicationForm() {
     }))
   }
 
-  // Handle form submission
   function handleSubmit(event) {
     event.preventDefault()
 
@@ -190,6 +187,8 @@ export default function StudentEcApplicationForm() {
             ecApplicationId: data.id
           })
         })
+
+        navigate("/student/ec-applications", {state: {applicationSubmitted: true}})
       }
     })
   }

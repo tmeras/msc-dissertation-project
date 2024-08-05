@@ -71,7 +71,7 @@ export default function AdminUsers() {
 
     return (
         <Container className="mt-3">
-            <h2 className="text-center">Users</h2>
+            <h2 className="text-center fw-normal">Users</h2>
             <Table striped hover className="mt-3 shadow">
                 <thead className="table-light">
                     <tr>

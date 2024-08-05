@@ -84,7 +84,7 @@ export default function StudentInformation() {
     <Container className='mt-3'>
     <Row>
         <Col>
-            <h4 className='mb-3 text-center'>Personal Information</h4>
+            <h4 className='mb-3 text-center '>Personal Information</h4>
         </Col>
     </Row>
     <Row>

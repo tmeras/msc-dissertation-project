@@ -191,7 +191,7 @@ export default function AdminModules() {
                     </Form.Group>
                     {showCodeAlert && 
                     <Alert className='mt-2' variant="danger" onClose={() => setShowCodeAlert(false)} style={{width: "25rem"}} >
-                        Module code must be unique and not empty!
+                        Module code must be unique and not empty
                     </Alert>
                     }
 
@@ -207,7 +207,7 @@ export default function AdminModules() {
                     </Form.Group>
                     {showNameAlert && 
                     <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                        Module name must not be empty!
+                        Module name must not be empty
                     </Alert>
                     }
 
@@ -227,7 +227,7 @@ export default function AdminModules() {
                     </Form.Group>
                     {showDepartmentAlert && 
                     <Alert className='mt-2' variant="danger" onClose={() => setShowDepartmentAlert(false)} style={{width: "25rem"}} >
-                        Please select a department!
+                        Please select a department
                     </Alert>
                     }
                 </Form>
@@ -272,7 +272,7 @@ export default function AdminModules() {
                     </Form.Group>
                     {showNameAlert && 
                     <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                        Module name must not be empty!
+                        Module name must not be empty
                     </Alert>
                     }
 
@@ -292,7 +292,7 @@ export default function AdminModules() {
                     </Form.Group>
                     {showDepartmentAlert && 
                     <Alert className='mt-2' variant="danger" onClose={() => setShowDepartmentAlert(false)} style={{width: "25rem"}} >
-                        Please select a department!
+                        Please select a department
                     </Alert>
                     }
                 </Form>
@@ -308,7 +308,7 @@ export default function AdminModules() {
         </Modal>
 
         <Container className="mt-3">
-            <h2 className="text-center">Modules</h2>
+            <h2 className="text-center fw-normal">Modules</h2>
 
             <div className="d-flex justify-content-end">
                 <Button variant='primary' className='ms-auto' onClick={handleShowCreateModal}>

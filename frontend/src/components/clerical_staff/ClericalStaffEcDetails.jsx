@@ -13,7 +13,7 @@ import { getModulesByCodes } from '../../api/modules'
 import { getRoleByName } from '../../api/roles'
 import { createModuleDecision } from '../../api/moduleDecisions'
 import { useParams } from 'react-router'
-import ErrorPage from '../routing/ErrorPage'
+import ErrorPage from '../ErrorPage'
 
 
 export default function ClericalStaffEcDetails() {
@@ -202,7 +202,7 @@ export default function ClericalStaffEcDetails() {
     <Container className='mt-3'>
       <Row>
         <Col md={{offset: 1 }}>
-          <h4 className='mb-3 text-center'>Extenuating Circumstances Application #{ecApplication.id}</h4>
+          <h4 className='mb-3 text-center '>Extenuating Circumstances Application #{ecApplication.id}</h4>
         </Col>
       </Row>
       <Row>
