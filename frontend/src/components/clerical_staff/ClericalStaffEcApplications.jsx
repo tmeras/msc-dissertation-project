@@ -7,6 +7,7 @@ import { getEcApplications, getEcApplicationsByStudentDepartmentId } from '../..
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
 import { Link, useNavigate } from "react-router-dom"
+import ErrorPage from "../ErrorPage"
 
 
 export default function ClericalStaffEcApplications() {
@@ -37,7 +38,6 @@ export default function ClericalStaffEcApplications() {
         enabled: !(studentIds.length == 0)
     }) 
 
-    
     if (ecApplicationsQuery.isLoading || moduleRequestsQuery.isLoading ||studentsQuery.isLoading )
         return (
             <Container className='mt-3'>
@@ -50,15 +50,28 @@ export default function ClericalStaffEcApplications() {
         )
     
     if (ecApplicationsQuery.isError)
-        return <h1>Error fetching EC applications: {ecApplicationsQuery.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when fetching EC applications`}
+                    errorMessage={`${ecApplicationsQuery.error.code}
+                    | Server Response: ${ecApplicationsQuery.error.response?.data.status}-${ecApplicationsQuery.error.response?.data.error}`} 
+                />   
+
     if (moduleRequestsQuery.isError)
-        return <h1>Error fetching module requests: {moduleRequestsQuery.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when fetching module requests`}
+                    errorMessage={`${moduleRequestsQuery.error.code}
+                    | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
+                />   
+              
     if (studentsQuery.isError)
-        return <h1>Error fetching students: {studentsQuery.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when fetching students`}
+                    errorMessage={`${studentsQuery.error.code}
+                    | Server Response: ${studentsQuery.error.response?.data.status}-${studentsQuery.error.response?.data.error}`} 
+                />   
+                  
     const ecApplications = ecApplicationsQuery.data
+
 
     // Any requests for deadline extensions are urgent
     function isEcApplicationUrgent(ecApplicationId) {

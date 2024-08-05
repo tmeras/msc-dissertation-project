@@ -5,6 +5,8 @@ import { Button, Col, Container, Row, Spinner, Table } from 'react-bootstrap'
 import { getUsers, updateUser } from '../../api/users'
 import { getDepartments } from '../../api/departments'
 import { getRoles } from '../../api/roles'
+import ErrorPage from "../ErrorPage"
+
 
 export default function AdminUsers() {
     const {setUser, user} = useAuth()
@@ -47,21 +49,38 @@ export default function AdminUsers() {
         )  
     
     if (usersQuery.isError)
-        return <h1>Error fetching users: {usersQuery.error.response?.status}</h1>
-    
-    if (departmentsQuery.isError)
-        return <h1>Error fetching departments: {departmentsQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching users`}
+                    errorMessage={`${usersQuery.error.code}
+                    | Server Response: ${usersQuery.error.response?.data.status}-${usersQuery.error.response?.data.error}`} 
+                />     
 
+    if (departmentsQuery.isError)
+        return <ErrorPage 
+                    errorTitle={`when fetching departments`}
+                    errorMessage={`${departmentsQuery.error.code}
+                    | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`} 
+                />     
+          
     if (rolesQuery.isError)
-        return <h1>Error fetching roles: {rolesQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching roles`}
+                    errorMessage={`${rolesQuery.error.code}
+                    | Server Response: ${rolesQuery.error.response?.data.status}-${rolesQuery.error.response?.data.error}`} 
+                />     
 
     if (updateUserMutation.isError)
-        return <h1>Error updating user: {updateUserMutation.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when updating user`}
+                    errorMessage={`${updateUserMutation.error.code}
+                    | Server Response: ${updateUserMutation.error.response?.data.status}-${updateUserMutation.error.response?.data.error}`} 
+                />     
 
     const users = usersQuery.data
     const departments = departmentsQuery.data
     const roles = rolesQuery.data
 
+    
     function approveUser(userId) {
         updateUserMutation.mutate({
             id: userId,

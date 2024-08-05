@@ -104,29 +104,61 @@ export default function AcademicStaffEcDetails() {
         )
 
     if (ecApplicationQuery.isError)
-        return <h1>Error fetching EC applications: {ecApplicationQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching EC applications`}
+                    errorMessage={`${ecApplicationQuery.error.code}
+                    | Server Response: ${ecApplicationQuery.error.response?.data.status}-${ecApplicationQuery.error.response?.data.error}`} 
+                />      
 
     if (studentQuery.isError)
-        return <h1>Error fetching student information: {studentQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching students`}
+                    errorMessage={`${studentQuery.error.code}
+                    | Server Response: ${studentQuery.error.response?.data.status}-${studentQuery.error.response?.data.error}`} 
+                />      
 
     if (studentInformationQuery.isError)
-        return <h1>Error fetching student information: {studentInformationQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching student information`}
+                    errorMessage={`${studentInformationQuery.error.code}
+                    | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`} 
+                />      
 
     if (evidenceQuery.isError)
-        return <h1>Error fetching EC application evidence: {evidenceQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching evidence`}
+                    errorMessage={`${evidenceQuery.error.code}
+                    | Server Response: ${evidenceQuery.error.response?.data.status}-${evidenceQuery.error.response?.data.error}`} 
+                />      
     
     if (moduleRequestsQuery.isError)
-        return <h1>Error fetching module requests: {moduleRequestsQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching module requests`}
+                    errorMessage={`${moduleRequestsQuery.error.code}
+                    | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
+                />      
 
     if (modulesQuery.isError)
-        return <h1>Error fetching modules: {modulesQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching modules`}
+                    errorMessage={`${modulesQuery.error.code}
+                    | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`} 
+                />      
     
     if (createModuleDecisionMutation.isError)
-        return <h1>Error assigning EC application to academic staff: {createModuleDecisionMutation.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when creating module decision`}
+                    errorMessage={`${createModuleDecisionMutation.error.code}
+                    | Server Response: ${createModuleDecisionMutation.error.response?.data.status}-${createModuleDecisionMutation.error.response?.data.error}`} 
+                />      
+        
     if (updateEcApplicationMutation.isError)
-        return <h1>Error updating EC application: {updateEcApplicationMutation.error.response?.status}</h1>
-
+        return <ErrorPage 
+                    errorTitle={`when updating EC application`}
+                    errorMessage={`${updateEcApplicationMutation.error.code}
+                    | Server Response: ${updateEcApplicationMutation.error.response?.data.status}-${updateEcApplicationMutation.error.response?.data.error}`} 
+                />      
+      
     const student = {...studentQuery.data, ...studentInformationQuery.data[0]}
     const ecApplication = {...ecApplicationQuery.data}
     const evidence = evidenceQuery.data

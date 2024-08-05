@@ -8,6 +8,7 @@ import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
 import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
 import { useNavigate } from "react-router"
+import ErrorPage from "../ErrorPage"
 
 
 export default function AcademicStaffEcApplications() {
@@ -57,26 +58,37 @@ export default function AcademicStaffEcApplications() {
         )
     
     if (moduleDecisionsQuery.isError)
-        return <h1>Error fetching module decisions: {moduleDecisionsQuery.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when fetching module decisions`}
+                    errorMessage={`${moduleDecisionsQuery.error.code}
+                    | Server Response: ${moduleDecisionsQuery.error.response?.data.status}-${moduleDecisionsQuery.error.response?.data.error}`} 
+                />      
+
     if (ecApplicationsQuery.isError)
-        return <h1>Error fetching EC applications: {ecApplicationsQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching EC applications`}
+                    errorMessage={`${ecApplicationsQuery.error.code}
+                    | Server Response: ${ecApplicationsQuery.error.response?.data.status}-${ecApplicationsQuery.error.response?.data.error}`} 
+                />      
     
     if (moduleRequestsQuery.isError)
-        return <h1>Error fetching module requests: {moduleRequestsQuery.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when fetching module requests`}
+                    errorMessage={`${moduleRequestsQuery.error.code}
+                    | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
+                />      
+        
     if (studentsQuery.isError)
-        return <h1>Error fetching students: {studentsQuery.error.response?.status}</h1>
-
+        return <ErrorPage 
+                    errorTitle={`when fetching students`}
+                    errorMessage={`${studentsQuery.error.code}
+                    | Server Response: ${studentsQuery.error.response?.data.status}-${studentsQuery.error.response?.data.error}`} 
+                />      
+        
     const ecApplications = ecApplicationsQuery.data
     const moduleRequests = moduleRequestsQuery.data
     const moduleDecisions = moduleDecisionsQuery.data
     const students = studentsQuery.data
-    console.log("EC applications", ecApplications)
-    console.log("module requests", moduleRequests)
-    console.log("module decisions", moduleDecisions)
-    console.log("students", students)
-
 
     // Mark any application with requests for deadline extensions or assessment/exam deferment as urgent
     function isEcApplicationUrgent(ecApplicationId) {

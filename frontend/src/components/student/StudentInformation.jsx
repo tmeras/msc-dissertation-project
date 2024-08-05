@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react'
 import { useAuth } from '../../providers/AuthProvider'
 import { getStudentInformationByStudentId, updateStudentInformation } from '../../api/studentInformation'
 import { Container, Row, Col, Spinner, Form, Button, Alert } from 'react-bootstrap'
+import ErrorPage from "../ErrorPage"
 
 
 export default function StudentInformation() {
@@ -49,13 +50,19 @@ export default function StudentInformation() {
         )
     
     if (studentInformationQuery.isError)
-        return <h1>Error fetching your information: {studentInformationQuery.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when fetching student information`}
+                    errorMessage={`${studentInformationQuery.error.code}
+                    | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`} 
+                />  
+
     if (updateStudentInformationMutation.isError)
-        return <h1>Error updating your information: {updateStudentInformationMutation.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when updating student information`}
+                    errorMessage={`${updateStudentInformationMutation.error.code}
+                    | Server Response: ${updateStudentInformationMutation.error.response?.data.status}-${updateStudentInformationMutation.error.response?.data.error}`} 
+                />  
 
-
-    console.log("Student info:", formData)
 
     // Handle change for the form fields
     const handleChange = (event) => {

@@ -8,6 +8,8 @@ import { createEcApplication } from '../../api/ecApplications'
 import { createEvidence } from '../../api/evidence'
 import { createModuleRequest } from '../../api/moduleRequests'
 import { useNavigate } from 'react-router'
+import ErrorPage from "../ErrorPage"
+
 
 export default function StudentEcApplicationForm() {
   const {user} = useAuth()
@@ -72,16 +74,32 @@ export default function StudentEcApplicationForm() {
     )
   
   if (modulesQuery.isError)
-    return <h1>Error fetching modules: {modulesQuery.error.response?.status}</h1>
-  
+    return <ErrorPage 
+            errorTitle={`when fetching modules`}
+            errorMessage={`${modulesQuery.error.code}
+            | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`} 
+          />      
+
   if (createEcApplicationMutation.isError)
-    return <h1>Error submitting EC application: {createEcApplicationMutation.error.response?.status}</h1>
-  
+    return <ErrorPage 
+            errorTitle={`when creating EC application`}
+            errorMessage={`${createEcApplicationMutation.error.code}
+            | Server Response: ${createEcApplicationMutation.error.response?.data.status}-${createEcApplicationMutation.error.response?.data.error}`} 
+          />   
+
   if (createEvidenceMutation.isError)
-    return <h1>Error uploading evidence: {createEvidenceMutation.error.response?.status}</h1>
+    return <ErrorPage 
+            errorTitle={`when uploading evidence`}
+            errorMessage={`${createEvidenceMutation.error.code}
+            | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`} 
+          /> 
 
   if (createModuleRequestMutation.isError)
-    return <h1>Error creating module requests: {createModuleRequestMutation.error.response?.status}</h1>
+    return <ErrorPage 
+            errorTitle={`when creating module request`}
+            errorMessage={`${createModuleRequestMutation.error.code}
+            | Server Response: ${createModuleRequestMutation.error.response?.data.status}-${createModuleRequestMutation.error.response?.data.error}`} 
+          /> 
 
   const modules = modulesQuery.data
 

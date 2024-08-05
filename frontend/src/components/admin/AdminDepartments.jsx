@@ -3,6 +3,8 @@ import { Container, Button, Table, Spinner, Row, Col, Modal, Form, Alert } from 
 import { useAuth } from '../../providers/AuthProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createDepartment, getDepartments, updateDepartment } from '../../api/departments'
+import ErrorPage from "../ErrorPage"
+
 
 export default function AdminDepartments() {
     const {setUser, user} = useAuth()
@@ -49,17 +51,28 @@ export default function AdminDepartments() {
         )
     
     if (departmentsQuery.isError)
-        return <h1>Error fetching departments: {departmentsQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching departments`}
+                    errorMessage={`${departmentsQuery.error.code}
+                    | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`} 
+                /> 
 
     if (createDepartmentMutation.isError)
-        return <h1>Error creating department: {createDepartmentMutation.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when creating department`}
+                    errorMessage={`${createDepartmentMutation.error.code}
+                    | Server Response: ${createDepartmentMutation.error.response?.data.status}-${createDepartmentMutation.error.response?.data.error}`} 
+                /> 
 
     if (updateDepartmentMutation.isError)
-        return <h1>Error updating department: {updateDepartmentMutation.error.response?.status}</h1>
+        return <ErrorPage 
+                errorTitle={`when updating department`}
+                errorMessage={`${updateDepartmentMutation.error.code}
+                | Server Response: ${updateDepartmentMutation.error.response?.data.status}-${updateDepartmentMutation.error.response?.data.error}`} 
+            /> 
 
     const departments = departmentsQuery.data
-    console.log(formData)
-
+    
 
     function handleChange(event) {
         const { name, value } = event.target;

@@ -68,11 +68,18 @@ export default function StudentEcApplications() {
                 />
     
     if (moduleDecisionsQuery.isError)
-        return <h1>Error fetching module decisions: {moduleDecisionsQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                    errorTitle={`when fetching module decisions`}
+                    errorMessage={`${moduleDecisionsQuery.error.code}
+                     | Server Response: ${moduleDecisionsQuery.error.response?.data.status}-${moduleDecisionsQuery.error.response?.data.error}`} 
+                />
     
     if (moduleRequestsQuery.isError)
-        return <h1>Error fetching module requests: {moduleRequestsQuery.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                    errorTitle={`when fetching module requests`}
+                    errorMessage={`${moduleRequestsQuery.error.code}
+                     | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
+                />    
 
     const ecApplications = ecApplicationsQuery.data
     const moduleRequests = moduleRequestsQuery.data

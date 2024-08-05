@@ -4,6 +4,7 @@ import { useAuth } from '../../providers/AuthProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createModule, getModules, updateModule } from '../../api/modules'
 import { getDepartments } from '../../api/departments'
+import ErrorPage from "../ErrorPage"
 
 
 export default function AdminModules() {
@@ -60,21 +61,36 @@ export default function AdminModules() {
         )  
     
     if (modulesQuery.isError)
-        return <h1>Error fetching modules: {modulesQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                errorTitle={`when fetching modules`}
+                errorMessage={`${modulesQuery.error.code}
+                | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`} 
+            /> 
 
     if (departmentsQuery.isError)
-        return <h1>Error fetching departments: {departmentsQuery.error.response?.status}</h1>
+        return <ErrorPage 
+                errorTitle={`when fetching departments`}
+                errorMessage={`${departmentsQuery.error.code}
+                | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`} 
+            /> 
 
     if (createModuleMutation.isError)
-        return <h1>Error creating module: {createModuleMutation.error.response?.status}</h1>
+        return <ErrorPage 
+                errorTitle={`when creating module`}
+                errorMessage={`${createModuleMutation.error.code}
+                | Server Response: ${createModuleMutation.error.response?.data.status}-${createModuleMutation.error.response?.data.error}`} 
+            /> 
     
     if (updateModuleMutation.isError)
-        return <h1>Error updating module: {updateModuleMutation.error.response?.status}</h1>
-    
+        return <ErrorPage 
+                errorTitle={`when updating module`}
+                errorMessage={`${updateModuleMutation.error.code}
+                | Server Response: ${updateModuleMutation.error.response?.data.status}-${updateModuleMutation.error.response?.data.error}`} 
+            /> 
+        
     const modules = modulesQuery.data
     const departments = departmentsQuery.data
-    console.log(formData)
-
+    
 
     function handleChange(event) {
         let { name, value } = event.target;
