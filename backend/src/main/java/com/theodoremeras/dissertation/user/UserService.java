@@ -1,12 +1,15 @@
 package com.theodoremeras.dissertation.user;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -48,7 +51,6 @@ public class UserService {
         return userRepository.findById(id).map(existingUser -> {
             Optional.ofNullable(userEntity.getName()).ifPresent(existingUser::setName);
             Optional.ofNullable(userEntity.getEmail()).ifPresent(existingUser::setEmail);
-            Optional.ofNullable(userEntity.getPassword()).ifPresent(existingUser::setPassword);
             Optional.ofNullable(userEntity.getIsApproved()).ifPresent(existingUser::setIsApproved);
             return userRepository.save(existingUser);
         }).orElseThrow(() -> new RuntimeException("Could not find user with id: " + id));
@@ -58,4 +60,11 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        return userRepository
+                .findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+
+    }
 }

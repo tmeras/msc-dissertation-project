@@ -1,4 +1,4 @@
-package com.theodoremeras.dissertation.user;
+package com.theodoremeras.dissertation.authentication;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
+public class UserRegistrationDto {
 
     private Integer id;
 
@@ -20,6 +20,9 @@ public class UserDto {
 
     @NotBlank
     private String email;
+
+    @NotBlank
+    private String password;
 
     private Boolean isApproved;
 

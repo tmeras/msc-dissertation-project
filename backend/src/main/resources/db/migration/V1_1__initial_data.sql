@@ -24,7 +24,7 @@ SELECT NEXTVAL('_user_seq');
 SELECT NEXTVAL('_user_seq');
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(1, 'Student 1', 'student1@gmail.com', 'pass123', true, 1, 1);
+VALUES(1, 'Student 1', 'student1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
@@ -36,7 +36,7 @@ VALUES(3, 'Student 3', 'student3@gmail.com', 'pass123', true, 1, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(4, 'Clerical Staff 1', 'clstaff1@gmail.com', 'pass123', true, 2, 1);
+VALUES(4, 'Clerical Staff 1', 'clstaff1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 2, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
@@ -48,7 +48,7 @@ VALUES(6, 'Clerical Staff 3', 'clstaff3@gmail.com', 'pass123', true, 2, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(7, 'Academic Staff 1', 'acstaff1@gmail.com', 'pass123', true, 3, 1);
+VALUES(7, 'Academic Staff 1', 'acstaff1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
@@ -68,7 +68,7 @@ VALUES(11, 'Academic Staff 5', 'acstaff5@gmail.com', 'pass123', true, 3, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(12, 'Admin', 'admin@gmail.com', 'pass123', true, 4, 1);
+VALUES(12, 'Admin', 'admin@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 4, 1);
 
 SELECT NEXTVAL('student_information_seq');
 SELECT NEXTVAL('student_information_seq');

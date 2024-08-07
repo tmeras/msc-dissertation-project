@@ -10,7 +10,7 @@ spring:
     hibernate:
       ddl-auto: none
     database: postgresql
-    show-sql: true
+    show-sql: false
   servlet:
     multipart:
       max-file-size: 50MB

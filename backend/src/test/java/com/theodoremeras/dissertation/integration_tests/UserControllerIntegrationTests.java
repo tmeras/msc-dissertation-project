@@ -70,8 +70,6 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.email").value(testUserDto.getEmail())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.password").value(testUserDto.getPassword())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isApproved").value(testUserDto.getIsApproved())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.roleId").value(savedRoleEntity.getId())
@@ -168,8 +166,6 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].email").value(savedUserEntityA.getEmail())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].password").value(savedUserEntityA.getPassword())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isApproved").value(savedUserEntityA.getIsApproved())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].roleId").value(savedRoleEntity.getId())
@@ -181,8 +177,6 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[1].name").value(savedUserEntityB.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].email").value(savedUserEntityB.getEmail())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].password").value(savedUserEntityB.getPassword())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isApproved").value(savedUserEntityB.getIsApproved())
         ).andExpect(
@@ -215,8 +209,6 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].email").value(savedUserEntityA.getEmail())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].password").value(savedUserEntityA.getPassword())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isApproved").value(savedUserEntityA.getIsApproved())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].roleId").value(savedRoleEntity.getId())
@@ -228,8 +220,6 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[1].name").value(savedUserEntityB.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].email").value(savedUserEntityB.getEmail())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].password").value(savedUserEntityB.getPassword())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isApproved").value(savedUserEntityB.getIsApproved())
         ).andExpect(
@@ -259,8 +249,6 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].name").value(savedUserEntityA.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].email").value(savedUserEntityA.getEmail())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].password").value(savedUserEntityA.getPassword())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isApproved").value(savedUserEntityA.getIsApproved())
         ).andExpect(
@@ -294,8 +282,6 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].email").value(savedUserEntityA.getEmail())
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[0].password").value(savedUserEntityA.getPassword())
-        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].isApproved").value(savedUserEntityA.getIsApproved())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].roleId").value(savedRoleEntity.getId())
@@ -307,8 +293,6 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[1].name").value(savedUserEntityB.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].email").value(savedUserEntityB.getEmail())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$[1].password").value(savedUserEntityB.getPassword())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].isApproved").value(savedUserEntityB.getIsApproved())
         ).andExpect(
@@ -338,8 +322,6 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.name").value(savedUserEntity.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.email").value(savedUserEntity.getEmail())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.password").value(savedUserEntity.getPassword())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isApproved").value(savedUserEntity.getIsApproved())
         ).andExpect(
@@ -382,8 +364,6 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.name").value(testUserDto.getName())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.email").value(testUserDto.getEmail())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.password").value(testUserDto.getPassword())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.isApproved").value(testUserDto.getIsApproved())
         ).andExpect(
