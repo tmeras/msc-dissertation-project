@@ -13,10 +13,12 @@ import ErrorPage from "../ErrorPage"
 
 
 export default function StudentEcApplications() {
-    const {setUser, user} = useAuth()
+    const {user} = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
     const [showToast, setShowToast] = useState(false)
+
+    console.log("user", user)
 
     // If redirected from EC application form page, show toast
     useEffect(() => {

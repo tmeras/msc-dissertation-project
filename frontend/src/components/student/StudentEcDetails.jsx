@@ -190,26 +190,26 @@ export default function StudentEcDetails() {
 
     function downloadEvidence(fileName) {
         axios.get(`/evidence/${fileName}`, {responseType: 'blob'})
-        .then(response => {
-            // Create a URL for the blob object
-            const blob = new Blob([response.data], { type: response.headers['content-type'] })
-            const url = window.URL.createObjectURL(blob)
+            .then(response => {
+                // Create a URL for the blob object
+                const blob = new Blob([response.data], { type: response.headers['content-type'] })
+                const url = window.URL.createObjectURL(blob)
 
-            // Create a temporary link element
-            const link = document.createElement('a')
-            link.href = url
-            link.setAttribute('download', fileName); // Replace with the desired file name
-            document.body.appendChild(link)
+                // Create a temporary link element
+                const link = document.createElement('a')
+                link.href = url
+                link.setAttribute('download', fileName); // Replace with the desired file name
+                document.body.appendChild(link)
 
-            // Trigger the download by simulating a click
-            link.click()
+                // Trigger the download by simulating a click
+                link.click()
 
-            // Clean up and remove the link
-            link.parentNode.removeChild(link)
-            window.URL.revokeObjectURL(url)
-        }).catch(error => {
-            setShowFileDownloadAlert(true)
-        })
+                // Clean up and remove the link
+                link.parentNode.removeChild(link)
+                window.URL.revokeObjectURL(url)
+            }).catch(error => {
+                setShowFileDownloadAlert(true)
+            })
     }
 
     function handleFileChange(event) {

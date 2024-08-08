@@ -30,9 +30,3 @@ export function updateUser(data) {
     .then(res => res.data)
 }
 
-export function createUser(data) {
-    return axios
-    .post(`/users`, data)
-    .then(res => res.data)
-}
-

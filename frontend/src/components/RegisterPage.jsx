@@ -4,9 +4,9 @@ import { Container, Row, Col, Form, Spinner, Button, Alert } from 'react-bootstr
 import { getDepartments } from '../api/departments'
 import { getRoles } from '../api/roles'
 import ErrorPage from './ErrorPage'
-import { createUser } from '../api/users'
 import { createStudentInformation } from '../api/studentInformation'
 import { useLocation, useNavigate } from 'react-router'
+import { registerUser } from '../api/authentication'
 
 export default function RegisterPage() {
     const queryClient = useQueryClient()
@@ -52,7 +52,7 @@ export default function RegisterPage() {
     })
 
     const createUserMutation = useMutation({
-        mutationFn: createUser,
+        mutationFn: registerUser,
         onSuccess: data => {
             queryClient.invalidateQueries("users")
         }
@@ -77,12 +77,14 @@ export default function RegisterPage() {
         )  
     
     if (departmentsQuery.isError) 
+    {
         return <ErrorPage 
                     errorTitle={`when fetching departments`}
                     errorMessage={`${departmentsQuery.error.code}
-                     | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`} 
+                     | Server Response: Status: ${departmentsQuery.error.response?.status} - Message: ${departmentsQuery.error.response?.data.error}`} 
                      redirectTo="/login"
                 />
+    }
     
     if (rolesQuery.isError) 
         return <ErrorPage 
@@ -204,8 +206,8 @@ export default function RegisterPage() {
         setShowRoleAlert(false)
 
         // Staff member accounts require approval
-        if (roles.find((role) => role.id == formData.roleId).name === "Clerical Staff" ||
-                roles.find((role) => role.id == formData.roleId).name === "Academic Staff")
+        if (roles.find((role) => role.id == formData.roleId).name === "Clerical_Staff" ||
+                roles.find((role) => role.id == formData.roleId).name === "Academic_Staff")
             formData.isApproved = false
         else
             formData.isApproved = true
@@ -341,7 +343,7 @@ export default function RegisterPage() {
                             <option value={0}>Select a role</option>
                             {roles.map(role => 
                                 role.name !== "Administrator" && 
-                                    <option key={role.id} value={role.id}>{role.name}</option>
+                                    <option key={role.id} value={role.id}>{role.name.replace('_', ' ')}</option>
                             )}
                         </Form.Select>
                     </Form.Group>

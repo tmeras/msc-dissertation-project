@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react"
-import { Alert, Button, Col, Container, Form, Row, Toast, ToastContainer } from "react-bootstrap"
-import { Link, useLocation } from "react-router-dom";
+import { Alert, Button, Col, Container, Form, Row, Spinner, Toast, ToastContainer } from "react-bootstrap"
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from '../api/axiosConfig'
+import { useAuth } from "../providers/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+import ErrorPage from "./ErrorPage";
+import { getRoles } from "../api/roles";
 
 
 export default function LoginPage() {
+    const {user, setToken} = useAuth()
     const location = useLocation()
+    const navigate = useNavigate()
     const [showCredentialsAlert, setShowCredentialsAlert] = useState(false)
+    const [showServerAlert, setShowServerAlert] = useState(false)
     const [showToast, setShowToast] = useState(false)
+
+    console.log("user:", user)
 
     // State for the login form fields
     const [formData, setFormData] = useState({
@@ -21,7 +31,55 @@ export default function LoginPage() {
             window.history.replaceState({}, '')
         }
     }, [location.state])
+
+
+    // Get all the roles
+    const rolesQuery = useQuery({
+        queryKey: ["roles"],
+        queryFn: () => getRoles()
+    })
+
+    // If user is already logged in, redirect to appropriate page
+    useEffect(() => {
+        if (user && rolesQuery.data) {
+            let role = rolesQuery.data.find(role => role.id == user.roleId).name
     
+            switch(role) {
+                case "Student":
+                    navigate("/student", { replace: true })
+                    break
+                case "Clerical_Staff":
+                    navigate("/clerical-staff", { replace: true })
+                    break
+                case "Academic_Staff":
+                    navigate("/academic-staff", { replace: true })
+                    break
+                case "Administrator":
+                    navigate("/admin", { replace: true })
+            }
+        }
+    }, [user, rolesQuery.data])
+
+    if (rolesQuery.isLoading)
+        return (
+            <Container className='mt-3'>
+              <Row>
+              <Col md={{offset: 6 }}>
+                <Spinner animation="border" />
+              </Col>
+              </Row>
+            </Container>
+        )  
+
+    if (rolesQuery.isError)
+        return <ErrorPage 
+                    errorTitle={`when fetching roles`}
+                    errorMessage={`The server might not be running`} 
+                    redirectTo="refresh"
+                />    
+    
+    const roles = rolesQuery.data
+
 
     function handleChange(event) {
         const { name, value } = event.target;
@@ -34,10 +92,23 @@ export default function LoginPage() {
     function handleSubmit(event) {
         event.preventDefault()
 
-        console.log(formData)
+        axios.post(`/auth/login`, formData)
+            .then(res => {
+                const data = res.data
+                setToken(data.jwt)
+            }).catch(error => {
+                if (error.response?.status == 401)
+                {
+                    setShowCredentialsAlert(true)
+                    setShowServerAlert(false)
+                }
+                else {
+                    setShowServerAlert(true)
+                    setShowCredentialsAlert(false)
+                }
+            })
     }
 
-    console.log(formData)
 
     return (
         <>
@@ -87,9 +158,14 @@ export default function LoginPage() {
 
                     {showCredentialsAlert && 
                         <Alert className='mt-2' variant="danger" style={{width: "20rem"}}>
-                            Invalid credentials!
+                            Invalid credentials or account has not yet been approved by administrators
                         </Alert>
-                    }            
+                    }    
+                    {showServerAlert && 
+                        <Alert className='mt-2' variant="danger" style={{width: "20rem"}}>
+                            Login unsuccessful, server might be offline
+                        </Alert>
+                    }              
                     <Form.Text muted>
                         Registering? Click <Link to="/register">here</Link>.
                     </Form.Text>

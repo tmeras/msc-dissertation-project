@@ -18,6 +18,7 @@ import AdminModules from "./admin/AdminModules"
 import AdminUsers from "./admin/AdminUsers"
 import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage"
+import ProtectedRoute from "./ProtectedRoute";
 
 
 export default function Routes() {
@@ -27,12 +28,12 @@ export default function Routes() {
         {
             path: "/",
             element: <LoginPage />,
-            errorElement: <ErrorPage redirectTo="/login"/>
+            errorElement: <ErrorPage redirectTo="refresh"/>
         },
         {
             path: "/login",
             element: <LoginPage />,
-            errorElement: <ErrorPage redirectTo="/login"/>
+            errorElement: <ErrorPage redirectTo="refresh"/>
         },
         {
             path: "/register",
@@ -49,10 +50,12 @@ export default function Routes() {
     const clericalStaffRoutes = [
         {
             path: "/clerical-staff",
-            element: <ClericalStaffNavBar />,
-            errorElement: <ErrorPage redirectTo="/login"/>,
-            children: [
-                {
+            element: <ProtectedRoute requiredRole="Clerical_Staff" />,
+            errorElement: <ErrorPage redirectTo="/login" />,
+            children: [{
+                element: <ClericalStaffNavBar />,
+                errorElement: <ErrorPage redirectTo="/login"/>,
+                children: [{
                     errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <ClericalStaffEcApplications />},
@@ -65,8 +68,8 @@ export default function Routes() {
                             element: <ClericalStaffEcDetails />
                         }
                     ]
-                }
-            ]
+                }]
+            }]
         }
     ]
 
@@ -74,10 +77,12 @@ export default function Routes() {
     const academicStaffRoutes = [
         {
             path: "/academic-staff",
-            element: <AcademicStaffNavBar />,
-            errorElement: <ErrorPage redirectTo="/login"/>,
-            children: [
-                {
+            element: <ProtectedRoute requiredRole="Academic_Staff" />,
+            errorElement: <ErrorPage redirectTo="/login" />,
+            children: [{
+                element: <AcademicStaffNavBar />,
+                errorElement: <ErrorPage redirectTo="/login"/>,
+                children: [{
                     errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <AcademicStaffEcApplications />},
@@ -90,8 +95,8 @@ export default function Routes() {
                             element: <AcademicStaffEcDetails />
                         }
                     ]
-                }
-            ]
+                }]
+            }]
         }
     ]
 
@@ -99,10 +104,12 @@ export default function Routes() {
     const adminRoutes = [
         {
             path: "/admin",
-            element: <AdminNavBar />,
-            errorElement: <ErrorPage redirectTo="/login"/>,
-            children: [
-                {
+            element: <ProtectedRoute requiredRole="Administrator" />,
+            errorElement: <ErrorPage redirectTo="/login" />,
+            children: [{
+                element: <AdminNavBar />,
+                errorElement: <ErrorPage redirectTo="/login"/>,
+                children: [{
                     errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <AdminUsers />},
@@ -119,8 +126,8 @@ export default function Routes() {
                             element: <AdminModules />
                         }
                     ]
-                }
-            ]
+                }]
+            }]
         }
     ]
     
@@ -128,10 +135,12 @@ export default function Routes() {
     const studentRoutes = [
         {
             path: "/student",
-            element: <StudentNavBar />,
-            errorElement: <ErrorPage redirectTo="/login"/>,
-            children: [
-                {
+            element: <ProtectedRoute requiredRole="Student" />,
+            errorElement: <ErrorPage redirectTo="/login" />,
+            children: [{
+                element: <StudentNavBar />,
+                errorElement: <ErrorPage redirectTo="/login"/>,
+                children: [{
                     errorElement: <ErrorPage />,
                     children: [
                         {index: true, element: <StudentEcApplications />},
@@ -152,8 +161,8 @@ export default function Routes() {
                             element: <StudentEcApplicationForm />
                         }
                     ]
-                }
-            ]
+                }]
+            }]
         }
     ]
 

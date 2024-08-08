@@ -12,8 +12,10 @@ import ErrorPage from "../ErrorPage"
 
 
 export default function AcademicStaffEcApplications() {
-    const {setUser, user} = useAuth()
+    const {user} = useAuth()
     const navigate = useNavigate()
+
+    console.log(user)
 
     // Get all EC applications submitted by students in the same department as the staff member
     // and which have been referred by clerical staff

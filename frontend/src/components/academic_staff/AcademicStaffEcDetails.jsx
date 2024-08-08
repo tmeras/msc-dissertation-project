@@ -92,6 +92,7 @@ export default function AcademicStaffEcDetails() {
 
     if (ecApplicationQuery.isLoading || studentQuery.isLoading || studentInformationQuery.isLoading
         || evidenceQuery.isLoading || moduleRequestsQuery.isLoading || modulesQuery.isLoading
+        || moduleDecisionsQuery.isLoading
     )
         return (
         <Container className='mt-3'>

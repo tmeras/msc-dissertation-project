@@ -1,19 +1,23 @@
 import React from 'react'
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
-import { Outlet } from 'react-router'
+import { Outlet, useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../providers/AuthProvider'
 
 export default function AdminNavBar() {
+    const {setToken} = useAuth()
+    const navigate = useNavigate()
+
+    function logOut() {
+        setToken(null)
+        navigate("/login", {replace: true})
+    }
 
   return (
     <>
     <Navbar expand="lg" className="bg-secondary-subtle">
         <Container>
             <Navbar.Brand >
-                {/* <img 
-                    src='/sheffield-logo.png'
-                    height='50'
-                /> */}
                 ECF Portal
             </Navbar.Brand>
             <Navbar.Toggle aria-controls='basic-navbar-nav' />
@@ -28,7 +32,7 @@ export default function AdminNavBar() {
                     <Nav.Link as={Link} to="/admin/modules">Modules</Nav.Link>
                 </Nav>
                 <Nav.Item>
-                    <Button size='sm' variant='outline-danger'>Log Out</Button>
+                    <Button size='sm' variant='outline-danger' onClick={logOut}>Log Out</Button>
                 </Nav.Item>
             </Navbar.Collapse>
         </Container>

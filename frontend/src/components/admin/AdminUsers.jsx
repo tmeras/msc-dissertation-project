@@ -9,8 +9,10 @@ import ErrorPage from "../ErrorPage"
 
 
 export default function AdminUsers() {
-    const {setUser, user} = useAuth()
+    const {user} = useAuth()
     const queryClient = useQueryClient()
+
+    console.log(user)
 
     // Get all the users
     const usersQuery = useQuery({
