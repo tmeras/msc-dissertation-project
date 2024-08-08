@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDate } from "../../utils"
 import { Card, Container, ListGroup, Button,  Row, Col, Alert, Spinner} from 'react-bootstrap'
 import { getEcApplication, updateEcApplication } from '../../api/ecApplications'
-import { getUser, getUserByDepartmentIdAndRoleId } from '../../api/users'
+import { getUser, getUsersByDepartmentIdAndRoleId } from '../../api/users'
 import { getStudentInformationByStudentId } from '../../api/studentInformation'
 import { getEvidenceByEcApplicationId } from '../../api/evidence'
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
@@ -64,14 +64,14 @@ export default function ClericalStaffEcDetails() {
 
     // Fetch the id of the academic staff role
     const roleQuery = useQuery({
-        queryKey: ["roles", {name: "Academic Staff"}],
-        queryFn: () => getRoleByName("Academic Staff"),
+        queryKey: ["roles", {name: "Academic_Staff"}],
+        queryFn: () => getRoleByName("Academic_Staff"),
     })
 
     // Fetch all academic staff members that are in the same department
     const staffQuery = useQuery({
         queryKey: ["users", {departmentId: user.departmentId, roleId: roleQuery.data?.[0]?.id}],
-        queryFn: () => getUserByDepartmentIdAndRoleId(user.departmentId, roleQuery.data?.[0]?.id),
+        queryFn: () => getUsersByDepartmentIdAndRoleId(user.departmentId, roleQuery.data?.[0]?.id),
         enabled: !!roleQuery.data?.[0]?.id
     })
 
@@ -180,6 +180,7 @@ export default function ClericalStaffEcDetails() {
     const moduleRequests = moduleRequestsQuery.data
     const modules = modulesQuery.data
     const academicStaff = staffQuery.data
+    console.log(academicStaff)
 
     // Staff is not allowed to view applications submitted by a student in another department
     if (student.departmentId != user.departmentId)
@@ -216,24 +217,24 @@ export default function ClericalStaffEcDetails() {
     // Request more evidence from the student
     function requestMoreEvidence() {
         updateEcApplicationMutation.mutate({
-        id: ecApplication.id,
-        requiresFurtherEvidence: true
+            id: ecApplication.id,
+            requiresFurtherEvidence: true
         })
     }
 
     // Refer EC application to academic staff
     function referApplication() {
         updateEcApplicationMutation.mutate({
-        id: ecApplication.id,
-        isReferred: true
+            id: ecApplication.id,
+            isReferred: true
         })
     }
 
     // Reject applicatiion
     function rejectApplication() {
         updateEcApplicationMutation.mutate({
-        id: ecApplication.id,
-        isReferred: false
+            id: ecApplication.id,
+            isReferred: false
         })
     }
 

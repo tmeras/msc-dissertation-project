@@ -152,9 +152,9 @@ export default function StudentEcApplications() {
                 <thead className="table-light">
                 <tr>
                     <th scope="col" className="col-1">#</th>
-                    <th scope="col" className="col-1"> Submitted On</th>
-                    <th scope="col" className="col-2">Progress</th>
-                    <th scope="col" className="col-3">Status</th>
+                    <th scope="col" className="col-2"> Submitted On</th>
+                    <th scope="col" className="col-3">Progress</th>
+                    <th scope="col" className="col-4">Status</th>
                 </tr>
                 </thead>
                 <tbody className="table-group-divider">

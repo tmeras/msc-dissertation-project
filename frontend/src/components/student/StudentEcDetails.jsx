@@ -304,7 +304,7 @@ export default function StudentEcDetails() {
                 {relevantDecisions.map((decision, index) =>
                     <Accordion.Item key={index} eventKey={`${index}`}>
                         <Accordion.Header>
-                            Staff Member #{index} 
+                            Staff Member #{index + 1} 
                             {decision.isApproved ?
                                 <Badge bg='success' className='ms-3'>Approved</Badge>
                             :
@@ -413,7 +413,7 @@ export default function StudentEcDetails() {
 
                             return (
                                 <ListGroup.Item key={moduleRequest.id}>
-                                    <Card.Title>ID#{moduleRequest.id} {moduleRequest.requestedOutcome}</Card.Title>
+                                    <Card.Title>{moduleRequest.requestedOutcome}</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">
                                         {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
                                     </Card.Subtitle>

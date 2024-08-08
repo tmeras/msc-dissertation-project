@@ -18,7 +18,7 @@ export function getUser(id) {
     .then(res => res.data)
 }
 
-export function getUserByDepartmentIdAndRoleId(departmentId, roleId) {
+export function getUsersByDepartmentIdAndRoleId(departmentId, roleId) {
     return axios
     .get(`/users?departmentId=${departmentId}&roleId=${roleId}`)
     .then(res => res.data)

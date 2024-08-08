@@ -152,7 +152,7 @@ export default function AcademicStaffEcApplications() {
                     <th>#</th>
                     <th>Submitted By</th>
                     <th>Submitted On</th>
-                    <th>Progress</th>
+                    <th scope="col" className="col-2">Progress</th>
                     <th>Status</th>
                 </tr>
                 </thead>
