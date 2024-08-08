@@ -66,7 +66,11 @@ public class SecurityConfig {
         // Enforce endpoint protection
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> {
-                auth.requestMatchers("/auth/**").permitAll();
+                auth.requestMatchers("/auth/login").permitAll();
+                auth.requestMatchers("/auth/register").permitAll();
+                auth.requestMatchers(HttpMethod.GET,"/departments/**").permitAll();
+                auth.requestMatchers(HttpMethod.GET,"/roles/**").permitAll();
+                auth.requestMatchers(HttpMethod.POST,"/student-information/**").permitAll();
                 auth.requestMatchers(HttpMethod.POST,"/modules/**").hasRole("Administrator");
                 auth.requestMatchers(HttpMethod.PATCH,"/modules/**").hasRole("Administrator");
                 auth.requestMatchers(HttpMethod.POST,"/departments/**").hasRole("Administrator");

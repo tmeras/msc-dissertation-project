@@ -24,47 +24,47 @@ SELECT NEXTVAL('_user_seq');
 SELECT NEXTVAL('_user_seq');
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(1, 'Student Dept.1-1', 'student1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
+VALUES(1, 'Student (Dept.1-1)', 'student1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(2, 'Student Dept.1-2', 'student2@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
+VALUES(2, 'Student (Dept.1-2)', 'student2@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(3, 'Student Dept.2', 'student3@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 2);
+VALUES(3, 'Student (Dept.2)', 'student3@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(4, 'Clerical Staff Dept.1', 'clstaff1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 2, 1);
+VALUES(4, 'Clerical Staff (Dept.1)', 'clstaff1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 2, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(5, 'Clerical Staff Dept.2', 'clstaff2@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 2, 2);
+VALUES(5, 'Clerical Staff (Dept.2)', 'clstaff2@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 2, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(6, 'Academic Staff Dept.1-1', 'acstaff1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 1);
+VALUES(6, 'Academic Staff (Dept.1-1)', 'acstaff1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(7, 'Academic Staff Dept.1-2', 'acstaff2@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 1);
+VALUES(7, 'Academic Staff (Dept.1-2)', 'acstaff2@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(8, 'Academic Staff Dept.1-3', 'acstaff3@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 1);
+VALUES(8, 'Academic Staff (Dept.1-3)', 'acstaff3@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(9, 'Academic Staff Dept.2-1', 'acstaff4@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 2);
+VALUES(9, 'Academic Staff (Dept.2-1)', 'acstaff4@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(10, 'Academic Staff Dept.2-2', 'acstaff5@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 2);
+VALUES(10, 'Academic Staff (Dept.2-2)', 'acstaff5@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(11, 'Academic Staff Dept.2-3', 'acstaff6@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 2);
+VALUES(11, 'Academic Staff (Dept.2-3)', 'acstaff6@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 3, 2);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
@@ -75,7 +75,7 @@ SELECT NEXTVAL('student_information_seq');
 SELECT NEXTVAL('student_information_seq');
 INSERT INTO
 student_information(id, has_health_issues, has_disability, has_lsp, additional_details, student_id)
-VALUES(1, true, false, true, null, 1);
+VALUES(1, true, false, true, '', 1);
 
 INSERT INTO
 student_information(id, has_health_issues, has_disability, has_lsp, additional_details, student_id)

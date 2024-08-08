@@ -83,7 +83,7 @@ public class AuthenticationControllerIntegrationTests {
         UserLoginRequestDto testUserLoginDto = TestDataUtil.createTestUserLoginDto();
         String loginJson = objectMapper.writeValueAsString(testUserLoginDto);
 
-        mockMvc.perform(
+        MvcResult loginResult = mockMvc.perform(
                 MockMvcRequestBuilders.post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(loginJson)
@@ -103,6 +103,29 @@ public class AuthenticationControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.user.departmentId").value(savedDepartmentEntity.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.jwt").isString()
+        ).andReturn();
+
+
+        // Fetch the logged-in user
+        String jwt = JsonPath.read(loginResult.getResponse().getContentAsString(), "$.jwt");
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/auth/me")
+                        .header("Authorization", "Bearer " + jwt)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.name").value(testUserRegistrationDto.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.email").value(testUserRegistrationDto.getEmail())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.isApproved").value(testUserRegistrationDto.getIsApproved())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.roleId").value(savedRoleEntity.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.departmentId").value(savedDepartmentEntity.getId())
         );
 
     }

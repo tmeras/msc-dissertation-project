@@ -11,9 +11,9 @@ import com.theodoremeras.dissertation.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -32,10 +32,14 @@ public class AuthenticationController {
 
     private UserMapper userMapper;
 
+    private JwtDecoder jwtDecoder;
+
+
     public AuthenticationController(
             AuthenticationService authenticationService, UserService userService,
             RoleService roleService, DepartmentService departmentService,
             UserRegistrationMapper userRegistrationMapper, UserMapper userMapper
+            , JwtDecoder jwtDecoder
     ) {
         this.authenticationService = authenticationService;
         this.userService = userService;
@@ -43,6 +47,7 @@ public class AuthenticationController {
         this.departmentService = departmentService;
         this.userRegistrationMapper = userRegistrationMapper;
         this.userMapper = userMapper;
+        this.jwtDecoder = jwtDecoder;
     }
 
     @PostMapping(path = "/auth/register")
@@ -83,6 +88,19 @@ public class AuthenticationController {
             return new ResponseEntity<>(result, HttpStatus.OK);
         else
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping(path = "/auth/me")
+    public ResponseEntity<UserDto> getLoggedInUser(
+            @RequestHeader(name = "Authorization") String token
+    ) {
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
+
+        // Extract user email from token and fetch user
+        String userEmail = jwt.getClaim("sub").toString();
+        UserEntity loggedInUser = userService.findOneByEmail(userEmail).get();
+
+        return new ResponseEntity<>(userMapper.mapToDto(loggedInUser), HttpStatus.OK);
     }
 
 }

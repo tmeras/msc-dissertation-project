@@ -41,6 +41,10 @@ public class UserService implements UserDetailsService {
         return userRepository.findById(id);
     }
 
+    public Optional<UserEntity> findOneByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     public Boolean exists(Integer id) {
         return userRepository.existsById(id);
     }
