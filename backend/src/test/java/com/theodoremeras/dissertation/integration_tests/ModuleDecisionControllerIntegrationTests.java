@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
+@WithMockUser(roles={"Academic_Staff"})
 public class ModuleDecisionControllerIntegrationTests {
 
     private ModuleDecisionService moduleDecisionService;
