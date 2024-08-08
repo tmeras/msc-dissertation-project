@@ -1,5 +1,7 @@
 package com.theodoremeras.dissertation;
 
+import com.theodoremeras.dissertation.authentication.UserLoginRequestDto;
+import com.theodoremeras.dissertation.authentication.UserRegistrationDto;
 import com.theodoremeras.dissertation.department.DepartmentDto;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationDto;
@@ -386,6 +388,26 @@ public final class TestDataUtil {
                 .hasLsp(false)
                 .additionalDetails("Additional details B")
                 .studentId(studentId)
+                .build();
+    }
+
+    public static UserRegistrationDto createTestUserRegistrationDto(
+        Integer roleId, Integer departmentId
+    ) {
+        return UserRegistrationDto.builder()
+                .name("User A")
+                .email("userA@gmail.com")
+                .password("pass123")
+                .isApproved(true)
+                .roleId(roleId)
+                .departmentId(departmentId)
+                .build();
+    }
+
+    public static UserLoginRequestDto createTestUserLoginDto() {
+        return UserLoginRequestDto.builder()
+                .email("userA@gmail.com")
+                .password("pass123")
                 .build();
     }
 

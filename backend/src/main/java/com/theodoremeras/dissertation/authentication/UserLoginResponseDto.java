@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserLoginResponseDto {
 
-    private UserDto userDto;
+    private UserDto user;
 
     private String jwt;
 

@@ -1,6 +1,7 @@
 package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
@@ -17,9 +18,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -28,6 +31,7 @@ import java.util.Arrays;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
+@WithMockUser(roles={"Administrator"})
 public class UserControllerIntegrationTests {
 
     private UserService userService;
@@ -47,101 +51,6 @@ public class UserControllerIntegrationTests {
         this.parentCreationService = parentCreationService;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
-    }
-
-    @Test
-    public void testCreateUser() throws Exception {
-        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
-
-        UserDto testUserDto = TestDataUtil.createTestUserDtoA(savedRoleEntity.getId(), savedDepartmentEntity.getId());
-        String userJson = objectMapper.writeValueAsString(testUserDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isCreated()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").isNumber()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.name").value(testUserDto.getName())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.email").value(testUserDto.getEmail())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.isApproved").value(testUserDto.getIsApproved())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.roleId").value(savedRoleEntity.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.departmentId").value(savedDepartmentEntity.getId())
-        );
-    }
-
-    @Test
-    public void testCreateUserWhenEmailIsNotUnique() throws Exception {
-        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
-
-        UserDto testUserDto = TestDataUtil.createTestUserDtoA(savedRoleEntity.getId(), savedDepartmentEntity.getId());
-        String userJson = objectMapper.writeValueAsString(testUserDto);
-
-        // Save user with the same email
-        userService.save(TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity));
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isConflict()
-        );
-    }
-
-    @Test
-    public void testCreateUserWhenNoRoleOrDepartmentIsSpecified() throws Exception {
-        UserDto testUserDto = TestDataUtil.createTestUserDtoA(null, null);
-        String userJson = objectMapper.writeValueAsString(testUserDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isBadRequest()
-        );
-    }
-
-    @Test
-    public void testCreateUserWhenNoDepartmentExists() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-
-        UserDto testUserDto = TestDataUtil.createTestUserDtoA(savedRoleEntity.getId(), 1);
-        String userJson = objectMapper.writeValueAsString(testUserDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
-    }
-
-    @Test
-    public void testCreateUserWhenNoRoleExists() throws Exception {
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
-
-        UserDto testUserDto = TestDataUtil.createTestUserDtoA(1, savedDepartmentEntity.getId());
-        String userJson = objectMapper.writeValueAsString(testUserDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.post("/users")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(userJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
     }
 
     @Test
