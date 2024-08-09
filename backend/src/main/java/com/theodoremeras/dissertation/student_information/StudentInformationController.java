@@ -48,7 +48,7 @@ public class StudentInformationController {
 
         StudentInformationEntity savedStudentInformationEntity =
                 studentInformationService.save(studentInformationEntity);
-        
+
         return new ResponseEntity<>(
                 studentInformationMapper.mapToDto(savedStudentInformationEntity),
                 HttpStatus.CREATED

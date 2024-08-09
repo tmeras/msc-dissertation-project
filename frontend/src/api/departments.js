@@ -2,7 +2,7 @@ import axios from "./axiosConfig"
 
 export function getDepartments() {
     return axios
-    .get(`/departments`)
+    .get(`/departments`, {headers: {'Authorization': null}})
     .then(res => res.data)
 }
 

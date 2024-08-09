@@ -11,7 +11,7 @@ import { createEvidence, getEvidenceByEcApplicationId } from '../../api/evidence
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
 import { getModulesByCodes } from '../../api/modules'
 import { createModuleDecision, getModuleDecisionsByEcApplicationIds } from '../../api/moduleDecisions'
-import { useParams } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 import ErrorPage from '../ErrorPage'
 
 
@@ -111,67 +111,103 @@ export default function StudentEcDetails() {
         )
 
     if (ecApplicationQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching EC applications`}
-                    errorMessage={`${ecApplicationQuery.error.code}
-                    | Server Response: ${ecApplicationQuery.error.response?.data.status}-${ecApplicationQuery.error.response?.data.error}`} 
-                />  
+        if (ecApplicationQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when fetching EC applications`}
+                        errorMessage={`${ecApplicationQuery.error.code}
+                        | Server Response: ${ecApplicationQuery.error.response?.data.status}-${ecApplicationQuery.error.response?.data.error}`} 
+                    />  
 
     if (studentQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching student information`}
-                    errorMessage={`${studentQuery.error.code}
-                    | Server Response: ${studentQuery.error.response?.data.status}-${studentQuery.error.response?.data.error}`} 
-                />  
+        if (studentQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when fetching student information`}
+                        errorMessage={`${studentQuery.error.code}
+                        | Server Response: ${studentQuery.error.response?.data.status}-${studentQuery.error.response?.data.error}`} 
+                    />  
 
     if (studentInformationQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching student information`}
-                    errorMessage={`${studentInformationQuery.error.code}
-                    | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`} 
-                />  
+        if (studentInformationQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when fetching student information`}
+                        errorMessage={`${studentInformationQuery.error.code}
+                        | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`} 
+                    />  
 
     if (evidenceQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching evidence`}
-                    errorMessage={`${evidenceQuery.error.code}
-                    | Server Response: ${evidenceQuery.error.response?.data.status}-${evidenceQuery.error.response?.data.error}`} 
-                />  
+        if (evidenceQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when fetching evidence`}
+                        errorMessage={`${evidenceQuery.error.code}
+                        | Server Response: ${evidenceQuery.error.response?.data.status}-${evidenceQuery.error.response?.data.error}`} 
+                    />  
                     
     if (moduleRequestsQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching module requests`}
-                    errorMessage={`${moduleRequestsQuery.error.code}
-                    | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
-                />  
+        if (moduleRequestsQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when fetching module requests`}
+                        errorMessage={`${moduleRequestsQuery.error.code}
+                        | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
+                    />  
                    
     if (modulesQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching modules`}
-                    errorMessage={`${modulesQuery.error.code}
-                    | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`} 
-                />  
+        if (modulesQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when fetching modules`}
+                        errorMessage={`${modulesQuery.error.code}
+                        | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`} 
+                    />  
                       
     if (createModuleDecisionMutation.isError)
-        return <ErrorPage 
-                    errorTitle={`when creating module decisions`}
-                    errorMessage={`${createModuleDecisionMutation.error.code}
-                    | Server Response: ${createModuleDecisionMutation.error.response?.data.status}-${createModuleDecisionMutation.error.response?.data.error}`} 
-                />  
+        if (createModuleDecisionMutation.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when creating module decisions`}
+                        errorMessage={`${createModuleDecisionMutation.error.code}
+                        | Server Response: ${createModuleDecisionMutation.error.response?.data.status}-${createModuleDecisionMutation.error.response?.data.error}`} 
+                    />  
                       
     if (updateEcApplicationMutation.isError)
-        return <ErrorPage 
-                    errorTitle={`when updating EC application`}
-                    errorMessage={`${updateEcApplicationMutation.error.code}
-                    | Server Response: ${updateEcApplicationMutation.error.response?.data.status}-${updateEcApplicationMutation.error.response?.data.error}`} 
-                />  
+        if (updateEcApplicationMutation.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when updating EC application`}
+                        errorMessage={`${updateEcApplicationMutation.error.code}
+                        | Server Response: ${updateEcApplicationMutation.error.response?.data.status}-${updateEcApplicationMutation.error.response?.data.error}`} 
+                    />  
                        
     if (createEvidenceMutation.isError)
-        return <ErrorPage 
-                    errorTitle={`when updating uploading evidence`}
-                    errorMessage={`${createEvidenceMutation.error.code}
-                    | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`} 
-                />  
+        if (createEvidenceMutation.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+        else
+            return <ErrorPage 
+                        errorTitle={`when updating uploading evidence`}
+                        errorMessage={`${createEvidenceMutation.error.code}
+                        | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`} 
+                    />  
 
     const student = {...studentQuery.data, ...studentInformationQuery.data[0]}
     const ecApplication = {...ecApplicationQuery.data}

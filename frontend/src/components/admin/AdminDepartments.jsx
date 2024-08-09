@@ -4,6 +4,7 @@ import { useAuth } from '../../providers/AuthProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createDepartment, getDepartments, updateDepartment } from '../../api/departments'
 import ErrorPage from "../ErrorPage"
+import { Navigate } from 'react-router'
 
 
 export default function AdminDepartments() {
@@ -51,13 +52,21 @@ export default function AdminDepartments() {
         )
     
     if (departmentsQuery.isError)
-        return <ErrorPage 
+        if (departmentsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage 
                     errorTitle={`when fetching departments`}
                     errorMessage={`${departmentsQuery.error.code}
                     | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`} 
                 /> 
 
     if (createDepartmentMutation.isError)
+        if (createDepartmentMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when creating department`}
                     errorMessage={`${createDepartmentMutation.error.code}
@@ -65,6 +74,10 @@ export default function AdminDepartments() {
                 /> 
 
     if (updateDepartmentMutation.isError)
+        if (updateDepartmentMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                 errorTitle={`when updating department`}
                 errorMessage={`${updateDepartmentMutation.error.code}

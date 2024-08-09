@@ -11,7 +11,7 @@ import { getEvidenceByEcApplicationId } from '../../api/evidence'
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
 import { getModulesByCodes } from '../../api/modules'
 import { createModuleDecision, getModuleDecisionsByEcApplicationIds } from '../../api/moduleDecisions'
-import { useParams } from 'react-router'
+import { Navigate, useParams } from 'react-router'
 import ErrorPage from '../ErrorPage'
 
 
@@ -105,13 +105,21 @@ export default function AcademicStaffEcDetails() {
         )
 
     if (ecApplicationQuery.isError)
-        return <ErrorPage 
+        if (ecApplicationQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage 
                     errorTitle={`when fetching EC applications`}
                     errorMessage={`${ecApplicationQuery.error.code}
                     | Server Response: ${ecApplicationQuery.error.response?.data.status}-${ecApplicationQuery.error.response?.data.error}`} 
                 />      
 
     if (studentQuery.isError)
+        if (studentQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching students`}
                     errorMessage={`${studentQuery.error.code}
@@ -119,6 +127,10 @@ export default function AcademicStaffEcDetails() {
                 />      
 
     if (studentInformationQuery.isError)
+        if (studentInformationQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching student information`}
                     errorMessage={`${studentInformationQuery.error.code}
@@ -126,6 +138,10 @@ export default function AcademicStaffEcDetails() {
                 />      
 
     if (evidenceQuery.isError)
+        if (evidenceQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching evidence`}
                     errorMessage={`${evidenceQuery.error.code}
@@ -133,6 +149,10 @@ export default function AcademicStaffEcDetails() {
                 />      
     
     if (moduleRequestsQuery.isError)
+        if (moduleRequestsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching module requests`}
                     errorMessage={`${moduleRequestsQuery.error.code}
@@ -140,6 +160,10 @@ export default function AcademicStaffEcDetails() {
                 />      
 
     if (modulesQuery.isError)
+        if (modulesQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching modules`}
                     errorMessage={`${modulesQuery.error.code}
@@ -147,6 +171,10 @@ export default function AcademicStaffEcDetails() {
                 />      
     
     if (createModuleDecisionMutation.isError)
+        if (createModuleDecisionMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when creating module decision`}
                     errorMessage={`${createModuleDecisionMutation.error.code}
@@ -154,6 +182,10 @@ export default function AcademicStaffEcDetails() {
                 />      
         
     if (updateEcApplicationMutation.isError)
+        if (updateEcApplicationMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when updating EC application`}
                     errorMessage={`${updateEcApplicationMutation.error.code}

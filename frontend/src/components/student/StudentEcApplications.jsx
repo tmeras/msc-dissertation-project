@@ -7,19 +7,18 @@ import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDe
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
 import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
-import { useLocation, useNavigate } from "react-router"
+import { Navigate, useLocation, useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import ErrorPage from "../ErrorPage"
 
 
 export default function StudentEcApplications() {
-    const {user} = useAuth()
+    const {user, setToken} = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
     const [showToast, setShowToast] = useState(false)
 
-    console.log("user", user)
-
+    
     // If redirected from EC application form page, show toast
     useEffect(() => {
         if (location.state?.applicationSubmitted) {
@@ -63,25 +62,37 @@ export default function StudentEcApplications() {
         )
     
     if (ecApplicationsQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching EC applications`}
-                    errorMessage={`${ecApplicationsQuery.error.code}
-                     | Server Response: ${ecApplicationsQuery.error.response?.data.status}-${ecApplicationsQuery.error.response?.data.error}`} 
-                />
-    
+        if (ecApplicationsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />        
+         else
+            return <ErrorPage 
+                        errorTitle={`when fetching EC applications`}
+                        errorMessage={`${ecApplicationsQuery.error.code}
+                        | Server Response: ${ecApplicationsQuery.error.response?.data.status}-${ecApplicationsQuery.error.response?.data.error}`} 
+                    />
+        
     if (moduleDecisionsQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching module decisions`}
-                    errorMessage={`${moduleDecisionsQuery.error.code}
-                     | Server Response: ${moduleDecisionsQuery.error.response?.data.status}-${moduleDecisionsQuery.error.response?.data.error}`} 
-                />
+        if (moduleDecisionsQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />
+         else
+            return <ErrorPage 
+                        errorTitle={`when fetching module decisions`}
+                        errorMessage={`${moduleDecisionsQuery.error.code}
+                        | Server Response: ${moduleDecisionsQuery.error.response?.data.status}-${moduleDecisionsQuery.error.response?.data.error}`} 
+                    />
     
     if (moduleRequestsQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching module requests`}
-                    errorMessage={`${moduleRequestsQuery.error.code}
-                     | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
-                />    
+        if (moduleRequestsQuery.error.response?.status == 401) 
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{sessionExpired: true}} />
+         else
+            return <ErrorPage 
+                        errorTitle={`when fetching module requests`}
+                        errorMessage={`${moduleRequestsQuery.error.code}
+                        | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
+                    />    
 
     const ecApplications = ecApplicationsQuery.data
     const moduleRequests = moduleRequestsQuery.data

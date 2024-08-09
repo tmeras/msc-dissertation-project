@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createModule, getModules, updateModule } from '../../api/modules'
 import { getDepartments } from '../../api/departments'
 import ErrorPage from "../ErrorPage"
+import { Navigate } from 'react-router'
 
 
 export default function AdminModules() {
@@ -61,6 +62,10 @@ export default function AdminModules() {
         )  
     
     if (modulesQuery.isError)
+        if (modulesQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                 errorTitle={`when fetching modules`}
                 errorMessage={`${modulesQuery.error.code}
@@ -68,6 +73,10 @@ export default function AdminModules() {
             /> 
 
     if (departmentsQuery.isError)
+        if (departmentsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                 errorTitle={`when fetching departments`}
                 errorMessage={`${departmentsQuery.error.code}
@@ -75,6 +84,10 @@ export default function AdminModules() {
             /> 
 
     if (createModuleMutation.isError)
+        if (createModuleMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                 errorTitle={`when creating module`}
                 errorMessage={`${createModuleMutation.error.code}
@@ -82,6 +95,10 @@ export default function AdminModules() {
             /> 
     
     if (updateModuleMutation.isError)
+        if (updateModuleMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                 errorTitle={`when updating module`}
                 errorMessage={`${updateModuleMutation.error.code}

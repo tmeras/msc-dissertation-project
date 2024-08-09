@@ -10,7 +10,7 @@ export default function AcademicStaffNavBar() {
 
     function logOut() {
         setToken(null)
-        navigate("/login", {replace: true})
+        navigate("/login")
     }        
 
     return (

@@ -6,7 +6,7 @@ import { useAuth } from "../../providers/AuthProvider"
 import { getEcApplications, getEcApplicationsByStudentDepartmentId } from '../../api/ecApplications'
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import ErrorPage from "../ErrorPage"
 
 
@@ -51,6 +51,10 @@ export default function ClericalStaffEcApplications() {
         )
     
     if (ecApplicationsQuery.isError)
+        if (ecApplicationsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching EC applications`}
                     errorMessage={`${ecApplicationsQuery.error.code}
@@ -58,6 +62,10 @@ export default function ClericalStaffEcApplications() {
                 />   
 
     if (moduleRequestsQuery.isError)
+        if (moduleRequestsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching module requests`}
                     errorMessage={`${moduleRequestsQuery.error.code}
@@ -65,6 +73,10 @@ export default function ClericalStaffEcApplications() {
                 />   
               
     if (studentsQuery.isError)
+        if (studentsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching students`}
                     errorMessage={`${studentsQuery.error.code}

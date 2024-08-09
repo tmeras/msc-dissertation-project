@@ -3,20 +3,20 @@ import { Alert, Button, Col, Container, Form, Row, Spinner, Toast, ToastContaine
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from '../api/axiosConfig'
 import { useAuth } from "../providers/AuthProvider";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import ErrorPage from "./ErrorPage";
 import { getRoles } from "../api/roles";
 
 
 export default function LoginPage() {
-    const {user, setToken} = useAuth()
+    const {user, token, setToken} = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
+    const queryClient = useQueryClient()
     const [showCredentialsAlert, setShowCredentialsAlert] = useState(false)
     const [showServerAlert, setShowServerAlert] = useState(false)
-    const [showToast, setShowToast] = useState(false)
+    const [showRegistrationToast, setShowRegistrationToast] = useState(false)
 
-    console.log("user:", user)
 
     // State for the login form fields
     const [formData, setFormData] = useState({
@@ -24,14 +24,22 @@ export default function LoginPage() {
         password: ""
     })
     
-    // If redirected from registration page, show toast
+    
     useEffect(() => {
+        // If redirected from registration page, show toast
         if (location.state?.accountCreated) {
             setShowToast(true)
             window.history.replaceState({}, '')
         }
+        // If redirected because token is invalid, set it to null
+        else if (location.state?.sessionExpired) {
+            window.history.replaceState({}, '')
+            queryClient.resetQueries() // reset all queries so that they are refetched
+            setToken(null)
+        }
     }, [location.state])
 
+    console.log("user", user)
 
     // Get all the roles
     const rolesQuery = useQuery({
@@ -77,7 +85,7 @@ export default function LoginPage() {
                     errorMessage={`The server might not be running`} 
                     redirectTo="refresh"
                 />    
-    
+        
     const roles = rolesQuery.data
 
 
@@ -92,7 +100,7 @@ export default function LoginPage() {
     function handleSubmit(event) {
         event.preventDefault()
 
-        axios.post(`/auth/login`, formData)
+        axios.post(`/auth/login`, formData, {headers: {'Authorization': null}})
             .then(res => {
                 const data = res.data
                 setToken(data.jwt)
@@ -113,7 +121,7 @@ export default function LoginPage() {
     return (
         <>
         <ToastContainer className="p-3" position={"top-start"}>
-          <Toast bg="success" onClose={() => setShowToast(false)} show={showToast} delay={5000} autohide>
+          <Toast bg="success" onClose={() => setShowRegistrationToast(false)} show={showRegistrationToast} delay={7000} autohide>
             <Toast.Header closeButton={false}>
               <img 
                 src="/sheffield-favicon.png"  
@@ -121,7 +129,7 @@ export default function LoginPage() {
               />
               <strong>ECF Portal</strong>
             </Toast.Header>
-            <Toast.Body>Account successfully created! Please sign in.</Toast.Body>
+            <Toast.Body>Account successfully created. Please sign in.</Toast.Body>
           </Toast>
         </ToastContainer>
 

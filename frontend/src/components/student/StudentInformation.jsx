@@ -1,14 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../../providers/AuthProvider'
 import { getStudentInformationByStudentId, updateStudentInformation } from '../../api/studentInformation'
 import { Container, Row, Col, Spinner, Form, Button, Alert } from 'react-bootstrap'
 import ErrorPage from "../ErrorPage"
+import { Navigate } from 'react-router'
 
 
 export default function StudentInformation() {
-    const {user} = useAuth()
-    const queryClient = useQueryClient()    
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
     const [showSuccessAlert, setShowSuccessAlert] = useState(false)
 
     // State for the form fields
@@ -21,7 +22,7 @@ export default function StudentInformation() {
 
     // Get the student's information
     const studentInformationQuery = useQuery({
-        queryKey: ["studentInformation", {studentId: user.id}],
+        queryKey: ["studentInformation", { studentId: user.id }],
         queryFn: () => getStudentInformationByStudentId(user.id)
     })
 
@@ -41,32 +42,40 @@ export default function StudentInformation() {
     if (studentInformationQuery.isLoading)
         return (
             <Container className='mt-3'>
-            <Row>
-            <Col md={{offset: 6 }}>
-                <Spinner animation="border" />
-            </Col>
-            </Row>
+                <Row>
+                    <Col md={{ offset: 6 }}>
+                        <Spinner animation="border" />
+                    </Col>
+                </Row>
             </Container>
         )
-    
+
     if (studentInformationQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching student information`}
-                    errorMessage={`${studentInformationQuery.error.code}
-                    | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`} 
-                />  
+        if (studentInformationQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage
+                errorTitle={`when fetching student information`}
+                errorMessage={`${studentInformationQuery.error.code}
+                    | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`}
+            />
 
     if (updateStudentInformationMutation.isError)
-        return <ErrorPage 
-                    errorTitle={`when updating student information`}
-                    errorMessage={`${updateStudentInformationMutation.error.code}
-                    | Server Response: ${updateStudentInformationMutation.error.response?.data.status}-${updateStudentInformationMutation.error.response?.data.error}`} 
-                />  
+        if (updateStudentInformationMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage
+                errorTitle={`when updating student information`}
+                errorMessage={`${updateStudentInformationMutation.error.code}
+                    | Server Response: ${updateStudentInformationMutation.error.response?.data.status}-${updateStudentInformationMutation.error.response?.data.error}`}
+            />
 
 
     // Handle change for the form fields
     const handleChange = (event) => {
-        const {name, value, type, checked} = event.target;
+        const { name, value, type, checked } = event.target;
         setFormData(prevFormData => ({
             ...prevFormData,
             [name]: type === "checkbox" ? checked : value
@@ -87,68 +96,68 @@ export default function StudentInformation() {
     }
 
 
-  return (
-    <Container className='mt-3'>
-    <Row>
-        <Col>
-            <h4 className='mb-3 text-center '>Personal Information</h4>
-        </Col>
-    </Row>
-    <Row>
-        <Col md={{offset: 3 }}>
-            <Form onSubmit={handleSubmit}>
-                <Form.Check 
-                    type='checkbox'
-                    name='hasLsp'
-                    checked={formData.hasLsp}
-                    onChange={handleChange}
-                    label='Are you on a learning support plan?'
-                    className='mb-3'
-                />
-                <Form.Check 
-                    type='checkbox'
-                    name='hasDisability'
-                    checked={formData.hasDisability}
-                    onChange={handleChange}
-                    label='Do you have any disabilities?'
-                    className='mb-3'
-                />
-                <Form.Check 
-                    type='checkbox'
-                    name='hasHealthIssues'
-                    checked={formData.hasHealthIssues}
-                    onChange={handleChange}
-                    label='Have you been diagnosed with any chronic illnesses?'
-                    className='mb-3'
-                />
+    return (
+        <Container className='mt-3'>
+            <Row>
+                <Col>
+                    <h4 className='mb-3 text-center '>Personal Information</h4>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={{ offset: 3 }}>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Check
+                            type='checkbox'
+                            name='hasLsp'
+                            checked={formData.hasLsp}
+                            onChange={handleChange}
+                            label='Are you on a learning support plan?'
+                            className='mb-3'
+                        />
+                        <Form.Check
+                            type='checkbox'
+                            name='hasDisability'
+                            checked={formData.hasDisability}
+                            onChange={handleChange}
+                            label='Do you have any disabilities?'
+                            className='mb-3'
+                        />
+                        <Form.Check
+                            type='checkbox'
+                            name='hasHealthIssues'
+                            checked={formData.hasHealthIssues}
+                            onChange={handleChange}
+                            label='Have you been diagnosed with any chronic illnesses?'
+                            className='mb-3'
+                        />
 
-                <Form.Group className='mb-2 w-75' controlId='studentInfoForm.TextArea1'>
-                    <Form.Label>Additional Information</Form.Label>
-                    <Form.Control
-                        as="textarea"
-                        rows={3}
-                        name='additionalDetails'
-                        value={formData.additionalDetails}
-                        onChange={handleChange}
-                    />
-                    <Form.Text muted>
-                        Please enter any other information you deem relevant
-                         for your exteunating circumstances applications here
-                    </Form.Text>
-                </Form.Group>
+                        <Form.Group className='mb-2 w-75' controlId='studentInfoForm.TextArea1'>
+                            <Form.Label>Additional Information</Form.Label>
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                name='additionalDetails'
+                                value={formData.additionalDetails}
+                                onChange={handleChange}
+                            />
+                            <Form.Text muted>
+                                Please enter any other information you deem relevant
+                                for your exteunating circumstances applications here
+                            </Form.Text>
+                        </Form.Group>
 
-                <Button variant='primary' type='submit' className='mb-3'>
-                    Update Information
-                </Button>
+                        <Button variant='primary' type='submit' className='mb-3'>
+                            Update Information
+                        </Button>
 
-                {showSuccessAlert &&
-                    <Alert style={{width: "13rem"}} variant="success" onClose={() => setShowSuccessAlert(false)} dismissible>
-                        Update successful!
-                    </Alert>
-                }
-            </Form>
-        </Col>
-    </Row>
-    </Container>
-  )
+                        {showSuccessAlert &&
+                            <Alert style={{ width: "13rem" }} variant="success" onClose={() => setShowSuccessAlert(false)} dismissible>
+                                Update successful!
+                            </Alert>
+                        }
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
+    )
 }

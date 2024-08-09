@@ -6,13 +6,13 @@ import { getUsers, updateUser } from '../../api/users'
 import { getDepartments } from '../../api/departments'
 import { getRoles } from '../../api/roles'
 import ErrorPage from "../ErrorPage"
+import { Navigate } from 'react-router'
 
 
 export default function AdminUsers() {
     const {user} = useAuth()
     const queryClient = useQueryClient()
 
-    console.log(user)
 
     // Get all the users
     const usersQuery = useQuery({
@@ -51,6 +51,10 @@ export default function AdminUsers() {
         )  
     
     if (usersQuery.isError)
+        if (usersQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching users`}
                     errorMessage={`${usersQuery.error.code}
@@ -58,6 +62,10 @@ export default function AdminUsers() {
                 />     
 
     if (departmentsQuery.isError)
+        if (departmentsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching departments`}
                     errorMessage={`${departmentsQuery.error.code}
@@ -65,6 +73,10 @@ export default function AdminUsers() {
                 />     
           
     if (rolesQuery.isError)
+        if (rolesQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when fetching roles`}
                     errorMessage={`${rolesQuery.error.code}
@@ -72,6 +84,10 @@ export default function AdminUsers() {
                 />     
 
     if (updateUserMutation.isError)
+        if (updateUserMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
         return <ErrorPage 
                     errorTitle={`when updating user`}
                     errorMessage={`${updateUserMutation.error.code}

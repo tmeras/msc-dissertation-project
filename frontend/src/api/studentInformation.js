@@ -14,7 +14,7 @@ export function updateStudentInformation(data) {
 
 export function createStudentInformation(data) {
     return axios
-    .post(`/student-information`, data)
+    .post(`/student-information`, data, {headers: {'Authorization': null}})
     .then(res => res.data)
 }
 

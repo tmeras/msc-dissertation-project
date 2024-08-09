@@ -8,7 +8,7 @@ export function getRoleByName(roleName) {
 
 export function getRoles() {
     return axios
-    .get(`/roles`)
+    .get(`/roles`, {headers: {'Authorization': null}})
     .then(res => res.data)
 }
 

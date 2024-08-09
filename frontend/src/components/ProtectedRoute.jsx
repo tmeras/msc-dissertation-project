@@ -7,7 +7,7 @@ import { useAuth } from "../providers/AuthProvider";
 
 
 export default function ProtectedRoute(props) {
-    const {token, user} = useAuth()
+    const {token, user, setToken} = useAuth()
 
     const rolesQuery = useQuery({
         queryKey: ["roles"],
@@ -29,9 +29,8 @@ export default function ProtectedRoute(props) {
     if (rolesQuery.isError) 
         return <ErrorPage 
                     errorTitle={`when fetching roles`}
-                    errorMessage={`${rolesQuery.error.code}
-                        | Server Response:  Status: ${rolesQuery.error.response?.status} - Message: ${rolesQuery.error.response?.data.error}`} 
-                        redirectTo="/login"
+                    errorMessage={`The server might not be running`} 
+                    redirectTo="refresh"
                 />
 
     const roles = rolesQuery.data
