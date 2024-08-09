@@ -31,7 +31,7 @@ import java.util.Arrays;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 public class UserControllerIntegrationTests {
 
     private UserService userService;
@@ -55,8 +55,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetAllUsers() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntityA = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntityA = userService.save(testUserEntityA);
@@ -97,8 +97,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetAllUsersByIds() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntityA = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntityA = userService.save(testUserEntityA);
@@ -107,7 +107,7 @@ public class UserControllerIntegrationTests {
 
         mockMvc.perform(
                 MockMvcRequestBuilders
-                        .get("/users?ids=" + savedUserEntityA.getId() + ", "  + savedUserEntityB.getId())
+                        .get("/users?ids=" + savedUserEntityA.getId() + ", " + savedUserEntityB.getId())
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -140,8 +140,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetAllUsersByEmail() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntityA = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntityA = userService.save(testUserEntityA);
@@ -169,8 +169,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetAllUsersByDepartmentIdAndRoleId() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntityA = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntityA = userService.save(testUserEntityA);
@@ -214,8 +214,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetUserById() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntity = userService.save(testUserEntity);
@@ -252,8 +252,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateUser() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntity = userService.save(testUserEntity);
@@ -298,8 +298,8 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testDeleteUser() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntity = userService.save(testUserEntity);

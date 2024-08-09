@@ -28,7 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 class DepartmentControllerIntegrationTests {
 
     private DepartmentService departmentService;

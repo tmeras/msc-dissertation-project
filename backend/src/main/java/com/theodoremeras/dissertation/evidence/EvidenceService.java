@@ -37,9 +37,9 @@ public class EvidenceService {
 
         Path destinationFile =
                 this.uploadLocation.resolve(Paths.get(newFileName))
-                .normalize().toAbsolutePath();
+                        .normalize().toAbsolutePath();
 
-        try(InputStream inputStream = file.getInputStream()) {
+        try (InputStream inputStream = file.getInputStream()) {
             Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
         }
 
@@ -58,8 +58,7 @@ public class EvidenceService {
                 return resource;
             else
                 return null;
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             return null;
         }
     }
@@ -83,8 +82,7 @@ public class EvidenceService {
                 String fileName = foundEntity.get().getFileName();
                 Files.delete(load(fileName));
             }
-        }
-        catch (IOException ignored) {
+        } catch (IOException ignored) {
             // Do not perform any action if file doesn't exist
             ignored.printStackTrace();
         }

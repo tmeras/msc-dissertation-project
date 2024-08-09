@@ -62,7 +62,7 @@ public class StudentInformationController {
         //Determine whether to fetch all student information or only the that the provided student id
         List<StudentInformationEntity> studentInformationEntities;
         if (studentId == null)
-                studentInformationEntities = studentInformationService.findAll();
+            studentInformationEntities = studentInformationService.findAll();
         else {
             Optional<StudentInformationEntity> foundStudentInformation =
                     studentInformationService.findOneByStudentId(studentId);
@@ -102,7 +102,7 @@ public class StudentInformationController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+            MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

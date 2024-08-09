@@ -44,14 +44,14 @@ public final class TestDataUtil {
     }
 
     public static DepartmentEntity createTestDepartmentEntityB() {
-         return DepartmentEntity.builder()
+        return DepartmentEntity.builder()
                 .id(2)
                 .name("Medicine")
                 .build();
     }
 
     public static DepartmentDto createTestDepartmentDtoB() {
-         return DepartmentDto.builder()
+        return DepartmentDto.builder()
                 .id(2)
                 .name("Medicine")
                 .build();
@@ -233,7 +233,7 @@ public final class TestDataUtil {
                 .build();
     }
 
-   public static RoleEntity createTestRoleEntityB() {
+    public static RoleEntity createTestRoleEntityB() {
         return RoleEntity.builder()
                 .name("Role B")
                 .build();
@@ -392,7 +392,7 @@ public final class TestDataUtil {
     }
 
     public static UserRegistrationDto createTestUserRegistrationDto(
-        Integer roleId, Integer departmentId
+            Integer roleId, Integer departmentId
     ) {
         return UserRegistrationDto.builder()
                 .name("User A")

@@ -43,19 +43,19 @@ public class UserController {
             @RequestParam(value = "ids", required = false) List<Integer> ids,
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "roleId", required = false) Integer roleId,
-            @RequestParam(value="departmentId", required = false) Integer departmentId
+            @RequestParam(value = "departmentId", required = false) Integer departmentId
     ) {
         List<UserEntity> userEntities;
         // Fetch all users whose id is in the provided list
         if (ids != null)
-               userEntities = userService.findAllByIdIn(ids);
-        // Fetch the user who has the specified email
+            userEntities = userService.findAllByIdIn(ids);
+            // Fetch the user who has the specified email
         else if (email != null)
-                userEntities = userService.findAllByEmail(email);
-        // Fetch all users that have the specified role and department id
+            userEntities = userService.findAllByEmail(email);
+            // Fetch all users that have the specified role and department id
         else if (roleId != null && departmentId != null)
-                userEntities = userService.findAllByDepartmentIdAndRoleId(departmentId, roleId);
-        // Otherwise, fetch all users
+            userEntities = userService.findAllByDepartmentIdAndRoleId(departmentId, roleId);
+            // Otherwise, fetch all users
         else
             userEntities = userService.findAll();
 
@@ -96,7 +96,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+            MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

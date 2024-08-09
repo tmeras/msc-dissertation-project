@@ -20,7 +20,7 @@ public class ModuleDecisionMapper {
     }
 
     public ModuleDecisionEntity mapFromDto(ModuleDecisionDto moduleDecisionDto) {
-        ModuleRequestEntity moduleRequest = (moduleDecisionDto.getModuleRequestId() == null) ? null:
+        ModuleRequestEntity moduleRequest = (moduleDecisionDto.getModuleRequestId() == null) ? null :
                 ModuleRequestEntity.builder()
                         .id(moduleDecisionDto.getModuleRequestId())
                         .build();

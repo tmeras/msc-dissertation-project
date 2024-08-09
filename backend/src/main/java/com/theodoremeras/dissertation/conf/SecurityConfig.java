@@ -65,28 +65,28 @@ public class SecurityConfig {
 
         // Enforce endpoint protection
         http.csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(auth -> {
-                auth.requestMatchers("/auth/login").permitAll();
-                auth.requestMatchers("/auth/register").permitAll();
-                auth.requestMatchers(HttpMethod.GET,"/departments/**").permitAll();
-                auth.requestMatchers(HttpMethod.GET,"/roles/**").permitAll();
-                auth.requestMatchers(HttpMethod.POST,"/student-information/**").permitAll();
-                auth.requestMatchers(HttpMethod.POST,"/modules/**").hasRole("Administrator");
-                auth.requestMatchers(HttpMethod.PATCH,"/modules/**").hasRole("Administrator");
-                auth.requestMatchers(HttpMethod.POST,"/departments/**").hasRole("Administrator");
-                auth.requestMatchers(HttpMethod.PATCH,"/departments/**").hasRole("Administrator");
-                auth.requestMatchers(HttpMethod.PATCH,"/users/**").hasRole("Administrator");
-                auth.requestMatchers(HttpMethod.POST,"/roles/**").hasRole("Administrator");
-                auth.requestMatchers(HttpMethod.POST,"/module-decisions/**").hasRole("Academic_Staff");
-                auth.anyRequest().authenticated();
-            });
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/auth/login").permitAll();
+                    auth.requestMatchers("/auth/register").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/departments/**").permitAll();
+                    auth.requestMatchers(HttpMethod.GET, "/roles/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/student-information/**").permitAll();
+                    auth.requestMatchers(HttpMethod.POST, "/modules/**").hasRole("Administrator");
+                    auth.requestMatchers(HttpMethod.PATCH, "/modules/**").hasRole("Administrator");
+                    auth.requestMatchers(HttpMethod.POST, "/departments/**").hasRole("Administrator");
+                    auth.requestMatchers(HttpMethod.PATCH, "/departments/**").hasRole("Administrator");
+                    auth.requestMatchers(HttpMethod.PATCH, "/users/**").hasRole("Administrator");
+                    auth.requestMatchers(HttpMethod.POST, "/roles/**").hasRole("Administrator");
+                    auth.requestMatchers(HttpMethod.POST, "/module-decisions/**").hasRole("Academic_Staff");
+                    auth.anyRequest().authenticated();
+                });
 
         // Configure JWT
         http.oauth2ResourceServer(oAuth -> oAuth
-                 .jwt(jwt -> jwt
-                     .jwtAuthenticationConverter(jwtAuthenticationConverter())
-                 )
-         );
+                .jwt(jwt -> jwt
+                        .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                )
+        );
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         return http.build();

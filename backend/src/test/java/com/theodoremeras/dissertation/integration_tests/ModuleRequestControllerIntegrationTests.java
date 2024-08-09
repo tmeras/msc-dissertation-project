@@ -33,7 +33,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 public class ModuleRequestControllerIntegrationTests {
 
     private ModuleRequestService moduleRequestService;
@@ -47,8 +47,7 @@ public class ModuleRequestControllerIntegrationTests {
     @Autowired
     public ModuleRequestControllerIntegrationTests(
             ModuleRequestService moduleRequestService, ParentCreationService parentCreationService,
-            MockMvc mockMvc, ObjectMapper objectMapper)
-    {
+            MockMvc mockMvc, ObjectMapper objectMapper) {
         this.moduleRequestService = moduleRequestService;
         this.parentCreationService = parentCreationService;
         this.mockMvc = mockMvc;
@@ -88,7 +87,7 @@ public class ModuleRequestControllerIntegrationTests {
     @Test
     public void testCreateModuleRequestWhenNoApplicationOrModuleIsSpecified() throws Exception {
         ModuleRequestDto testRequestDto =
-                TestDataUtil.createTestRequestDtoA(null,null);
+                TestDataUtil.createTestRequestDtoA(null, null);
         String requestJson = objectMapper.writeValueAsString(testRequestDto);
 
         mockMvc.perform(
@@ -105,7 +104,7 @@ public class ModuleRequestControllerIntegrationTests {
         ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestDto testRequestDto =
-                TestDataUtil.createTestRequestDtoA(1,savedModule.getCode());
+                TestDataUtil.createTestRequestDtoA(1, savedModule.getCode());
         String requestJson = objectMapper.writeValueAsString(testRequestDto);
 
         mockMvc.perform(
@@ -122,7 +121,7 @@ public class ModuleRequestControllerIntegrationTests {
         EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
 
         ModuleRequestDto testRequestDto =
-                TestDataUtil.createTestRequestDtoA(savedEcApplication.getId(),"COM123");
+                TestDataUtil.createTestRequestDtoA(savedEcApplication.getId(), "COM123");
         String requestJson = objectMapper.writeValueAsString(testRequestDto);
 
         mockMvc.perform(
@@ -188,7 +187,7 @@ public class ModuleRequestControllerIntegrationTests {
         ModuleRequestEntity savedRequestEntityA = moduleRequestService.save(testRequestEntityA);
         ModuleRequestEntity testRequestEntityB =
                 TestDataUtil.createTestRequestEntityB(savedEcApplication, savedModule);
-          ModuleRequestEntity savedRequestEntityB = moduleRequestService.save(testRequestEntityB);
+        ModuleRequestEntity savedRequestEntityB = moduleRequestService.save(testRequestEntityB);
 
         mockMvc.perform(
                 MockMvcRequestBuilders

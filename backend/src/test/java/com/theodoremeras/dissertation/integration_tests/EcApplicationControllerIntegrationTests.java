@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 public class EcApplicationControllerIntegrationTests {
 
     private EcApplicationService ecApplicationService;
@@ -53,7 +53,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testCreateEcApplication() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationDto testEcApplicationDto = TestDataUtil.createTestEcApplicationDtoA(savedUser.getId());
         String applicationJson = objectMapper.writeValueAsString(testEcApplicationDto);
@@ -80,7 +80,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetAllEcApplications() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
@@ -125,7 +125,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetAllEcApplicationsByIds() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
@@ -172,7 +172,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetAllEcApplicationsByStudentId() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
@@ -218,7 +218,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetAllEcApplicationsByStudentDepartmentId() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
@@ -264,7 +264,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetAllEcApplicationsByStudentDepartmentIdAndIsReferred() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
@@ -274,7 +274,7 @@ public class EcApplicationControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders
                         .get("/ec-applications?studentDepartmentId=" + savedUser.getDepartment().getId()
-                        + "&isReferred=true")
+                                + "&isReferred=true")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
@@ -297,7 +297,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testGetEcApplicationById() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
@@ -336,7 +336,7 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateEcApplication() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
@@ -382,14 +382,14 @@ public class EcApplicationControllerIntegrationTests {
 
     @Test
     public void testDeleteEcApplication() throws Exception {
-        UserEntity savedUser =  parentCreationService.createUserParentEntity();
+        UserEntity savedUser = parentCreationService.createUserParentEntity();
 
         EcApplicationEntity testEcApplication = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplication = ecApplicationService.save(testEcApplication);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/ec-applications/" + savedEcApplication.getId())
-                            .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNoContent()
         );
@@ -404,7 +404,6 @@ public class EcApplicationControllerIntegrationTests {
                 MockMvcResultMatchers.status().isNoContent()
         );
     }
-
 
 
 }

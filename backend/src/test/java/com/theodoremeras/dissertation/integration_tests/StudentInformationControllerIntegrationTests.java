@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 public class StudentInformationControllerIntegrationTests {
 
     private StudentInformationService studentInformationService;
@@ -45,7 +45,7 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testCreateStudentInformation() throws Exception {
-        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
+        UserEntity savedStudent = parentCreationService.createUserParentEntity();
 
         StudentInformationDto testStudentInformationDto =
                 TestDataUtil.createTestStudentInformationDtoA(savedStudent.getId());
@@ -109,7 +109,7 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testGetAllStudentInformation() throws Exception {
-        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
+        UserEntity savedStudent = parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntityA =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -164,9 +164,9 @@ public class StudentInformationControllerIntegrationTests {
         );
     }
 
-  @Test
+    @Test
     public void testGetAllStudentInformationByStudentId() throws Exception {
-        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
+        UserEntity savedStudent = parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntityA =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -223,7 +223,7 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateStudentInformation() throws Exception {
-        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
+        UserEntity savedStudent = parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -280,7 +280,7 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testDeleteStudentInformation() throws Exception {
-        UserEntity savedStudent =  parentCreationService.createUserParentEntity();
+        UserEntity savedStudent = parentCreationService.createUserParentEntity();
 
         StudentInformationEntity testStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);

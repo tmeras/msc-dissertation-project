@@ -31,7 +31,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 public class EvidenceControllerIntegrationTests {
 
     private EvidenceService evidenceService;
@@ -51,10 +51,10 @@ public class EvidenceControllerIntegrationTests {
 
     @Test
     public void testUploadEvidence() throws Exception {
-        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
 
         MockMultipartFile multipartFile =
-                new MockMultipartFile("file","test.txt",
+                new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content".getBytes());
 
         mockMvc.perform(
@@ -102,7 +102,7 @@ public class EvidenceControllerIntegrationTests {
 
     @Test
     public void testGetAllEvidenceByEcApplicationId() throws Exception {
-        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content".getBytes());
@@ -124,7 +124,7 @@ public class EvidenceControllerIntegrationTests {
 
     @Test
     public void testServeFile() throws Exception {
-        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content".getBytes());
@@ -144,7 +144,7 @@ public class EvidenceControllerIntegrationTests {
     @Test
     public void testServeFileWhenNoFileExists() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/evidence/file.txt" )
+                MockMvcRequestBuilders.get("/evidence/file.txt")
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
         );
@@ -152,7 +152,7 @@ public class EvidenceControllerIntegrationTests {
 
     @Test
     public void testDeleteEvidence() throws Exception {
-        EcApplicationEntity savedEcApplication =  parentCreationService.createEcApplicationParentEntity();
+        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content".getBytes());

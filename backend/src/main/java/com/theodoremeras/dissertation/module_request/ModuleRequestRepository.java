@@ -14,5 +14,4 @@ public interface ModuleRequestRepository extends JpaRepository<ModuleRequestEnti
 
     List<ModuleRequestEntity> findAllByEcApplicationIdIn(List<Integer> ids);
 
-
 }

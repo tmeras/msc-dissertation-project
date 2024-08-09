@@ -48,7 +48,7 @@ public class DepartmentController {
     @GetMapping(path = "/departments/{id}")
     public ResponseEntity<DepartmentDto> getDepartmentById(@PathVariable("id") Integer id) {
         Optional<DepartmentEntity> foundDepartment = departmentService.findOneById(id);
-        return foundDepartment.map(departmentEntity ->{
+        return foundDepartment.map(departmentEntity -> {
             DepartmentDto departmentDto = departmentMapper.mapToDto(departmentEntity);
             return new ResponseEntity<>(departmentDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -69,14 +69,14 @@ public class DepartmentController {
 
         departmentDto.setId(id);
         DepartmentEntity departmentEntity = departmentMapper.mapFromDto(departmentDto);
-        DepartmentEntity updatedDepartmentEntity = departmentService.partialUpdate(id ,departmentEntity);
+        DepartmentEntity updatedDepartmentEntity = departmentService.partialUpdate(id, departmentEntity);
         return new ResponseEntity<>(departmentMapper.mapToDto(updatedDepartmentEntity), HttpStatus.OK);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+            MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

@@ -56,8 +56,7 @@ public class EvidenceController {
         try {
             EvidenceEntity savedEvidenceEntity = evidenceService.save(file, evidenceEntity);
             return new ResponseEntity<>(evidenceMapper.mapToDto(savedEvidenceEntity), HttpStatus.CREATED);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -65,7 +64,7 @@ public class EvidenceController {
     @GetMapping(path = "/evidence")
     public List<EvidenceDto> getAllEvidenceByEcApplicationId(
             @RequestParam("ecApplicationId") Integer ecApplicationId
-    ){
+    ) {
         List<EvidenceEntity> evidenceEntities = evidenceService.findAllByEcApplicationId(ecApplicationId);
 
         return evidenceEntities.stream()
@@ -74,14 +73,14 @@ public class EvidenceController {
     }
 
     @GetMapping(path = "/evidence/{fileName}")
-    public ResponseEntity<Resource> serveFile(@PathVariable("fileName") String fileName)  {
+    public ResponseEntity<Resource> serveFile(@PathVariable("fileName") String fileName) {
         Resource file = evidenceService.loadAsResource(fileName);
 
         if (file == null)
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-				"attachment; filename=\"" + file.getFilename() + "\"").body(file);
+                "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
     @DeleteMapping(path = "/evidence/{id}")

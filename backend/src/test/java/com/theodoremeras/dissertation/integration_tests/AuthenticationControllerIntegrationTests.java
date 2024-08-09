@@ -51,7 +51,7 @@ public class AuthenticationControllerIntegrationTests {
     @Test
     public void testRegisterAndLoginUser() throws Exception {
         RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         // Register user
         UserRegistrationDto testUserRegistrationDto =
@@ -133,7 +133,7 @@ public class AuthenticationControllerIntegrationTests {
     @Test
     public void testRegisterUserWhenEmailIsNotUnique() throws Exception {
         RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserRegistrationDto testUserRegistrationDto =
                 TestDataUtil.createTestUserRegistrationDto(savedRoleEntity.getId(), savedDepartmentEntity.getId());
@@ -169,7 +169,7 @@ public class AuthenticationControllerIntegrationTests {
 
     @Test
     public void testRegisterUserWhenNoDepartmentExists() throws Exception {
-        RoleEntity savedRoleEntity =  parentCreationService.createRoleParentEntity();
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
 
         UserRegistrationDto testUserRegistrationDto =
                 TestDataUtil.createTestUserRegistrationDto(savedRoleEntity.getId(), 1);
@@ -186,7 +186,7 @@ public class AuthenticationControllerIntegrationTests {
 
     @Test
     public void testRegisterUserWhenNoRoleExists() throws Exception {
-        DepartmentEntity savedDepartmentEntity =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
         UserRegistrationDto testUserRegistrationDto =
                 TestDataUtil.createTestUserRegistrationDto(1, savedDepartmentEntity.getId());

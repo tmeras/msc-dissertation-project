@@ -13,17 +13,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableConfigurationProperties(StorageProperties.class)
 public class DissertationApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(DissertationApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(DissertationApplication.class, args);
+    }
 
-	@Bean
-	CommandLineRunner init(EvidenceService evidenceService, PasswordEncoder passwordEncoder) {
-		return (args) -> {
+    @Bean
+    CommandLineRunner init(EvidenceService evidenceService, PasswordEncoder passwordEncoder) {
+        return (args) -> {
 
-			//Ensure folder for uploading evidence exists
-			evidenceService.init();
-		};
-	}
+            //Ensure folder for uploading evidence exists
+            evidenceService.init();
+        };
+    }
 
 }

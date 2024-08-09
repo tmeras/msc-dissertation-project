@@ -27,7 +27,7 @@ public class UserService implements UserDetailsService {
 
     public List<UserEntity> findAllByEmail(String email) {
         return userRepository.findAllByEmail(email);
-}
+    }
 
     public List<UserEntity> findAllByDepartmentIdAndRoleId(Integer departmentId, Integer roleId) {
         return userRepository.findAllByDepartmentIdAndRoleId(departmentId, roleId);

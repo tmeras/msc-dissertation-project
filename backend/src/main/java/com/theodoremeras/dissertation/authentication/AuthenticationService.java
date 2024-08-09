@@ -47,7 +47,7 @@ public class AuthenticationService {
     }
 
     public UserLoginResponseDto loginUser(UserLoginRequestDto userLoginRequestDto) {
-        try{
+        try {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             userLoginRequestDto.getEmail(),
@@ -65,7 +65,7 @@ public class AuthenticationService {
                     token
             );
 
-        } catch (AuthenticationException e){
+        } catch (AuthenticationException e) {
             return null;
         }
     }

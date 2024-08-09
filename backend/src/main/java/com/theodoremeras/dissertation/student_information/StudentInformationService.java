@@ -27,7 +27,7 @@ public class StudentInformationService {
     }
 
     public Optional<StudentInformationEntity> findOneByStudentId(Integer id) {
-        return  studentInformationRepository.findByStudentId(id);
+        return studentInformationRepository.findByStudentId(id);
     }
 
     public Boolean exists(Integer id) {

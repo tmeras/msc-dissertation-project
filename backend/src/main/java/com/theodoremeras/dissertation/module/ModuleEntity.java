@@ -15,7 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name="module")
+@Table(name = "module")
 public class ModuleEntity {
 
     @Id

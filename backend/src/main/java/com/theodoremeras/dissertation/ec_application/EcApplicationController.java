@@ -26,7 +26,7 @@ public class EcApplicationController {
 
     public EcApplicationController(
             EcApplicationService ecApplicationService, UserService userService,
-           EcApplicationMapper ecApplicationMapper
+            EcApplicationMapper ecApplicationMapper
     ) {
         this.ecApplicationService = ecApplicationService;
         this.userService = userService;
@@ -65,17 +65,17 @@ public class EcApplicationController {
         // Fetch all EC applications whose id is in the provided list
         if (ids != null)
             ecApplicationEntities = ecApplicationService.findAllByIdIn(ids);
-        // Fetch all EC applications submitted by the student with the specified student id
+            // Fetch all EC applications submitted by the student with the specified student id
         else if (studentId != null)
             ecApplicationEntities = ecApplicationService.findAllByStudentId(studentId);
-        // Fetch all EC applications submitted by students who belong to the specified department
-        // and according to their referred status
+            // Fetch all EC applications submitted by students who belong to the specified department
+            // and according to their referred status
         else if (studentDepartmentId != null && isReferred != null)
             ecApplicationEntities = ecApplicationService.findAllByStudentDepartmentIdAndIsReferred(studentDepartmentId, isReferred);
-        // Fetch all EC applications submitted by students who belong to the specified department
+            // Fetch all EC applications submitted by students who belong to the specified department
         else if (studentDepartmentId != null)
             ecApplicationEntities = ecApplicationService.findAllByStudentDepartmentId(studentDepartmentId);
-        // Otherwise, fetch all EC applications
+            // Otherwise, fetch all EC applications
         else
             ecApplicationEntities = ecApplicationService.findAll();
 
@@ -115,7 +115,7 @@ public class EcApplicationController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+            MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

@@ -40,7 +40,7 @@ public class RoleController {
             @RequestParam(value = "name", required = false) String roleName
     ) {
         // Determine whether to fetch all roles or only those matching the provided role name
-        List<RoleEntity> roleEntities = (roleName == null) ? roleService.findAll():
+        List<RoleEntity> roleEntities = (roleName == null) ? roleService.findAll() :
                 roleService.findAllByRoleName(roleName);
 
         return roleEntities.stream()
@@ -77,7 +77,7 @@ public class RoleController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+            MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

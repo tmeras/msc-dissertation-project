@@ -69,8 +69,8 @@ public class ModuleController {
     public ResponseEntity<ModuleDto> getModuleByCode(@PathVariable("code") String moduleCode) {
         Optional<ModuleEntity> foundModule = moduleService.findOneByCode(moduleCode);
         return foundModule.map(moduleEntity -> {
-          ModuleDto moduleDto = moduleMapper.mapToDto(moduleEntity);
-          return new ResponseEntity<>(moduleDto, HttpStatus.OK);
+            ModuleDto moduleDto = moduleMapper.mapToDto(moduleEntity);
+            return new ResponseEntity<>(moduleDto, HttpStatus.OK);
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -96,7 +96,7 @@ public class ModuleController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
-      MethodArgumentNotValidException ex) {
+            MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();

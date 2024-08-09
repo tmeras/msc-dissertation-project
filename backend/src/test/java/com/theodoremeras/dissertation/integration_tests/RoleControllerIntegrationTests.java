@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 public class RoleControllerIntegrationTests {
 
     private RoleService roleService;
@@ -39,7 +39,7 @@ public class RoleControllerIntegrationTests {
 
     @Test
     public void testCreateRole() throws Exception {
-        RoleEntity testRoleDto  = TestDataUtil.createTestRoleEntityA();
+        RoleEntity testRoleDto = TestDataUtil.createTestRoleEntityA();
         String roleJson = objectMapper.writeValueAsString(testRoleDto);
 
         mockMvc.perform(

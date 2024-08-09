@@ -16,7 +16,7 @@ public class ModuleMapper {
 
     public ModuleEntity mapFromDto(ModuleDto moduleDto) {
         DepartmentEntity department = (moduleDto.getDepartmentId() == null) ? null :
-                        DepartmentEntity.builder().id(moduleDto.getDepartmentId()).build();
+                DepartmentEntity.builder().id(moduleDto.getDepartmentId()).build();
 
         return ModuleEntity.builder()
                 .name(moduleDto.getName())

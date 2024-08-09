@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Administrator"})
+@WithMockUser(roles = {"Administrator"})
 public class ModuleControllerIntegrationTests {
 
     private ModuleService moduleService;
@@ -70,7 +70,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testCreateModuleWhenModuleExists() throws Exception {
-        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartment = parentCreationService.createDepartmentParentEntity();
 
         ModuleDto testModuleDto = TestDataUtil.createTestModuleDtoA(savedDepartment.getId());
         String moduleJson = objectMapper.writeValueAsString(testModuleDto);
@@ -115,7 +115,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testGetAllModules() throws Exception {
-        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartment = parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntityA = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntityA);
@@ -144,7 +144,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testGetAllModulesByCodes() throws Exception {
-        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartment = parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntityA = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntityA);
@@ -174,7 +174,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testGetModuleById() throws Exception {
-        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartment = parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntity);
@@ -205,7 +205,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateModule() throws Exception {
-        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartment = parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         ModuleEntity savedModuleEntity = moduleService.save(testModuleEntity);
@@ -244,7 +244,7 @@ public class ModuleControllerIntegrationTests {
 
     @Test
     public void testDeleteModule() throws Exception {
-        DepartmentEntity savedDepartment =  parentCreationService.createDepartmentParentEntity();
+        DepartmentEntity savedDepartment = parentCreationService.createDepartmentParentEntity();
 
         ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(savedDepartment);
         moduleService.save(testModuleEntity);

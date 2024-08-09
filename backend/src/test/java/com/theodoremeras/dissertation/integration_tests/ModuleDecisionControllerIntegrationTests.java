@@ -24,7 +24,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-@WithMockUser(roles={"Academic_Staff"})
+@WithMockUser(roles = {"Academic_Staff"})
 public class ModuleDecisionControllerIntegrationTests {
 
     private ModuleDecisionService moduleDecisionService;
@@ -51,8 +51,8 @@ public class ModuleDecisionControllerIntegrationTests {
 
     @Test
     public void testCreateModuleDecision() throws Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
@@ -108,7 +108,7 @@ public class ModuleDecisionControllerIntegrationTests {
 
     @Test
     public void testCreateModuleDecisionWhenNoModuleRequestExists() throws Exception {
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
 
         ModuleDecisionDto testModuleDecisionDto =
@@ -130,7 +130,7 @@ public class ModuleDecisionControllerIntegrationTests {
 
     @Test
     public void testCreateModuleDecisionWhenNoStaffExists() throws Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
@@ -152,9 +152,9 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleDecisions() throws  Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+    public void testGetAllModuleDecisions() throws Exception {
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
@@ -210,9 +210,9 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleDecisionsByModuleRequestId() throws  Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+    public void testGetAllModuleDecisionsByModuleRequestId() throws Exception {
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
@@ -269,9 +269,9 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleDecisionsByStaffMemberId() throws  Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+    public void testGetAllModuleDecisionsByStaffMemberId() throws Exception {
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
@@ -328,9 +328,9 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testGetAllModuleDecisionsByEcApplicationIds() throws  Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+    public void testGetAllModuleDecisionsByEcApplicationIds() throws Exception {
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
@@ -387,9 +387,9 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testGetModuleDecisionById() throws  Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
+    public void testGetModuleDecisionById() throws Exception {
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
         EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
@@ -425,7 +425,7 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testGetModuleDecisionByIdWhenNoModuleDecisionExists() throws  Exception {
+    public void testGetModuleDecisionByIdWhenNoModuleDecisionExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/module-decisions/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -435,10 +435,10 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
-    public void testDeleteModuleDecision() throws  Exception {
-        ModuleRequestEntity savedModuleRequest =  parentCreationService.createModuleRequestParentEntity();
-        UserEntity savedStaff =  parentCreationService.createUserParentEntity();
-         EcApplicationEntity savedEcApplication =
+    public void testDeleteModuleDecision() throws Exception {
+        ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
+        UserEntity savedStaff = parentCreationService.createUserParentEntity();
+        EcApplicationEntity savedEcApplication =
                 ecApplicationService.findOneById(savedModuleRequest.getEcApplication().getId()).get();
 
 
@@ -453,8 +453,8 @@ public class ModuleDecisionControllerIntegrationTests {
         );
     }
 
-   @Test
-    public void testDeleteModuleDecisionWhenNoModuleDecisionExists() throws  Exception {
+    @Test
+    public void testDeleteModuleDecisionWhenNoModuleDecisionExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/module-decisions/1")
         ).andExpect(
