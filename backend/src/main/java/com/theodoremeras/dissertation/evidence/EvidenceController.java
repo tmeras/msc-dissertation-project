@@ -55,7 +55,6 @@ public class EvidenceController {
 
         try {
             EvidenceEntity savedEvidenceEntity = evidenceService.save(file, evidenceEntity);
-            System.out.println(savedEvidenceEntity);
             return new ResponseEntity<>(evidenceMapper.mapToDto(savedEvidenceEntity), HttpStatus.CREATED);
         }
         catch (IOException e) {

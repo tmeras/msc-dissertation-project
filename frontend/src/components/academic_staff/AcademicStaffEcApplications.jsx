@@ -149,10 +149,10 @@ export default function AcademicStaffEcApplications() {
             <Table striped hover className="mt-3 shadow">
                 <thead className="table-light">
                 <tr>
-                    <th>#</th>
-                    <th>Submitted By</th>
-                    <th>Submitted On</th>
-                    <th scope="col" className="col-2">Progress</th>
+                    <th scope="col" className="col-1">#</th>
+                    <th scope="col" className="col-2">Submitted By</th>
+                    <th scope="col" className="col-2" >Submitted On</th>
+                    <th scope="col" className="col-3">Progress</th>
                     <th>Status</th>
                 </tr>
                 </thead>

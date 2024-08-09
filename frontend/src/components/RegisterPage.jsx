@@ -7,6 +7,7 @@ import ErrorPage from './ErrorPage'
 import { createStudentInformation } from '../api/studentInformation'
 import { useLocation, useNavigate } from 'react-router'
 import { registerUser } from '../api/authentication'
+import { Link } from 'react-router-dom'
 
 export default function RegisterPage() {
     const queryClient = useQueryClient()
@@ -398,7 +399,12 @@ export default function RegisterPage() {
                         </Form.Group>           
                     </>
                     }
-                    <Button variant='primary' type='submit' className='w-75'>Register</Button>
+                    <Button variant='primary' type='submit' className='w-75 mb-1'>Register</Button>
+                    <div>
+                    <Form.Text muted>
+                        Already registered? Sign in <Link to="/login">here</Link>.
+                    </Form.Text>
+                    </div>
             </Form>
         </Col>
         </Row>

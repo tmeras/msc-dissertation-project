@@ -110,7 +110,7 @@ export default function AdminUsers() {
                         <td>{user.id}</td>
                         <td>{user.name}</td>
                         <td>{user.email}</td>
-                        <td>{roles.find(role => role.id == user.roleId).name}</td>
+                        <td>{roles.find(role => role.id == user.roleId).name.replace('_',' ')}</td>
                         <td>{departments.find(department => department.id == user.departmentId).name}</td>
                         <td>
                             {user.isApproved ?

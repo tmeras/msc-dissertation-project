@@ -321,12 +321,12 @@ export default function AcademicStaffEcDetails() {
                     }
                     <ListGroup className='mb-2'>
                         {evidence.map((ev, index) => 
-                        <ListGroup.Item style={{width: "10rem"}} key={ev.id}> 
-                        <span className='fw-semibold'> Evidence #{index + 1} </span>
-                        <Button variant="light" className=' mb-1' size='sm' onClick={() => downloadEvidence(ev.fileName)}>
-                            <img src='/download.svg'/>
-                        </Button>
-                        </ListGroup.Item>
+                            <ListGroup.Item style={{width: "10rem"}} key={ev.id}> 
+                            <span className='fw-semibold'> Evidence #{index + 1} </span>
+                            <Button variant="light" className=' mb-1' size='sm' onClick={() => downloadEvidence(ev.fileName)}>
+                                <img src='/download.svg'/>
+                            </Button>
+                            </ListGroup.Item>
                         )}
                     </ListGroup>
                     {!ecApplication.requiresFurtherEvidence ?  
@@ -345,7 +345,7 @@ export default function AcademicStaffEcDetails() {
 
                             return (
                                 <ListGroup.Item key={moduleRequest.id}>
-                                    <Card.Title>ID#{moduleRequest.id} {moduleRequest.requestedOutcome}</Card.Title>
+                                    <Card.Title>{moduleRequest.requestedOutcome}</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">
                                         {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
                                     </Card.Subtitle>

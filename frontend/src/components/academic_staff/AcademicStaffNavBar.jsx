@@ -1,11 +1,11 @@
 import React from 'react'
-import { Button, Container, Nav, Navbar } from 'react-bootstrap'
+import { Button, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { Outlet, useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../providers/AuthProvider'
 
 export default function AcademicStaffNavBar() {
-    const {setToken} = useAuth()
+    const {setToken, user} = useAuth()
     const navigate = useNavigate()
 
     function logOut() {
@@ -21,13 +21,15 @@ export default function AcademicStaffNavBar() {
                     ECF Portal
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls='basic-navbar-nav' />
-                <Navbar.Collapse id='basic-navbar-nav'>
+                <Navbar.Collapse>
                     <Nav className='me-auto'>
                         <Nav.Link as={Link} to="/academic-staff/ec-applications">EC Applications</Nav.Link>
                     </Nav>
-                    <Nav.Item>
-                        <Button size='sm' variant='outline-danger' onClick={logOut}>Log Out</Button>
-                    </Nav.Item>
+                    <NavDropdown title={user?.name} className='me-5'>
+                        <NavDropdown.Item onClick={logOut} style={{ cursor: 'pointer', color: 'red' }}>
+                            Log Out
+                        </NavDropdown.Item>
+                    </NavDropdown>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

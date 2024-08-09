@@ -296,6 +296,18 @@ export default function StudentEcApplicationForm() {
                   <Row key={index} className='mb-1'>
                     <Col>
                       <Form.Select
+                        value={moduleRequests[index].moduleCode}
+                        onChange={(event) => handleModuleChange(index, event)}
+                        required
+                      >
+                        <option value="">Select a module</option>
+                        {modules.map(module => 
+                          <option key={module.code} value={module.code}>{module.code} {module.name}</option>
+                        )}
+                      </Form.Select>
+                    </Col>
+                    <Col>
+                      <Form.Select
                         value={moduleRequests[index].requestedOutcome}
                         onChange={(event) => handleOutcomeRequestChange(index, event)}
                         required
@@ -306,18 +318,6 @@ export default function StudentEcApplicationForm() {
                         <option value="Remove Lateness Penalties">Remove Lateness Penalties</option>
                         <option value="Defer Formal Examination">Defer Formal Examination</option>
                         <option value="Defer Formal Assessment">Defer Formal Assessment</option>
-                      </Form.Select>
-                    </Col>
-                    <Col>
-                      <Form.Select
-                        value={moduleRequests[index].moduleCode}
-                        onChange={(event) => handleModuleChange(index, event)}
-                        required
-                      >
-                        <option value="">Select a module</option>
-                        {modules.map(module => 
-                          <option key={module.code} value={module.code}>{module.code} {module.name}</option>
-                        )}
                       </Form.Select>
                     </Col>
                   </Row>
