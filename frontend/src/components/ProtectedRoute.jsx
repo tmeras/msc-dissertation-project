@@ -7,7 +7,7 @@ import { useAuth } from "../providers/AuthProvider";
 
 
 export default function ProtectedRoute(props) {
-    const {token, user, setToken} = useAuth()
+    const { token, user, setToken } = useAuth()
 
     const rolesQuery = useQuery({
         queryKey: ["roles"],
@@ -18,20 +18,20 @@ export default function ProtectedRoute(props) {
     if (rolesQuery.isLoading)
         return (
             <Container className='mt-3'>
-              <Row>
-              <Col md={{offset: 6 }}>
-                <Spinner animation="border" />
-              </Col>
-              </Row>
+                <Row>
+                    <Col md={{ offset: 6 }}>
+                        <Spinner animation="border" />
+                    </Col>
+                </Row>
             </Container>
         )
-    
-    if (rolesQuery.isError) 
-        return <ErrorPage 
-                    errorTitle={`when fetching roles`}
-                    errorMessage={`The server might not be running`} 
-                    redirectTo="refresh"
-                />
+
+    if (rolesQuery.isError)
+        return <ErrorPage
+            errorTitle={`when fetching roles`}
+            errorMessage={`The server might not be running`}
+            redirectTo="refresh"
+        />
 
     const roles = rolesQuery.data
 
@@ -39,7 +39,7 @@ export default function ProtectedRoute(props) {
     if (!token || !user || (roles.find(role => role.id == user.roleId).name !== props.requiredRole)) {
 
         // If not authenticated or if role is not appropriate, redirect to login page
-        return <Navigate to="/login" replace/>;
+        return <Navigate to="/login" replace />;
     }
 
 

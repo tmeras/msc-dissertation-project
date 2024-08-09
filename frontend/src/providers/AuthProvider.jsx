@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
         user,
         setUser,
     }), [token, user]);
-    
+
 
     // Provide the authentication context to the children components
     return (

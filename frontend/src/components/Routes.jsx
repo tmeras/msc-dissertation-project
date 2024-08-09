@@ -28,17 +28,17 @@ export default function Routes() {
         {
             path: "/",
             element: <LoginPage />,
-            errorElement: <ErrorPage redirectTo="refresh"/>
+            errorElement: <ErrorPage redirectTo="refresh" />
         },
         {
             path: "/login",
             element: <LoginPage />,
-            errorElement: <ErrorPage redirectTo="refresh"/>
+            errorElement: <ErrorPage redirectTo="refresh" />
         },
         {
             path: "/register",
             element: <RegisterPage />,
-            errorElement: <ErrorPage redirectTo="/login"/>
+            errorElement: <ErrorPage redirectTo="/login" />
         },
         {
             path: "*",
@@ -54,11 +54,11 @@ export default function Routes() {
             errorElement: <ErrorPage redirectTo="/login" />,
             children: [{
                 element: <ClericalStaffNavBar />,
-                errorElement: <ErrorPage redirectTo="/login"/>,
+                errorElement: <ErrorPage redirectTo="/login" />,
                 children: [{
                     errorElement: <ErrorPage />,
                     children: [
-                        {index: true, element: <ClericalStaffEcApplications />},
+                        { index: true, element: <ClericalStaffEcApplications /> },
                         {
                             path: "ec-applications",
                             element: <ClericalStaffEcApplications />
@@ -81,11 +81,11 @@ export default function Routes() {
             errorElement: <ErrorPage redirectTo="/login" />,
             children: [{
                 element: <AcademicStaffNavBar />,
-                errorElement: <ErrorPage redirectTo="/login"/>,
+                errorElement: <ErrorPage redirectTo="/login" />,
                 children: [{
                     errorElement: <ErrorPage />,
                     children: [
-                        {index: true, element: <AcademicStaffEcApplications />},
+                        { index: true, element: <AcademicStaffEcApplications /> },
                         {
                             path: "ec-applications",
                             element: <AcademicStaffEcApplications />
@@ -108,11 +108,11 @@ export default function Routes() {
             errorElement: <ErrorPage redirectTo="/login" />,
             children: [{
                 element: <AdminNavBar />,
-                errorElement: <ErrorPage redirectTo="/login"/>,
+                errorElement: <ErrorPage redirectTo="/login" />,
                 children: [{
                     errorElement: <ErrorPage />,
                     children: [
-                        {index: true, element: <AdminUsers />},
+                        { index: true, element: <AdminUsers /> },
                         {
                             path: "users",
                             element: <AdminUsers />
@@ -130,7 +130,7 @@ export default function Routes() {
             }]
         }
     ]
-    
+
     // Define routes only accessible to students
     const studentRoutes = [
         {
@@ -139,11 +139,11 @@ export default function Routes() {
             errorElement: <ErrorPage redirectTo="/login" />,
             children: [{
                 element: <StudentNavBar />,
-                errorElement: <ErrorPage redirectTo="/login"/>,
+                errorElement: <ErrorPage redirectTo="/login" />,
                 children: [{
                     errorElement: <ErrorPage />,
                     children: [
-                        {index: true, element: <StudentEcApplications />},
+                        { index: true, element: <StudentEcApplications /> },
                         {
                             path: "ec-applications",
                             element: <StudentEcApplications />

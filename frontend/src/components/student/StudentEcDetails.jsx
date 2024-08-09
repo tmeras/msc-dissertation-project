@@ -3,7 +3,7 @@ import axios from '../../api/axiosConfig'
 import { useAuth } from '../../providers/AuthProvider'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { bytesToMb, formatDate } from "../../utils"
-import { Form, Card, Container, ListGroup, Button,  Row, Col, Alert, Spinner, ButtonGroup, Badge, Accordion} from 'react-bootstrap'
+import { Form, Card, Container, ListGroup, Button, Row, Col, Alert, Spinner, ButtonGroup, Badge, Accordion } from 'react-bootstrap'
 import { getEcApplication, updateEcApplication } from '../../api/ecApplications'
 import { getUser } from '../../api/users'
 import { getStudentInformationByStudentId } from '../../api/studentInformation'
@@ -16,8 +16,8 @@ import ErrorPage from '../ErrorPage'
 
 
 export default function StudentEcDetails() {
-    const {user} = useAuth()
-    const {id} = useParams()
+    const { user } = useAuth()
+    const { id } = useParams()
     const queryClient = useQueryClient()
     const [showFileDownloadAlert, setShowFileDownloadAlert] = useState(false)
     const [showFileUploadAlert, setShowFileUploadAlert] = useState(false)
@@ -37,20 +37,20 @@ export default function StudentEcDetails() {
         queryFn: () => getUser(user.id),
     })
     const studentInformationQuery = useQuery({
-        queryKey: ["studentInformation", {studentId: user.id}],
+        queryKey: ["studentInformation", { studentId: user.id }],
         queryFn: () => getStudentInformationByStudentId(user.id),
     })
 
     // Fetch all evidence related to the EC application
     const evidenceQuery = useQuery({
-        queryKey: ["evidence", {ecApplicationId: ecApplicationQuery.data?.id}],
+        queryKey: ["evidence", { ecApplicationId: ecApplicationQuery.data?.id }],
         queryFn: () => getEvidenceByEcApplicationId(ecApplicationQuery.data?.id),
         enabled: !!ecApplicationQuery.data?.id
     })
 
     // Fetch all module requests related to the EC application
     const moduleRequestsQuery = useQuery({
-        queryKey: ["moduleRequests", {ecApplicationIds: ecApplicationQuery.data?.id}],
+        queryKey: ["moduleRequests", { ecApplicationIds: ecApplicationQuery.data?.id }],
         queryFn: () => getModuleRequestsByEcApplicationIds(ecApplicationQuery.data?.id),
         enabled: !!ecApplicationQuery.data?.id
     })
@@ -58,14 +58,14 @@ export default function StudentEcDetails() {
     // Fetch all modules for which requests have been made
     const moduleCodes = Array.from(new Set(moduleRequestsQuery.data?.map(moduleRequest => moduleRequest.moduleCode)))
     const modulesQuery = useQuery({
-        queryKey: ["modules", {codes: moduleCodes}],
+        queryKey: ["modules", { codes: moduleCodes }],
         queryFn: () => getModulesByCodes(moduleCodes),
         enabled: !(moduleCodes.length == 0)
     })
 
     // Get all module decisions related to the EC application
     const moduleDecisionsQuery = useQuery({
-        queryKey: ["moduleDecisions", {ecApplicationIds: ecApplicationQuery.data?.id}],
+        queryKey: ["moduleDecisions", { ecApplicationIds: ecApplicationQuery.data?.id }],
         queryFn: () => getModuleDecisionsByEcApplicationIds(ecApplicationQuery.data?.id),
         enabled: !!ecApplicationQuery.data?.id
     })
@@ -101,116 +101,116 @@ export default function StudentEcDetails() {
         || evidenceQuery.isLoading || moduleRequestsQuery.isLoading || modulesQuery.isLoading
     )
         return (
-        <Container className='mt-3'>
-            <Row>
-            <Col md={{offset: 6 }}>
-            <Spinner animation="border" />
-            </Col>
-            </Row>
-        </Container>
+            <Container className='mt-3'>
+                <Row>
+                    <Col md={{ offset: 6 }}>
+                        <Spinner animation="border" />
+                    </Col>
+                </Row>
+            </Container>
         )
 
     if (ecApplicationQuery.isError)
-        if (ecApplicationQuery.error.response?.status == 401) 
+        if (ecApplicationQuery.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-            return <ErrorPage 
-                        errorTitle={`when fetching EC applications`}
-                        errorMessage={`${ecApplicationQuery.error.code}
-                        | Server Response: ${ecApplicationQuery.error.response?.data.status}-${ecApplicationQuery.error.response?.data.error}`} 
-                    />  
+            return <ErrorPage
+                errorTitle={`when fetching EC applications`}
+                errorMessage={`${ecApplicationQuery.error.code}
+                        | Server Response: ${ecApplicationQuery.error.response?.data.status}-${ecApplicationQuery.error.response?.data.error}`}
+            />
 
     if (studentQuery.isError)
-        if (studentQuery.error.response?.status == 401) 
+        if (studentQuery.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-            return <ErrorPage 
-                        errorTitle={`when fetching student information`}
-                        errorMessage={`${studentQuery.error.code}
-                        | Server Response: ${studentQuery.error.response?.data.status}-${studentQuery.error.response?.data.error}`} 
-                    />  
+            return <ErrorPage
+                errorTitle={`when fetching student information`}
+                errorMessage={`${studentQuery.error.code}
+                        | Server Response: ${studentQuery.error.response?.data.status}-${studentQuery.error.response?.data.error}`}
+            />
 
     if (studentInformationQuery.isError)
-        if (studentInformationQuery.error.response?.status == 401) 
+        if (studentInformationQuery.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-            return <ErrorPage 
-                        errorTitle={`when fetching student information`}
-                        errorMessage={`${studentInformationQuery.error.code}
-                        | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`} 
-                    />  
+            return <ErrorPage
+                errorTitle={`when fetching student information`}
+                errorMessage={`${studentInformationQuery.error.code}
+                        | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`}
+            />
 
     if (evidenceQuery.isError)
-        if (evidenceQuery.error.response?.status == 401) 
+        if (evidenceQuery.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-            return <ErrorPage 
-                        errorTitle={`when fetching evidence`}
-                        errorMessage={`${evidenceQuery.error.code}
-                        | Server Response: ${evidenceQuery.error.response?.data.status}-${evidenceQuery.error.response?.data.error}`} 
-                    />  
-                    
-    if (moduleRequestsQuery.isError)
-        if (moduleRequestsQuery.error.response?.status == 401) 
-            // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
-        else
-            return <ErrorPage 
-                        errorTitle={`when fetching module requests`}
-                        errorMessage={`${moduleRequestsQuery.error.code}
-                        | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`} 
-                    />  
-                   
-    if (modulesQuery.isError)
-        if (modulesQuery.error.response?.status == 401) 
-            // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
-        else
-            return <ErrorPage 
-                        errorTitle={`when fetching modules`}
-                        errorMessage={`${modulesQuery.error.code}
-                        | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`} 
-                    />  
-                      
-    if (createModuleDecisionMutation.isError)
-        if (createModuleDecisionMutation.error.response?.status == 401) 
-            // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
-        else
-            return <ErrorPage 
-                        errorTitle={`when creating module decisions`}
-                        errorMessage={`${createModuleDecisionMutation.error.code}
-                        | Server Response: ${createModuleDecisionMutation.error.response?.data.status}-${createModuleDecisionMutation.error.response?.data.error}`} 
-                    />  
-                      
-    if (updateEcApplicationMutation.isError)
-        if (updateEcApplicationMutation.error.response?.status == 401) 
-            // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
-        else
-            return <ErrorPage 
-                        errorTitle={`when updating EC application`}
-                        errorMessage={`${updateEcApplicationMutation.error.code}
-                        | Server Response: ${updateEcApplicationMutation.error.response?.data.status}-${updateEcApplicationMutation.error.response?.data.error}`} 
-                    />  
-                       
-    if (createEvidenceMutation.isError)
-        if (createEvidenceMutation.error.response?.status == 401) 
-            // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{sessionExpired: true}} />        
-        else
-            return <ErrorPage 
-                        errorTitle={`when updating uploading evidence`}
-                        errorMessage={`${createEvidenceMutation.error.code}
-                        | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`} 
-                    />  
+            return <ErrorPage
+                errorTitle={`when fetching evidence`}
+                errorMessage={`${evidenceQuery.error.code}
+                        | Server Response: ${evidenceQuery.error.response?.data.status}-${evidenceQuery.error.response?.data.error}`}
+            />
 
-    const student = {...studentQuery.data, ...studentInformationQuery.data[0]}
-    const ecApplication = {...ecApplicationQuery.data}
+    if (moduleRequestsQuery.isError)
+        if (moduleRequestsQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage
+                errorTitle={`when fetching module requests`}
+                errorMessage={`${moduleRequestsQuery.error.code}
+                        | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`}
+            />
+
+    if (modulesQuery.isError)
+        if (modulesQuery.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage
+                errorTitle={`when fetching modules`}
+                errorMessage={`${modulesQuery.error.code}
+                        | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`}
+            />
+
+    if (createModuleDecisionMutation.isError)
+        if (createModuleDecisionMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage
+                errorTitle={`when creating module decisions`}
+                errorMessage={`${createModuleDecisionMutation.error.code}
+                        | Server Response: ${createModuleDecisionMutation.error.response?.data.status}-${createModuleDecisionMutation.error.response?.data.error}`}
+            />
+
+    if (updateEcApplicationMutation.isError)
+        if (updateEcApplicationMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage
+                errorTitle={`when updating EC application`}
+                errorMessage={`${updateEcApplicationMutation.error.code}
+                        | Server Response: ${updateEcApplicationMutation.error.response?.data.status}-${updateEcApplicationMutation.error.response?.data.error}`}
+            />
+
+    if (createEvidenceMutation.isError)
+        if (createEvidenceMutation.error.response?.status == 401)
+            // Token most likely expired or is invalid due to server restart
+            return <Navigate to="/login" state={{ sessionExpired: true }} />
+        else
+            return <ErrorPage
+                errorTitle={`when updating uploading evidence`}
+                errorMessage={`${createEvidenceMutation.error.code}
+                        | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`}
+            />
+
+    const student = { ...studentQuery.data, ...studentInformationQuery.data[0] }
+    const ecApplication = { ...ecApplicationQuery.data }
     const evidence = evidenceQuery.data
     const moduleRequests = moduleRequestsQuery.data
     const modules = modulesQuery.data
@@ -218,14 +218,14 @@ export default function StudentEcDetails() {
 
     // Student is only allowed to view their own EC applications
     if (user.id != ecApplication.studentId)
-        return <ErrorPage 
-                    errorMessage="You are not allowed to access this EC application.
+        return <ErrorPage
+            errorMessage="You are not allowed to access this EC application.
                     It was submitted by another student"
-                />
+        />
 
 
     function downloadEvidence(fileName) {
-        axios.get(`/evidence/${fileName}`, {responseType: 'blob'})
+        axios.get(`/evidence/${fileName}`, { responseType: 'blob' })
             .then(response => {
                 // Create a URL for the blob object
                 const blob = new Blob([response.data], { type: response.headers['content-type'] })
@@ -258,7 +258,7 @@ export default function StudentEcDetails() {
         // Validate file sizes
         let fileValidationFailed = false
         Array.from(files).forEach(file => {
-            if (bytesToMb(file.size) > 50 ){
+            if (bytesToMb(file.size) > 50) {
                 setShowFileUploadAlert(true)
                 fileValidationFailed = true
                 return
@@ -279,10 +279,10 @@ export default function StudentEcDetails() {
 
         // Additional evidence uploaded, update EC application
         updateEcApplicationMutation.mutate({
-            id: ecApplication.id, 
+            id: ecApplication.id,
             requiresFurtherEvidence: false
         })
-        
+
         setFiles([])
     }
 
@@ -315,7 +315,7 @@ export default function StudentEcDetails() {
 
         // The application is closed if a final decision has been made on each module request
         moduleRequests.forEach(request => {
-            if (getDecisionMade(request.id) == null){
+            if (getDecisionMade(request.id) == null) {
                 isClosed = false
                 return
             }
@@ -340,16 +340,16 @@ export default function StudentEcDetails() {
                 {relevantDecisions.map((decision, index) =>
                     <Accordion.Item key={index} eventKey={`${index}`}>
                         <Accordion.Header>
-                            Staff Member #{index + 1} 
+                            Staff Member #{index + 1}
                             {decision.isApproved ?
                                 <Badge bg='success' className='ms-3'>Approved</Badge>
-                            :
+                                :
                                 <Badge bg='danger' className='ms-3'>Rejected</Badge>
                             }
                         </Accordion.Header>
                         <Accordion.Body>
                             {(decision.comments && decision.comments.trim() != "")
-                             ? decision.comments : "No comments were made by this staff member"}
+                                ? decision.comments : "No comments were made by this staff member"}
                         </Accordion.Body>
                     </Accordion.Item>
                 )}
@@ -359,129 +359,129 @@ export default function StudentEcDetails() {
 
     return (
         <Container className='mt-3'>
-        <Row>
-            <Col md={{offset: 1 }}>
-            <h4 className='mb-3 text-center'>Extenuating Circumstances Application #{ecApplication.id}</h4>
-            </Col>
-        </Row>
-        <Row>
-            <Col md={{offset: 3 }}>
-                <Card className='w-75'> 
-                    <Card.Header as="h5">Student Information</Card.Header>
-                    <Card.Body>
-                    <Card.Title>Name: {student.name}</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">Student ID #{student.id}</Card.Subtitle>
-                    {student.additionalDetails &&
-                    <Card.Text>
-                        {student.additionalDetails}
-                    </Card.Text>}
-                    </Card.Body>
-                    <ListGroup variant="flush">
-                    {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
-                    {student.hasHealthIssues && <ListGroup.Item>Student has health issues</ListGroup.Item>}
-                    {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
-                    </ListGroup>
-                </Card>
+            <Row>
+                <Col md={{ offset: 1 }}>
+                    <h4 className='mb-3 text-center'>Extenuating Circumstances Application #{ecApplication.id}</h4>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={{ offset: 3 }}>
+                    <Card className='w-75'>
+                        <Card.Header as="h5">Student Information</Card.Header>
+                        <Card.Body>
+                            <Card.Title>Name: {student.name}</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">Student ID #{student.id}</Card.Subtitle>
+                            {student.additionalDetails &&
+                                <Card.Text>
+                                    {student.additionalDetails}
+                                </Card.Text>}
+                        </Card.Body>
+                        <ListGroup variant="flush">
+                            {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
+                            {student.hasHealthIssues && <ListGroup.Item>Student has health issues</ListGroup.Item>}
+                            {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
+                        </ListGroup>
+                    </Card>
 
-                <Card className='mt-3 w-75'> 
-                    <Card.Header as="h5"> Application Details </Card.Header>
-                    <Card.Body>
-                    <Card.Title>Student Circumstances</Card.Title>
-                    <Card.Subtitle className="mb-2 text-muted">
-                        Affected Date: {formatDate(ecApplication.affectedDateStart)} - {formatDate(ecApplication.affectedDateEnd)}
-                        </Card.Subtitle>
-                    <Card.Text>
-                        {ecApplication.circumstancesDetails}
-                    </Card.Text>
-                    {showFileDownloadAlert && 
-                        <Alert variant="danger" onClose={() => setShowFileDownloadAlert(false)} style={{width: "25rem"}} dismissible>
-                            There was an error when downloading the file
-                        </Alert>
-                    }
-                    <ListGroup className='mb-3'>
-                        {evidence.map((ev, index) => 
-                            <ListGroup.Item style={{width: "10rem"}} key={ev.id}> 
-                            <span className='fw-semibold'> Evidence #{index + 1} </span>
-                            <Button variant="light" className=' mb-1' size='sm' onClick={() => downloadEvidence(ev.fileName)}>
-                                <img src='/download.svg'/>
-                            </Button>
-                            </ListGroup.Item>
-                        )}
-                    </ListGroup>
-                    {!isApplicationClosed() && 
-                    <>
-                        {ecApplication.requiresFurtherEvidence &&
-                            <Alert variant="danger" style={{width: "25rem"}}>
-                                A staff member has requested further evidence
-                            </Alert>
-                        }
-                        {showFileUploadAlert && 
-                            <Alert variant="danger" onClose={() => setShowFileUploadAlert(false)} style={{width: "25rem"}} dismissible>
-                                One of the files is larger than 50MB
-                            </Alert>
-                        }
-                        <Form onSubmit={handleFilesSubmit}>
-                            <Form.Group className='mb-3' controlId='ecDetailsStudent.FileMutilple'>
-                                <Form.Control type='file' multiple onChange={handleFileChange} required/>
-                                <Form.Text muted>Please submit any additional evidence here (max 50MB per file)</Form.Text>
-                            </Form.Group>
-                            <Button variant='primary' type='submit'>Submit Evidence</Button>
-                        </Form>
-                    </>
-                    }
-                    </Card.Body>
-                </Card>
-
-                <Card className='mt-3 mb-3 w-75'> 
-                    <Card.Header as="h5">Module Requests</Card.Header>
-                    <Card.Body>
-                    <ListGroup>
-                        {ecApplication.isReferred == false &&
-                            <p> 
-                                The application was rejected by a clerical staff member. The circumstances were
-                                likely not considered valid grounds for an extenuating circumstances application. 
-                                Examples of valid grounds can be found <a target='_blank' href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#examples-likely-to-be-accepted-as-extenuating-circumstances'>
-                                here</a>.
-                            </p>
-                        }
-                        {moduleRequests.map((moduleRequest, index) => {
-                            const finalDecision = getDecisionMade(moduleRequest.id)
-
-                            return (
-                                <ListGroup.Item key={moduleRequest.id}>
-                                    <Card.Title>{moduleRequest.requestedOutcome}</Card.Title>
-                                    <Card.Subtitle className="mb-2 text-muted">
-                                        {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
-                                    </Card.Subtitle>
-                                    {ecApplication.isReferred == null ?
-                                        <h5><Badge bg='warning'>Under review by clerical staff</Badge></h5>
-                                        :
-                                        <>
-                                            {finalDecision == null && ecApplication.isReferred != false &&
-                                                <h5><Badge bg='warning'>Under review by academic staff</Badge></h5>
-                                            }
-                                            {(finalDecision == false  || ecApplication.isReferred == false) && 
-                                                <h5><Badge bg='danger'>Rejected</Badge></h5>
-                                            }
-                                            {finalDecision == true && ecApplication.isReferred != false &&
-                                                <h5><Badge bg='success'>Approved</Badge></h5>
-                                            }
-                                            {finalDecision != null && ecApplication.isReferred != false &&
-                                            <>
-                                                <h5 className='fw-normal mt-3'>Individual Staff Decisions</h5>
-                                                {displayRequestCommentsAndDecisions(moduleRequest.id, finalDecision)}
-                                            </>
-                                            }
-                                        </>
+                    <Card className='mt-3 w-75'>
+                        <Card.Header as="h5"> Application Details </Card.Header>
+                        <Card.Body>
+                            <Card.Title>Student Circumstances</Card.Title>
+                            <Card.Subtitle className="mb-2 text-muted">
+                                Affected Date: {formatDate(ecApplication.affectedDateStart)} - {formatDate(ecApplication.affectedDateEnd)}
+                            </Card.Subtitle>
+                            <Card.Text>
+                                {ecApplication.circumstancesDetails}
+                            </Card.Text>
+                            {showFileDownloadAlert &&
+                                <Alert variant="danger" onClose={() => setShowFileDownloadAlert(false)} style={{ width: "25rem" }} dismissible>
+                                    There was an error when downloading the file
+                                </Alert>
+                            }
+                            <ListGroup className='mb-3'>
+                                {evidence.map((ev, index) =>
+                                    <ListGroup.Item style={{ width: "10rem" }} key={ev.id}>
+                                        <span className='fw-semibold'> Evidence #{index + 1} </span>
+                                        <Button variant="light" className=' mb-1' size='sm' onClick={() => downloadEvidence(ev.fileName)}>
+                                            <img src='/download.svg' />
+                                        </Button>
+                                    </ListGroup.Item>
+                                )}
+                            </ListGroup>
+                            {!isApplicationClosed() &&
+                                <>
+                                    {ecApplication.requiresFurtherEvidence &&
+                                        <Alert variant="danger" style={{ width: "25rem" }}>
+                                            A staff member has requested further evidence
+                                        </Alert>
                                     }
-                                </ListGroup.Item>
-                            )
-                        })}
-                    </ListGroup>
-                    </Card.Body>
-                </Card>       
-            </Col>
-        </Row>
+                                    {showFileUploadAlert &&
+                                        <Alert variant="danger" onClose={() => setShowFileUploadAlert(false)} style={{ width: "25rem" }} dismissible>
+                                            One of the files is larger than 50MB
+                                        </Alert>
+                                    }
+                                    <Form onSubmit={handleFilesSubmit}>
+                                        <Form.Group className='mb-3' controlId='ecDetailsStudent.FileMutilple'>
+                                            <Form.Control type='file' multiple onChange={handleFileChange} required />
+                                            <Form.Text muted>Please submit any additional evidence here (max 50MB per file)</Form.Text>
+                                        </Form.Group>
+                                        <Button variant='primary' type='submit'>Submit Evidence</Button>
+                                    </Form>
+                                </>
+                            }
+                        </Card.Body>
+                    </Card>
+
+                    <Card className='mt-3 mb-3 w-75'>
+                        <Card.Header as="h5">Module Requests</Card.Header>
+                        <Card.Body>
+                            <ListGroup>
+                                {ecApplication.isReferred == false &&
+                                    <p>
+                                        The application was rejected by a clerical staff member. The circumstances were
+                                        likely not considered valid grounds for an extenuating circumstances application.
+                                        Examples of valid grounds can be found <a target='_blank' href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#examples-likely-to-be-accepted-as-extenuating-circumstances'>
+                                            here</a>.
+                                    </p>
+                                }
+                                {moduleRequests.map((moduleRequest, index) => {
+                                    const finalDecision = getDecisionMade(moduleRequest.id)
+
+                                    return (
+                                        <ListGroup.Item key={moduleRequest.id}>
+                                            <Card.Title>{moduleRequest.requestedOutcome}</Card.Title>
+                                            <Card.Subtitle className="mb-2 text-muted">
+                                                {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
+                                            </Card.Subtitle>
+                                            {ecApplication.isReferred == null ?
+                                                <h5><Badge bg='warning'>Under review by clerical staff</Badge></h5>
+                                                :
+                                                <>
+                                                    {finalDecision == null && ecApplication.isReferred != false &&
+                                                        <h5><Badge bg='warning'>Under review by academic staff</Badge></h5>
+                                                    }
+                                                    {(finalDecision == false || ecApplication.isReferred == false) &&
+                                                        <h5><Badge bg='danger'>Rejected</Badge></h5>
+                                                    }
+                                                    {finalDecision == true && ecApplication.isReferred != false &&
+                                                        <h5><Badge bg='success'>Approved</Badge></h5>
+                                                    }
+                                                    {finalDecision != null && ecApplication.isReferred != false &&
+                                                        <>
+                                                            <h5 className='fw-normal mt-3'>Individual Staff Decisions</h5>
+                                                            {displayRequestCommentsAndDecisions(moduleRequest.id, finalDecision)}
+                                                        </>
+                                                    }
+                                                </>
+                                            }
+                                        </ListGroup.Item>
+                                    )
+                                })}
+                            </ListGroup>
+                        </Card.Body>
+                    </Card>
+                </Col>
+            </Row>
         </Container>
-    )   
+    )
 }

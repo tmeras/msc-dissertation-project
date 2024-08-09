@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import { Container, Button, Table, Spinner, Row, Col, Modal, Form, Alert } from 'react-bootstrap'
 import { useAuth } from '../../providers/AuthProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -8,7 +8,7 @@ import { Navigate } from 'react-router'
 
 
 export default function AdminDepartments() {
-    const {setUser, user} = useAuth()
+    const { setUser, user } = useAuth()
     const queryClient = useQueryClient()
     const [showNameAlert, setShowNameAlert] = useState(false)
     const [showCreateModal, setShowCreateModal] = useState(false)
@@ -43,55 +43,55 @@ export default function AdminDepartments() {
     if (departmentsQuery.isLoading)
         return (
             <Container className='mt-3'>
-            <Row>
-            <Col md={{offset: 6 }}>
-                <Spinner animation="border" />
-            </Col>
-            </Row>
+                <Row>
+                    <Col md={{ offset: 6 }}>
+                        <Spinner animation="border" />
+                    </Col>
+                </Row>
             </Container>
         )
-    
+
     if (departmentsQuery.isError)
         if (departmentsQuery.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
             return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-            return <ErrorPage 
-                    errorTitle={`when fetching departments`}
-                    errorMessage={`${departmentsQuery.error.code}
-                    | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`} 
-                /> 
+            return <ErrorPage
+                errorTitle={`when fetching departments`}
+                errorMessage={`${departmentsQuery.error.code}
+                    | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`}
+            />
 
     if (createDepartmentMutation.isError)
         if (createDepartmentMutation.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
             return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-        return <ErrorPage 
-                    errorTitle={`when creating department`}
-                    errorMessage={`${createDepartmentMutation.error.code}
-                    | Server Response: ${createDepartmentMutation.error.response?.data.status}-${createDepartmentMutation.error.response?.data.error}`} 
-                /> 
+            return <ErrorPage
+                errorTitle={`when creating department`}
+                errorMessage={`${createDepartmentMutation.error.code}
+                    | Server Response: ${createDepartmentMutation.error.response?.data.status}-${createDepartmentMutation.error.response?.data.error}`}
+            />
 
     if (updateDepartmentMutation.isError)
         if (updateDepartmentMutation.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
             return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-        return <ErrorPage 
+            return <ErrorPage
                 errorTitle={`when updating department`}
                 errorMessage={`${updateDepartmentMutation.error.code}
-                | Server Response: ${updateDepartmentMutation.error.response?.data.status}-${updateDepartmentMutation.error.response?.data.error}`} 
-            /> 
+                | Server Response: ${updateDepartmentMutation.error.response?.data.status}-${updateDepartmentMutation.error.response?.data.error}`}
+            />
 
     const departments = departmentsQuery.data
-    
+
 
     function handleChange(event) {
         const { name, value } = event.target;
         setFormData(prevFormData => ({
-          ...prevFormData,
-          [name]: value
+            ...prevFormData,
+            [name]: value
         }))
     }
 
@@ -154,113 +154,113 @@ export default function AdminDepartments() {
 
     return (
         <>
-        <Modal show={showCreateModal} onHide={handleCloseCreateModal} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Add New Department</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group controlId='createDepartmentForm.Text1' className='mb-3'>
-                        <Form.Label>Department Name</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='name'
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                </Form>
-                {showNameAlert && 
-                <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                    Department name must not be empty
-                </Alert>
-                }
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseCreateModal}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleCreateDepartment}>
-                    Save
-                </Button>
-            </Modal.Footer>
-        </Modal>
+            <Modal show={showCreateModal} onHide={handleCloseCreateModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add New Department</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId='createDepartmentForm.Text1' className='mb-3'>
+                            <Form.Label>Department Name</Form.Label>
+                            <Form.Control
+                                type='text'
+                                name='name'
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                    </Form>
+                    {showNameAlert &&
+                        <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{ width: "25rem" }} >
+                            Department name must not be empty
+                        </Alert>
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseCreateModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleCreateDepartment}>
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-        <Modal show={showUpdateModal} onHide={handleCloseUpdateModal} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Update Department</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group controlId='updateDepartmentForm.Text1' className='mb-3'>
-                        <Form.Label>Department ID</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='id'
-                            value={formData.id}
-                            disabled
-                            required
-                        />
-                    </Form.Group>
-                    <Form.Group controlId='updateDepartmentForm.Text2'>
-                        <Form.Label>Department Name</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='name'
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                </Form>
-                {showNameAlert && 
-                    <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                        Department name must not be empty
-                    </Alert>
-                }
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseUpdateModal}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleUpdateDepartment}>
-                    Save
-                </Button>
-            </Modal.Footer>
-        </Modal>
+            <Modal show={showUpdateModal} onHide={handleCloseUpdateModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Update Department</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId='updateDepartmentForm.Text1' className='mb-3'>
+                            <Form.Label>Department ID</Form.Label>
+                            <Form.Control
+                                type='text'
+                                name='id'
+                                value={formData.id}
+                                disabled
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group controlId='updateDepartmentForm.Text2'>
+                            <Form.Label>Department Name</Form.Label>
+                            <Form.Control
+                                type='text'
+                                name='name'
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                    </Form>
+                    {showNameAlert &&
+                        <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{ width: "25rem" }} >
+                            Department name must not be empty
+                        </Alert>
+                    }
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseUpdateModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleUpdateDepartment}>
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-        <Container className="mt-3 w-75">
-            <h2 className="text-center fw-normal">Departments</h2>
+            <Container className="mt-3 w-75">
+                <h2 className="text-center fw-normal">Departments</h2>
 
-            <div className="d-flex justify-content-end">
-                <Button variant='primary' className='ms-auto' onClick={handleShowCreateModal}>
-                    <img src='/plus.svg' className='mb-1 me-1'/>
-                    Add Department
-                </Button>
-            </div>
+                <div className="d-flex justify-content-end">
+                    <Button variant='primary' className='ms-auto' onClick={handleShowCreateModal}>
+                        <img src='/plus.svg' className='mb-1 me-1' />
+                        Add Department
+                    </Button>
+                </div>
 
-            <Table striped hover className="mt-3 shadow">
-                <thead className="table-light">
-                    <tr>
-                        <th scope="col" className="col-3">#</th>
-                        <th scope="col" className="col-8">Name</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody className="table-group-divider">
-                {departments.sort((a, b) => a.id - b.id).map(department => 
-                    <tr key={department.id}>
-                        <td>{department.id}</td>
-                        <td>{department.name}</td>
-                        <td>                        
-                            <Button variant='secondary' size='sm' onClick={() => handleShowUpdateModal(department)} >Edit</Button>
-                        </td>
-                    </tr>
-                )}
-                </tbody>
-            </Table>
-        </Container>
+                <Table striped hover className="mt-3 shadow">
+                    <thead className="table-light">
+                        <tr>
+                            <th scope="col" className="col-3">#</th>
+                            <th scope="col" className="col-8">Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody className="table-group-divider">
+                        {departments.sort((a, b) => a.id - b.id).map(department =>
+                            <tr key={department.id}>
+                                <td>{department.id}</td>
+                                <td>{department.name}</td>
+                                <td>
+                                    <Button variant='secondary' size='sm' onClick={() => handleShowUpdateModal(department)} >Edit</Button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
+            </Container>
         </>
     )
 }

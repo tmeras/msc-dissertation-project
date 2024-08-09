@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import { Container, Row, Col, Form, Spinner, Button, Alert } from 'react-bootstrap'
 import { getDepartments } from '../api/departments'
 import { getRoles } from '../api/roles'
@@ -29,7 +29,7 @@ export default function RegisterPage() {
         confirmPassword: "",
         roleId: 0,
         departmentId: 0
-    }) 
+    })
 
     // State for student information specific fields
     const [studentInfoData, setStudentInfoData] = useState({
@@ -69,58 +69,56 @@ export default function RegisterPage() {
     if (departmentsQuery.isLoading || rolesQuery.isLoading)
         return (
             <Container className='mt-3'>
-              <Row>
-              <Col md={{offset: 6 }}>
-                <Spinner animation="border" />
-              </Col>
-              </Row>
+                <Row>
+                    <Col md={{ offset: 6 }}>
+                        <Spinner animation="border" />
+                    </Col>
+                </Row>
             </Container>
-        )  
-    
-    if (departmentsQuery.isError) 
-    {
-        return <ErrorPage 
-                    errorTitle={`when fetching departments`}
-                    errorMessage={`${departmentsQuery.error.code}
-                     | Server Response: Status: ${departmentsQuery.error.response?.status} - Message: ${departmentsQuery.error.response?.data.error}`} 
-                     redirectTo="/login"
-                />
+        )
+
+    if (departmentsQuery.isError) {
+        return <ErrorPage
+            errorTitle={`when fetching departments`}
+            errorMessage={`${departmentsQuery.error.code}
+                     | Server Response: Status: ${departmentsQuery.error.response?.status} - Message: ${departmentsQuery.error.response?.data.error}`}
+            redirectTo="/login"
+        />
     }
-    
-    if (rolesQuery.isError) 
-        return <ErrorPage 
-                    errorTitle={`when fetching roles`}
-                    errorMessage={`${rolesQuery.error.code}
-                     | Server Response: ${rolesQuery.error.response?.data.status}-${rolesQuery.error.response?.data.error}`} 
-                     redirectTo="/login"
-                />    
-    
-    if (createUserMutation.isError)
-    {
+
+    if (rolesQuery.isError)
+        return <ErrorPage
+            errorTitle={`when fetching roles`}
+            errorMessage={`${rolesQuery.error.code}
+                     | Server Response: ${rolesQuery.error.response?.data.status}-${rolesQuery.error.response?.data.error}`}
+            redirectTo="/login"
+        />
+
+    if (createUserMutation.isError) {
         // User already exists
         if (createUserMutation.error.response?.status == 409) {
-            return <ErrorPage 
-                        errorTitle={`when creating user`}
-                        errorMessage={`A user with that email already exists`} 
-                        redirectTo="/login"
-                    /> 
-        } 
+            return <ErrorPage
+                errorTitle={`when creating user`}
+                errorMessage={`A user with that email already exists`}
+                redirectTo="/login"
+            />
+        }
         else
-        return <ErrorPage 
-                    errorTitle={`when creating user`}
-                    errorMessage={`${createUserMutation.error.code}
-                     | Server Response: ${createUserMutation.error.response?.data.status}-${createUserMutation.error.response?.data.error}`} 
-                     redirectTo="/login"
-                />  
+            return <ErrorPage
+                errorTitle={`when creating user`}
+                errorMessage={`${createUserMutation.error.code}
+                     | Server Response: ${createUserMutation.error.response?.data.status}-${createUserMutation.error.response?.data.error}`}
+                redirectTo="/login"
+            />
     }
-    
+
     if (createStudentInformationMutation.isError)
-        return <ErrorPage 
-                    errorTitle={`when creating student information`}
-                    errorMessage={`${createStudentInformationMutation.error.code}
-                     | Server Response: ${createStudentInformationMutation.error.response?.data.status}-${createStudentInformationMutation.error.response?.data.error}`} 
-                     redirectTo="/login"
-                />    
+        return <ErrorPage
+            errorTitle={`when creating student information`}
+            errorMessage={`${createStudentInformationMutation.error.code}
+                     | Server Response: ${createStudentInformationMutation.error.response?.data.status}-${createStudentInformationMutation.error.response?.data.error}`}
+            redirectTo="/login"
+        />
 
     const departments = departmentsQuery.data
     const roles = rolesQuery.data
@@ -208,7 +206,7 @@ export default function RegisterPage() {
 
         // Staff member accounts require approval
         if (roles.find((role) => role.id == formData.roleId).name === "Clerical_Staff" ||
-                roles.find((role) => role.id == formData.roleId).name === "Academic_Staff")
+            roles.find((role) => role.id == formData.roleId).name === "Academic_Staff")
             formData.isApproved = false
         else
             formData.isApproved = true
@@ -222,12 +220,12 @@ export default function RegisterPage() {
                     studentInfoData.studentId = data.id
                     createStudentInformationMutation.mutate(studentInfoData, {
                         onSuccess: data => {
-                            navigate("/login", {state: {accountCreated: true}})
+                            navigate("/login", { state: { accountCreated: true } })
                         }
                     })
                 }
                 else {
-                    navigate("/login", {state: {accountCreated: true}})
+                    navigate("/login", { state: { accountCreated: true } })
                 }
             }
         })
@@ -236,178 +234,178 @@ export default function RegisterPage() {
 
     return (
         <Container className='mt-3'>
-        <Row>
-        <Col>
-          <h4 className='mb-4 mt-5 text-center'>Registration Form</h4>
-        </Col>  
-        </Row>
-        <Row>      
-        <Col md={{offset: 4}}>
-            <Form onSubmit={handleSubmit} className='w-75'>
-                    <Form.Group className="mb-4 w-75" controlId="registrationForm.Text1">
-                        <Form.Label className='text-end'>Name</Form.Label>
-                        <Form.Control 
-                            type="text"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                    {showNameAlert && 
-                    <Alert className=' mt-2' variant="danger" style={{width: "20rem"}}>
-                        Name cannot be empty
-                    </Alert>
-                    }
-
-                    <Form.Group className="mb-4 w-75" controlId="registrationForm.Email1">
-                        <Form.Label className='text-end'>Email address</Form.Label>
-                        <Form.Control 
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                    {showEmailAlert && 
-                    <Alert className=' mt-2' variant="danger" style={{width: "20rem"}}>
-                        Invalid email address
-                    </Alert>
-                    }
-                    {showUserExistsAlert && 
-                    <Alert className=' mt-2' variant="danger" style={{width: "20rem"}}>
-                        This email is already in use
-                    </Alert>
-                    }
-
-                    <Form.Group className="mb-4 w-75" controlId="registrationForm.Password1">
-                        <Form.Label className='text-end'>Password</Form.Label>
-                        <Form.Control 
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                    {showPasswordAlert && 
-                    <Alert className=' mt-2' variant="danger" style={{width: "20rem"}}>
-                        Password cannot be empty
-                    </Alert>
-                    }
-
-                    <Form.Group className="mb-4 w-75" controlId="registrationForm.Password2">
-                        <Form.Label className='text-end'>Confirm Password</Form.Label>
-                        <Form.Control 
-                            type="password"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                    {showPasswordConfirmAlert &&
-                    <Alert className=' mt-2' variant="danger" style={{width: "20rem"}}>
-                        Passwords do not match
-                    </Alert>
-                    }
-
-                    <Form.Group className="mb-4 w-75" controlId="registrationForm.Select1">
-                        <Form.Label className='text-end'>Department</Form.Label>
-                        <Form.Select
-                            name='departmentId'
-                            value={formData.departmentId}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value={0}>Select a department</option>
-                            {departments.map(department => 
-                                <option key={department.id} value={department.id}>{department.name}</option>
-                            )}
-                        </Form.Select>
-                    </Form.Group>
-                    {showDepartmentAlert &&
-                    <Alert className=' mt-2' variant="danger" style={{width: "20rem"}}>
-                        Please select a department
-                    </Alert>
-                    }
-
-                    <Form.Group className="mb-4 w-75" controlId="registrationForm.Select2">
-                        <Form.Label className='text-end'>Role</Form.Label>
-                        <Form.Select
-                            name='roleId'
-                            value={formData.roleId}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value={0}>Select a role</option>
-                            {roles.map(role => 
-                                role.name !== "Administrator" && 
-                                    <option key={role.id} value={role.id}>{role.name.replace('_', ' ')}</option>
-                            )}
-                        </Form.Select>
-                    </Form.Group>
-                    {showRoleAlert &&
-                    <Alert className=' mt-2' variant="danger" style={{width: "20rem"}}>
-                        Please select a role
-                    </Alert>
-                    }
-
-                    {showStudentFields && 
-                    <>
-                        <Form.Check 
-                            type='checkbox'
-                            name='hasLsp'
-                            checked={studentInfoData.hasLsp}
-                            onChange={handleStudentChange}
-                            label='Are you on a learning support plan?'
-                            className='mb-3'
-                        />
-
-                        <Form.Check 
-                            type='checkbox'
-                            name='hasDisability'
-                            checked={studentInfoData.hasDisability}
-                            onChange={handleStudentChange}
-                            label='Do you have any disabilities?'
-                            className='mb-3'
-                        />
-
-                        <Form.Check 
-                            type='checkbox'
-                            name='hasHealthIssues'
-                            checked={studentInfoData.hasHealthIssues}
-                            onChange={handleStudentChange}
-                            label='Have you been diagnosed with any chronic illnesses?'
-                            className='mb-4'
-                        />     
-
-                        <Form.Group className='mb-3 w-75' controlId='registrationForm.TextArea1'>
-                            <Form.Label>Additional Information</Form.Label>
+            <Row>
+                <Col>
+                    <h4 className='mb-4 mt-5 text-center'>Registration Form</h4>
+                </Col>
+            </Row>
+            <Row>
+                <Col md={{ offset: 4 }}>
+                    <Form onSubmit={handleSubmit} className='w-75'>
+                        <Form.Group className="mb-4 w-75" controlId="registrationForm.Text1">
+                            <Form.Label className='text-end'>Name</Form.Label>
                             <Form.Control
-                                as="textarea"
-                                rows={4}
-                                name='additionalDetails'
-                                value={studentInfoData.additionalDetails}
-                                onChange={handleStudentChange}
+                                type="text"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
                             />
+                        </Form.Group>
+                        {showNameAlert &&
+                            <Alert className=' mt-2' variant="danger" style={{ width: "20rem" }}>
+                                Name cannot be empty
+                            </Alert>
+                        }
+
+                        <Form.Group className="mb-4 w-75" controlId="registrationForm.Email1">
+                            <Form.Label className='text-end'>Email address</Form.Label>
+                            <Form.Control
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                        {showEmailAlert &&
+                            <Alert className=' mt-2' variant="danger" style={{ width: "20rem" }}>
+                                Invalid email address
+                            </Alert>
+                        }
+                        {showUserExistsAlert &&
+                            <Alert className=' mt-2' variant="danger" style={{ width: "20rem" }}>
+                                This email is already in use
+                            </Alert>
+                        }
+
+                        <Form.Group className="mb-4 w-75" controlId="registrationForm.Password1">
+                            <Form.Label className='text-end'>Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                        {showPasswordAlert &&
+                            <Alert className=' mt-2' variant="danger" style={{ width: "20rem" }}>
+                                Password cannot be empty
+                            </Alert>
+                        }
+
+                        <Form.Group className="mb-4 w-75" controlId="registrationForm.Password2">
+                            <Form.Label className='text-end'>Confirm Password</Form.Label>
+                            <Form.Control
+                                type="password"
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                        {showPasswordConfirmAlert &&
+                            <Alert className=' mt-2' variant="danger" style={{ width: "20rem" }}>
+                                Passwords do not match
+                            </Alert>
+                        }
+
+                        <Form.Group className="mb-4 w-75" controlId="registrationForm.Select1">
+                            <Form.Label className='text-end'>Department</Form.Label>
+                            <Form.Select
+                                name='departmentId'
+                                value={formData.departmentId}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value={0}>Select a department</option>
+                                {departments.map(department =>
+                                    <option key={department.id} value={department.id}>{department.name}</option>
+                                )}
+                            </Form.Select>
+                        </Form.Group>
+                        {showDepartmentAlert &&
+                            <Alert className=' mt-2' variant="danger" style={{ width: "20rem" }}>
+                                Please select a department
+                            </Alert>
+                        }
+
+                        <Form.Group className="mb-4 w-75" controlId="registrationForm.Select2">
+                            <Form.Label className='text-end'>Role</Form.Label>
+                            <Form.Select
+                                name='roleId'
+                                value={formData.roleId}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value={0}>Select a role</option>
+                                {roles.map(role =>
+                                    role.name !== "Administrator" &&
+                                    <option key={role.id} value={role.id}>{role.name.replace('_', ' ')}</option>
+                                )}
+                            </Form.Select>
+                        </Form.Group>
+                        {showRoleAlert &&
+                            <Alert className=' mt-2' variant="danger" style={{ width: "20rem" }}>
+                                Please select a role
+                            </Alert>
+                        }
+
+                        {showStudentFields &&
+                            <>
+                                <Form.Check
+                                    type='checkbox'
+                                    name='hasLsp'
+                                    checked={studentInfoData.hasLsp}
+                                    onChange={handleStudentChange}
+                                    label='Are you on a learning support plan?'
+                                    className='mb-3'
+                                />
+
+                                <Form.Check
+                                    type='checkbox'
+                                    name='hasDisability'
+                                    checked={studentInfoData.hasDisability}
+                                    onChange={handleStudentChange}
+                                    label='Do you have any disabilities?'
+                                    className='mb-3'
+                                />
+
+                                <Form.Check
+                                    type='checkbox'
+                                    name='hasHealthIssues'
+                                    checked={studentInfoData.hasHealthIssues}
+                                    onChange={handleStudentChange}
+                                    label='Have you been diagnosed with any chronic illnesses?'
+                                    className='mb-4'
+                                />
+
+                                <Form.Group className='mb-3 w-75' controlId='registrationForm.TextArea1'>
+                                    <Form.Label>Additional Information</Form.Label>
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={4}
+                                        name='additionalDetails'
+                                        value={studentInfoData.additionalDetails}
+                                        onChange={handleStudentChange}
+                                    />
+                                    <Form.Text muted>
+                                        Please enter any other information you deem relevant
+                                        for your exteunating circumstances applications here
+                                    </Form.Text>
+                                </Form.Group>
+                            </>
+                        }
+                        <Button variant='primary' type='submit' className='w-75 mb-1'>Register</Button>
+                        <div>
                             <Form.Text muted>
-                                Please enter any other information you deem relevant
-                                for your exteunating circumstances applications here
+                                Already registered? Sign in <Link to="/login">here</Link>.
                             </Form.Text>
-                        </Form.Group>           
-                    </>
-                    }
-                    <Button variant='primary' type='submit' className='w-75 mb-1'>Register</Button>
-                    <div>
-                    <Form.Text muted>
-                        Already registered? Sign in <Link to="/login">here</Link>.
-                    </Form.Text>
-                    </div>
-            </Form>
-        </Col>
-        </Row>
-        </Container>  
+                        </div>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
-    }
+}

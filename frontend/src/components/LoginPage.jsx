@@ -9,7 +9,7 @@ import { getRoles } from "../api/roles";
 
 
 export default function LoginPage() {
-    const {user, token, setToken} = useAuth()
+    const { user, token, setToken } = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -23,8 +23,8 @@ export default function LoginPage() {
         email: "",
         password: ""
     })
-    
-    
+
+
     useEffect(() => {
         // If redirected from registration page, show toast
         if (location.state?.accountCreated) {
@@ -51,8 +51,8 @@ export default function LoginPage() {
     useEffect(() => {
         if (user && rolesQuery.data) {
             let role = rolesQuery.data.find(role => role.id == user.roleId).name
-    
-            switch(role) {
+
+            switch (role) {
                 case "Student":
                     navigate("/student", { replace: true })
                     break
@@ -71,21 +71,21 @@ export default function LoginPage() {
     if (rolesQuery.isLoading)
         return (
             <Container className='mt-3'>
-              <Row>
-              <Col md={{offset: 6 }}>
-                <Spinner animation="border" />
-              </Col>
-              </Row>
+                <Row>
+                    <Col md={{ offset: 6 }}>
+                        <Spinner animation="border" />
+                    </Col>
+                </Row>
             </Container>
-        )  
+        )
 
     if (rolesQuery.isError)
-        return <ErrorPage 
-                    errorTitle={`when fetching roles`}
-                    errorMessage={`The server might not be running`} 
-                    redirectTo="refresh"
-                />    
-        
+        return <ErrorPage
+            errorTitle={`when fetching roles`}
+            errorMessage={`The server might not be running`}
+            redirectTo="refresh"
+        />
+
     const roles = rolesQuery.data
 
 
@@ -100,13 +100,12 @@ export default function LoginPage() {
     function handleSubmit(event) {
         event.preventDefault()
 
-        axios.post(`/auth/login`, formData, {headers: {'Authorization': null}})
+        axios.post(`/auth/login`, formData, { headers: { 'Authorization': null } })
             .then(res => {
                 const data = res.data
                 setToken(data.jwt)
             }).catch(error => {
-                if (error.response?.status == 401)
-                {
+                if (error.response?.status == 401) {
                     setShowCredentialsAlert(true)
                     setShowServerAlert(false)
                 }
@@ -120,67 +119,67 @@ export default function LoginPage() {
 
     return (
         <>
-        <ToastContainer className="p-3" position={"top-start"}>
-          <Toast bg="success" onClose={() => setShowRegistrationToast(false)} show={showRegistrationToast} delay={7000} autohide>
-            <Toast.Header closeButton={false}>
-              <img 
-                src="/sheffield-favicon.png"  
-                style={{width: '3rem', height: '3rem'}}
-              />
-              <strong>ECF Portal</strong>
-            </Toast.Header>
-            <Toast.Body>Account successfully created. Please sign in.</Toast.Body>
-          </Toast>
-        </ToastContainer>
-
-        <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
-            <Row>
-            <Col className="text-center">
-                <img src="/sheffield-logo.png" style={{width: '20rem', height: '15rem'}} />
-                <h3 className="mb-4 fw-normal">ECF Portal</h3>
-                <h5 className="mb-2 fw-light">Please sign in</h5>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group className="mb-1" controlId="loginForm.Email1">
-                        <Form.Control 
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="Email address"
-                            required
+            <ToastContainer className="p-3" position={"top-start"}>
+                <Toast bg="success" onClose={() => setShowRegistrationToast(false)} show={showRegistrationToast} delay={7000} autohide>
+                    <Toast.Header closeButton={false}>
+                        <img
+                            src="/sheffield-favicon.png"
+                            style={{ width: '3rem', height: '3rem' }}
                         />
-                    </Form.Group>
+                        <strong>ECF Portal</strong>
+                    </Toast.Header>
+                    <Toast.Body>Account successfully created. Please sign in.</Toast.Body>
+                </Toast>
+            </ToastContainer>
 
-                    <Form.Group className="mb-2" controlId="loginForm.Password1">
-                        <Form.Control 
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="Password"
-                            required
-                        />
-                    </Form.Group>
+            <Container fluid className="vh-100 d-flex justify-content-center align-items-center">
+                <Row>
+                    <Col className="text-center">
+                        <img src="/sheffield-logo.png" style={{ width: '20rem', height: '15rem' }} />
+                        <h3 className="mb-4 fw-normal">ECF Portal</h3>
+                        <h5 className="mb-2 fw-light">Please sign in</h5>
+                        <Form onSubmit={handleSubmit}>
+                            <Form.Group className="mb-1" controlId="loginForm.Email1">
+                                <Form.Control
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="Email address"
+                                    required
+                                />
+                            </Form.Group>
 
-                    <Button variant="primary" type="submit" className="w-100 mb-1">Sign In</Button>
+                            <Form.Group className="mb-2" controlId="loginForm.Password1">
+                                <Form.Control
+                                    type="password"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    placeholder="Password"
+                                    required
+                                />
+                            </Form.Group>
 
-                    {showCredentialsAlert && 
-                        <Alert className='mt-2' variant="danger" style={{width: "20rem"}}>
-                            Invalid credentials or account has not yet been approved by administrators
-                        </Alert>
-                    }    
-                    {showServerAlert && 
-                        <Alert className='mt-2' variant="danger" style={{width: "20rem"}}>
-                            Login unsuccessful, server might be offline
-                        </Alert>
-                    }              
-                    <Form.Text muted>
-                        Registering? Click <Link to="/register">here</Link>.
-                    </Form.Text>
-                </Form>
-            </Col>
-            </Row>
-        </Container>  
+                            <Button variant="primary" type="submit" className="w-100 mb-1">Sign In</Button>
+
+                            {showCredentialsAlert &&
+                                <Alert className='mt-2' variant="danger" style={{ width: "20rem" }}>
+                                    Invalid credentials or account has not yet been approved by administrators
+                                </Alert>
+                            }
+                            {showServerAlert &&
+                                <Alert className='mt-2' variant="danger" style={{ width: "20rem" }}>
+                                    Login unsuccessful, server might be offline
+                                </Alert>
+                            }
+                            <Form.Text muted>
+                                Registering? Click <Link to="/register">here</Link>.
+                            </Form.Text>
+                        </Form>
+                    </Col>
+                </Row>
+            </Container>
         </>
-    )   
+    )
 }

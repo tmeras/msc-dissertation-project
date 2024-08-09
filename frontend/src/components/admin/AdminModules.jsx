@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import { Alert, Button, Col, Container, Form, Modal, Row, Spinner, Table } from 'react-bootstrap'
 import { useAuth } from '../../providers/AuthProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -9,8 +9,8 @@ import { Navigate } from 'react-router'
 
 
 export default function AdminModules() {
-    const {user} = useAuth()
-    const queryClient = useQueryClient()   
+    const { user } = useAuth()
+    const queryClient = useQueryClient()
     const [showNameAlert, setShowNameAlert] = useState(false)
     const [showCodeAlert, setShowCodeAlert] = useState(false)
     const [showDepartmentAlert, setShowDepartmentAlert] = useState(false)
@@ -53,61 +53,61 @@ export default function AdminModules() {
     if (modulesQuery.isLoading || departmentsQuery.isLoading)
         return (
             <Container className='mt-3'>
-              <Row>
-              <Col md={{offset: 6 }}>
-                <Spinner animation="border" />
-              </Col>
-              </Row>
+                <Row>
+                    <Col md={{ offset: 6 }}>
+                        <Spinner animation="border" />
+                    </Col>
+                </Row>
             </Container>
-        )  
-    
+        )
+
     if (modulesQuery.isError)
         if (modulesQuery.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
             return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-        return <ErrorPage 
+            return <ErrorPage
                 errorTitle={`when fetching modules`}
                 errorMessage={`${modulesQuery.error.code}
-                | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`} 
-            /> 
+                | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`}
+            />
 
     if (departmentsQuery.isError)
         if (departmentsQuery.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
             return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-        return <ErrorPage 
+            return <ErrorPage
                 errorTitle={`when fetching departments`}
                 errorMessage={`${departmentsQuery.error.code}
-                | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`} 
-            /> 
+                | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`}
+            />
 
     if (createModuleMutation.isError)
         if (createModuleMutation.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
             return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-        return <ErrorPage 
+            return <ErrorPage
                 errorTitle={`when creating module`}
                 errorMessage={`${createModuleMutation.error.code}
-                | Server Response: ${createModuleMutation.error.response?.data.status}-${createModuleMutation.error.response?.data.error}`} 
-            /> 
-    
+                | Server Response: ${createModuleMutation.error.response?.data.status}-${createModuleMutation.error.response?.data.error}`}
+            />
+
     if (updateModuleMutation.isError)
         if (updateModuleMutation.error.response?.status == 401)
             // Token most likely expired or is invalid due to server restart
             return <Navigate to="/login" state={{ sessionExpired: true }} />
         else
-        return <ErrorPage 
+            return <ErrorPage
                 errorTitle={`when updating module`}
                 errorMessage={`${updateModuleMutation.error.code}
-                | Server Response: ${updateModuleMutation.error.response?.data.status}-${updateModuleMutation.error.response?.data.error}`} 
-            /> 
-        
+                | Server Response: ${updateModuleMutation.error.response?.data.status}-${updateModuleMutation.error.response?.data.error}`}
+            />
+
     const modules = modulesQuery.data
     const departments = departmentsQuery.data
-    
+
 
     function handleChange(event) {
         let { name, value } = event.target;
@@ -115,8 +115,8 @@ export default function AdminModules() {
             value = parseInt(value)
 
         setFormData(prevFormData => ({
-          ...prevFormData,
-          [name]: value
+            ...prevFormData,
+            [name]: value
         }))
     }
 
@@ -206,176 +206,176 @@ export default function AdminModules() {
 
     return (
         <>
-        <Modal show={showCreateModal} onHide={handleCloseCreateModal} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Add New Module</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group controlId='createModuleForm.Text1' className='mb-3'>
-                        <Form.Label>Module Code</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='code'
-                            value={formData.code}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                    {showCodeAlert && 
-                    <Alert className='mt-2' variant="danger" onClose={() => setShowCodeAlert(false)} style={{width: "25rem"}} >
-                        Module code must be unique and not empty
-                    </Alert>
-                    }
+            <Modal show={showCreateModal} onHide={handleCloseCreateModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add New Module</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId='createModuleForm.Text1' className='mb-3'>
+                            <Form.Label>Module Code</Form.Label>
+                            <Form.Control
+                                type='text'
+                                name='code'
+                                value={formData.code}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                        {showCodeAlert &&
+                            <Alert className='mt-2' variant="danger" onClose={() => setShowCodeAlert(false)} style={{ width: "25rem" }} >
+                                Module code must be unique and not empty
+                            </Alert>
+                        }
 
-                    <Form.Group controlId='createModuleForm.Text2' className='mb-3'>
-                        <Form.Label>Module Name</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='name'
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                    {showNameAlert && 
-                    <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                        Module name must not be empty
-                    </Alert>
-                    }
+                        <Form.Group controlId='createModuleForm.Text2' className='mb-3'>
+                            <Form.Label>Module Name</Form.Label>
+                            <Form.Control
+                                type='text'
+                                name='name'
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                        {showNameAlert &&
+                            <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{ width: "25rem" }} >
+                                Module name must not be empty
+                            </Alert>
+                        }
 
-                    <Form.Group controlId='createModuleForm.Select1' className='mb-3'>
-                        <Form.Label>Module Department</Form.Label>
-                        <Form.Select
-                            name='departmentId'
-                            value={formData.departmentId}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value={0}>Select a department</option>
-                            {departments.map(department => 
-                                <option key={department.id} value={department.id}>{department.name}</option>
-                            )}
-                        </Form.Select>
-                    </Form.Group>
-                    {showDepartmentAlert && 
-                    <Alert className='mt-2' variant="danger" onClose={() => setShowDepartmentAlert(false)} style={{width: "25rem"}} >
-                        Please select a department
-                    </Alert>
-                    }
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseCreateModal}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleCreateModule}>
-                    Save
-                </Button>
-            </Modal.Footer>
-        </Modal>
+                        <Form.Group controlId='createModuleForm.Select1' className='mb-3'>
+                            <Form.Label>Module Department</Form.Label>
+                            <Form.Select
+                                name='departmentId'
+                                value={formData.departmentId}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value={0}>Select a department</option>
+                                {departments.map(department =>
+                                    <option key={department.id} value={department.id}>{department.name}</option>
+                                )}
+                            </Form.Select>
+                        </Form.Group>
+                        {showDepartmentAlert &&
+                            <Alert className='mt-2' variant="danger" onClose={() => setShowDepartmentAlert(false)} style={{ width: "25rem" }} >
+                                Please select a department
+                            </Alert>
+                        }
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseCreateModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleCreateModule}>
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-        <Modal show={showUpdateModal} onHide={handleCloseUpdateModal} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Edit Module</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Group controlId='updateModuleForm.Text1' className='mb-3'>
-                        <Form.Label>Module Code</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='code'
-                            value={formData.code}
-                            onChange={handleChange}
-                            disabled
-                            required
-                        />
-                    </Form.Group>
+            <Modal show={showUpdateModal} onHide={handleCloseUpdateModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title>Edit Module</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group controlId='updateModuleForm.Text1' className='mb-3'>
+                            <Form.Label>Module Code</Form.Label>
+                            <Form.Control
+                                type='text'
+                                name='code'
+                                value={formData.code}
+                                onChange={handleChange}
+                                disabled
+                                required
+                            />
+                        </Form.Group>
 
-                    <Form.Group controlId='updateModuleForm.Text2' className='mb-3'>
-                        <Form.Label>Module Name</Form.Label>
-                        <Form.Control
-                            type='text'
-                            name='name'
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-                    {showNameAlert && 
-                    <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{width: "25rem"}} >
-                        Module name must not be empty
-                    </Alert>
-                    }
+                        <Form.Group controlId='updateModuleForm.Text2' className='mb-3'>
+                            <Form.Label>Module Name</Form.Label>
+                            <Form.Control
+                                type='text'
+                                name='name'
+                                value={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </Form.Group>
+                        {showNameAlert &&
+                            <Alert className='mt-2' variant="danger" onClose={() => setShowNameAlert(false)} style={{ width: "25rem" }} >
+                                Module name must not be empty
+                            </Alert>
+                        }
 
-                    <Form.Group controlId='updateModuleForm.Select1' className='mb-3'>
-                        <Form.Label>Module Department</Form.Label>
-                        <Form.Select
-                            name='departmentId'
-                            value={formData.departmentId}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value={0}>Select a department</option>
-                            {departments.map(department => 
-                                <option key={department.id} value={department.id}>{department.name}</option>
-                            )}
-                        </Form.Select>
-                    </Form.Group>
-                    {showDepartmentAlert && 
-                    <Alert className='mt-2' variant="danger" onClose={() => setShowDepartmentAlert(false)} style={{width: "25rem"}} >
-                        Please select a department
-                    </Alert>
-                    }
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseUpdateModal}>
-                    Close
-                </Button>
-                <Button variant="primary" onClick={handleUpdateModule}>
-                    Save
-                </Button>
-            </Modal.Footer>
-        </Modal>
+                        <Form.Group controlId='updateModuleForm.Select1' className='mb-3'>
+                            <Form.Label>Module Department</Form.Label>
+                            <Form.Select
+                                name='departmentId'
+                                value={formData.departmentId}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value={0}>Select a department</option>
+                                {departments.map(department =>
+                                    <option key={department.id} value={department.id}>{department.name}</option>
+                                )}
+                            </Form.Select>
+                        </Form.Group>
+                        {showDepartmentAlert &&
+                            <Alert className='mt-2' variant="danger" onClose={() => setShowDepartmentAlert(false)} style={{ width: "25rem" }} >
+                                Please select a department
+                            </Alert>
+                        }
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseUpdateModal}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleUpdateModule}>
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
-        <Container className="mt-3">
-            <h2 className="text-center fw-normal">Modules</h2>
+            <Container className="mt-3">
+                <h2 className="text-center fw-normal">Modules</h2>
 
-            <div className="d-flex justify-content-end">
-                <Button variant='primary' className='ms-auto' onClick={handleShowCreateModal}>
-                    <img src='/plus.svg' className='mb-1 me-1'/>
-                    Add Module
-                </Button>
-            </div>
+                <div className="d-flex justify-content-end">
+                    <Button variant='primary' className='ms-auto' onClick={handleShowCreateModal}>
+                        <img src='/plus.svg' className='mb-1 me-1' />
+                        Add Module
+                    </Button>
+                </div>
 
-            <Table striped hover className="mt-3 shadow">
-                <thead className="table-light">
-                    <tr>
-                        <th scope="col" className="col-2">Code</th>
-                        <th scope="col" className="col-5">Name</th>
-                        <th>Department </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody className="table-group-divider">
-                {modules.sort((a, b) => a.code.localeCompare(b.code)).map(module => 
-                    <tr key={module.code}>
-                        <td>{module.code}</td>
-                        <td>{module.name}</td>
-                        <td>
-                            {departments.find(department => department.id == module.departmentId).name}
+                <Table striped hover className="mt-3 shadow">
+                    <thead className="table-light">
+                        <tr>
+                            <th scope="col" className="col-2">Code</th>
+                            <th scope="col" className="col-5">Name</th>
+                            <th>Department </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody className="table-group-divider">
+                        {modules.sort((a, b) => a.code.localeCompare(b.code)).map(module =>
+                            <tr key={module.code}>
+                                <td>{module.code}</td>
+                                <td>{module.name}</td>
+                                <td>
+                                    {departments.find(department => department.id == module.departmentId).name}
 
-                        </td>
-                        <td>                        
-                            <Button variant='secondary' size='sm' onClick={() => handleShowUpdateModal(module)}>Edit</Button>
-                        </td>
-                    </tr>
-                )}
-                </tbody>
-            </Table>
-        </Container>
+                                </td>
+                                <td>
+                                    <Button variant='secondary' size='sm' onClick={() => handleShowUpdateModal(module)}>Edit</Button>
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
+            </Container>
         </>
     )
 }
