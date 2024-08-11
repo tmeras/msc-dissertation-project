@@ -30,3 +30,9 @@ export function updateUser(data) {
         .then(res => res.data)
 }
 
+export function emailUser(data) {
+    return axios
+        .post(`/users/${data.id}/mail`, data)
+        .then(res => res.data)
+}
+
