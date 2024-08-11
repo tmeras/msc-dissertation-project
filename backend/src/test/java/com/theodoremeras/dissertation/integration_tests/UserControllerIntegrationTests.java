@@ -5,6 +5,7 @@ import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.role.RoleEntity;
+import com.theodoremeras.dissertation.user.EmailDto;
 import com.theodoremeras.dissertation.user.UserDto;
 import com.theodoremeras.dissertation.user.UserEntity;
 import com.theodoremeras.dissertation.user.UserService;
@@ -303,6 +304,47 @@ public class UserControllerIntegrationTests {
                         .header("Authorization", "Bearer " + token)
         ).andExpect(
                 MockMvcResultMatchers.status().isForbidden()
+        );
+    }
+
+    @Test
+    public void testEmailUser() throws Exception {
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
+
+        UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
+        UserEntity savedUserEntity = userService.save(testUserEntity);
+
+        EmailDto emailDto = EmailDto.builder()
+                .subject("Test Email")
+                .body("Test body")
+                .build();
+        String emailJson = objectMapper.writeValueAsString(emailDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/users/" + savedUserEntity.getId() + "/mail")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(emailJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+    @Test
+    public void testEmailUserWhenNoUserExists() throws Exception {
+
+        EmailDto emailDto = EmailDto.builder()
+                .subject("Test Email")
+                .body("Test body")
+                .build();
+        String emailJson = objectMapper.writeValueAsString(emailDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/users/1/mail")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(emailJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
         );
     }
 
