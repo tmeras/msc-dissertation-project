@@ -7,6 +7,8 @@ import com.theodoremeras.dissertation.role.RoleService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +30,17 @@ public class UserController {
 
     private UserMapper userMapper;
 
+    private JwtDecoder jwtDecoder;
+
     public UserController(
             UserService userService, RoleService roleService,
-            DepartmentService departmentService, UserMapper userMapper
+            DepartmentService departmentService, UserMapper userMapper, JwtDecoder jwtDecoder
     ) {
         this.userService = userService;
         this.roleService = roleService;
         this.departmentService = departmentService;
         this.userMapper = userMapper;
+        this.jwtDecoder = jwtDecoder;
     }
 
     @GetMapping(path = "/users")
@@ -65,13 +70,25 @@ public class UserController {
     }
 
     @GetMapping(path = "/users/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Integer id) {
-        Optional<UserEntity> foundUser = userService.findOneById(id);
+    public ResponseEntity<UserDto> getUserById(
+            @PathVariable("id") Integer id,
+            @RequestHeader(name = "Authorization") String token
+    ) {
+        // Extract the user's id and role from the token
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
+        Long userId = jwt.getClaim("userId");
+        String userRole = jwt.getClaim("roles");
 
-        return foundUser.map(userEntity -> {
-            UserDto userDto = userMapper.mapToDto(userEntity);
-            return new ResponseEntity<>(userDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        Optional<UserEntity> foundUser = userService.findOneById(id);
+        if (foundUser.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // Students are only allowed to view their own information
+        if (userRole.equals("Student") && userId.intValue() != foundUser.get().getId())
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        UserDto userDto = userMapper.mapToDto(foundUser.get());
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     @PatchMapping(path = "/users/{id}")

@@ -18,6 +18,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -26,6 +29,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 @SpringBootTest
@@ -42,15 +46,18 @@ public class UserControllerIntegrationTests {
 
     private MockMvc mockMvc;
 
+    private JwtEncoder jwtEncoder;
+
     @Autowired
     public UserControllerIntegrationTests(
             UserService userService, ParentCreationService parentCreationService,
-            ObjectMapper objectMapper, MockMvc mockMvc
+            ObjectMapper objectMapper, MockMvc mockMvc, JwtEncoder jwtEncoder
     ) {
         this.userService = userService;
         this.parentCreationService = parentCreationService;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
+        this.jwtEncoder = jwtEncoder;
     }
 
     @Test
@@ -217,12 +224,25 @@ public class UserControllerIntegrationTests {
         RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
         DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
 
+        // Build jwt with admin role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Administrator")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
         UserEntity savedUserEntity = userService.save(testUserEntity);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/users/" + savedUserEntity.getId())
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
@@ -242,11 +262,55 @@ public class UserControllerIntegrationTests {
 
     @Test
     public void testGetUserByIdWhenNoUserExists() throws Exception {
+
+        // Build jwt with admin role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Administrator")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/users/1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testGetUserByIdWhenForbidden() throws Exception {
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
+
+        // Build jwt with student role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Student")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+        UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
+        UserEntity savedUserEntity = userService.save(testUserEntity);
+
+        // Request the details of another student, which students are not allowed to do
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/users/" + savedUserEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+        ).andExpect(
+                MockMvcResultMatchers.status().isForbidden()
         );
     }
 
