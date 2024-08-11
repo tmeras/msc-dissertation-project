@@ -46,8 +46,8 @@ class DepartmentControllerIntegrationTests {
 
     @Test
     public void testCreateDepartment() throws Exception {
-        DepartmentEntity testDepartment = TestDataUtil.createTestDepartmentEntityA();
-        String departmentJson = objectMapper.writeValueAsString(testDepartment);
+        DepartmentDto testDepartmentDto = TestDataUtil.createTestDepartmentDtoA();
+        String departmentJson = objectMapper.writeValueAsString(testDepartmentDto);
 
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/departments")
@@ -58,7 +58,7 @@ class DepartmentControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.id").isNumber()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.name").value(testDepartment.getName())
+                MockMvcResultMatchers.jsonPath("$.name").value(testDepartmentDto.getName())
         );
     }
 
@@ -105,7 +105,7 @@ class DepartmentControllerIntegrationTests {
     @Test
     public void testGetDepartmentByIdWhenNoDepartmentExists() throws Exception {
         mockMvc.perform(
-                MockMvcRequestBuilders.get("/departments/99")
+                MockMvcRequestBuilders.get("/departments/1")
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
@@ -131,6 +131,22 @@ class DepartmentControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.id").value(savedDepartmentEntity.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.name").value(testDepartmentDto.getName())
+        );
+    }
+
+    @Test
+    public void testPartialUpdateDepartmentWhenNoDepartmentExists() throws Exception {
+
+        DepartmentDto testDepartmentDto = TestDataUtil.createTestDepartmentDtoB();
+        String departmentUpdateJson = objectMapper.writeValueAsString(testDepartmentDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .patch("/departments/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(departmentUpdateJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isNotFound()
         );
     }
 

@@ -54,11 +54,6 @@ public class DepartmentController {
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping(path = "/departments/{id}")
-    public ResponseEntity<String> deleteDepartment(@PathVariable("id") Integer id) {
-        departmentService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 
     @PatchMapping(path = "/departments/{id}")
     public ResponseEntity<DepartmentDto> partialUpdateDepartment(
@@ -71,6 +66,12 @@ public class DepartmentController {
         DepartmentEntity departmentEntity = departmentMapper.mapFromDto(departmentDto);
         DepartmentEntity updatedDepartmentEntity = departmentService.partialUpdate(id, departmentEntity);
         return new ResponseEntity<>(departmentMapper.mapToDto(updatedDepartmentEntity), HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/departments/{id}")
+    public ResponseEntity<String> deleteDepartment(@PathVariable("id") Integer id) {
+        departmentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
