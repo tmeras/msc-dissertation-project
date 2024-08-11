@@ -4,6 +4,8 @@ import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.role.RoleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.validation.FieldError;
@@ -29,15 +31,19 @@ public class UserController {
 
     private final JwtDecoder jwtDecoder;
 
+    private final JavaMailSender emailSender;
+
     public UserController(
             UserService userService, RoleService roleService,
-            DepartmentService departmentService, UserMapper userMapper, JwtDecoder jwtDecoder
+            DepartmentService departmentService,
+            UserMapper userMapper, JwtDecoder jwtDecoder, JavaMailSender emailSender
     ) {
         this.userService = userService;
         this.roleService = roleService;
         this.departmentService = departmentService;
         this.userMapper = userMapper;
         this.jwtDecoder = jwtDecoder;
+        this.emailSender = emailSender;
     }
 
     @GetMapping(path = "/users")
@@ -86,6 +92,27 @@ public class UserController {
 
         UserDto userDto = userMapper.mapToDto(foundUser.get());
         return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/users/{id}/mail")
+    public ResponseEntity<String> emailUser(
+            @PathVariable("id") Integer id,
+            @RequestBody EmailDto emailDto
+    ) {
+        Optional<UserEntity> foundUser = userService.findOneById(id);
+
+        if (foundUser.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // Send email to specified user
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("ecfportal@gmail.com");
+        message.setTo(foundUser.get().getEmail());
+        message.setSubject(emailDto.getSubject());
+        message.setText(emailDto.getBody());
+        emailSender.send(message);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping(path = "/users/{id}")
