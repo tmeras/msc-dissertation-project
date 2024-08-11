@@ -2,6 +2,7 @@ package com.theodoremeras.dissertation.user;
 
 import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.role.RoleService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -97,14 +98,14 @@ public class UserController {
     @PostMapping(path = "/users/{id}/mail")
     public ResponseEntity<String> emailUser(
             @PathVariable("id") Integer id,
-            @RequestBody EmailDto emailDto
+            @Valid @RequestBody EmailDto emailDto
     ) {
         Optional<UserEntity> foundUser = userService.findOneById(id);
 
         if (foundUser.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        // Send email to specified user
+        // Send email to the specified user
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom("ecfportal@gmail.com");
         message.setTo(foundUser.get().getEmail());

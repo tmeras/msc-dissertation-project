@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDate } from "../../utils"
 import { Card, Container, ListGroup, Button, Row, Col, Alert, Spinner } from 'react-bootstrap'
 import { getEcApplication, updateEcApplication } from '../../api/ecApplications'
-import { getUser, getUsersByDepartmentIdAndRoleId } from '../../api/users'
+import { emailUser, getUser, getUsersByDepartmentIdAndRoleId } from '../../api/users'
 import { getStudentInformationByStudentId } from '../../api/studentInformation'
 import { getEvidenceByEcApplicationId } from '../../api/evidence'
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
@@ -221,13 +221,6 @@ export default function ClericalStaffEcDetails() {
     const modules = modulesQuery.data
     const academicStaff = staffQuery.data
 
-    // Staff is not allowed to view applications submitted by a student in another department
-    if (student.departmentId != user.departmentId)
-        return <ErrorPage
-            errorMessage="You are not allowed to access this EC application.
-                It was submitted by a student in another department"
-        />
-
 
     function downloadEvidence(fileName) {
         axios.get(`/evidence/${fileName}`, { responseType: 'blob' })
@@ -255,6 +248,14 @@ export default function ClericalStaffEcDetails() {
 
     // Request more evidence from the student
     function requestMoreEvidence() {
+
+        // Inform student via email that further evidence is required
+        emailUser({
+            "id": ecApplication.studentId,
+            "subject": `Further Evidence Requested`,
+            "body": `A staff member has requested further evidence for one of your EC applications.Access the ECF portal to submit further evidence.`
+        })
+
         updateEcApplicationMutation.mutate({
             id: ecApplication.id,
             requiresFurtherEvidence: true

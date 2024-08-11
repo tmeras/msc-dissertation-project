@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDate } from "../../utils"
 import { Form, Card, Container, ListGroup, Button, Row, Col, Alert, Spinner, ButtonGroup, Badge } from 'react-bootstrap'
 import { getEcApplication, updateEcApplication } from '../../api/ecApplications'
-import { getUser } from '../../api/users'
+import { emailUser, getUser } from '../../api/users'
 import { getStudentInformationByStudentId } from '../../api/studentInformation'
 import { getEvidenceByEcApplicationId } from '../../api/evidence'
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
@@ -199,13 +199,6 @@ export default function AcademicStaffEcDetails() {
     const modules = modulesQuery.data
     const moduleDecisions = moduleDecisionsQuery.data
 
-    // Staff is not allowed to view applications submitted by a student in another department
-    if (student.departmentId != user.departmentId)
-        return <ErrorPage
-            errorMessage="You are not allowed to access this EC application.
-                    It was submitted by a student in another department"
-        />
-
 
     function downloadEvidence(fileName) {
         axios.get(`/evidence/${fileName}`, { responseType: 'blob' })
@@ -233,6 +226,14 @@ export default function AcademicStaffEcDetails() {
 
     // Request more evidence from the student
     function requestMoreEvidence() {
+
+        // Inform student via email that further evidence is required
+        emailUser({
+            "id": ecApplication.studentId,
+            "subject": `Further Evidence Requested`,
+            "body": `A staff member has requested further evidence for one of your EC applications.Access the ECF portal to submit further evidence.`
+        })
+
         updateEcApplicationMutation.mutate({
             id: ecApplication.id,
             requiresFurtherEvidence: true
@@ -254,11 +255,11 @@ export default function AcademicStaffEcDetails() {
 
         // A decision (i.e. approve or reject) must be shared by 2 staff members for it to be final
         if (approvals >= 2) // request approved
-            return true
+            return {finalDecision: true, approvals, rejections}
         else if (rejections >= 2) // request rejected
-            return false
+            return {finalDecision: false, approvals, rejections}
         else                // no final decision made yet
-            return null
+            return {finalDecision: null, approvals, rejections}
 
     }
 
@@ -281,7 +282,17 @@ export default function AcademicStaffEcDetails() {
     }
 
     // Approve a module request and submit any comments
-    function handleApprove(index, requestId) {
+    function handleApprove(index, requestId, moduleCode, approvals) {
+
+        // If the decision is final (i.e. another staff member has made the same decision before)
+        // then email student to inform them
+        if (approvals == 1)
+            emailUser({
+                "id": ecApplication.studentId,
+                "subject": `${moduleCode} Request Decision`,
+                "body": `A decision has been reached for one of your requests related to ${moduleCode}. Access the ECF portal to view it.`
+            })
+
         createModuleDecisionMutation.mutate({
             comments: comments[index],
             isApproved: true,
@@ -292,7 +303,17 @@ export default function AcademicStaffEcDetails() {
     }
 
     // Reject a module request and submit any comments
-    function handleReject(index, requestId) {
+    function handleReject(index, requestId, moduleCode, rejections) {
+
+        // If the decision is final (i.e. another staff member has made the same decision before)
+        // then email student to inform them
+        if (rejections == 1)
+            emailUser({
+                "id": ecApplication.studentId,
+                "subject": `${moduleCode} Request Decision`,
+                "body": `A decision has been reached for one of your requests related to ${moduleCode}. Access the ECF portal to view it.`
+            })
+
         createModuleDecisionMutation.mutate({
             comments: comments[index],
             isApproved: false,
@@ -365,7 +386,8 @@ export default function AcademicStaffEcDetails() {
                         <Card.Body>
                             <ListGroup>
                                 {moduleRequests.map((moduleRequest, index) => {
-                                    const finalDecision = getDecisionMade(moduleRequest.id)
+                                    const {finalDecision, approvals, rejections} = getDecisionMade(moduleRequest.id)
+                                    console.log(`request ${index} is ${finalDecision}: +${approvals} | -${rejections}`)
 
                                     return (
                                         <ListGroup.Item key={moduleRequest.id}>
@@ -393,8 +415,8 @@ export default function AcademicStaffEcDetails() {
                                                         />
                                                     </Form.Group>
                                                     <ButtonGroup className='mb-1'>
-                                                        <Button variant='success' onClick={() => handleApprove(index, moduleRequest.id)} >Approve</Button>
-                                                        <Button variant='danger' onClick={() => handleReject(index, moduleRequest.id)}>Reject</Button>
+                                                        <Button variant='success' onClick={() => handleApprove(index, moduleRequest.id, moduleRequest.moduleCode, approvals)} >Approve</Button>
+                                                        <Button variant='danger' onClick={() => handleReject(index, moduleRequest.id, moduleRequest.moduleCode, rejections)}>Reject</Button>
                                                     </ButtonGroup>
                                                 </>
                                             }

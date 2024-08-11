@@ -24,11 +24,11 @@ SELECT NEXTVAL('_user_seq');
 SELECT NEXTVAL('_user_seq');
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(1, 'Student (Dept.1-1)', 'student1@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
+VALUES(1, 'Student (Dept.1-1)', 'tmeras@yahoo.gr', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
-VALUES(2, 'Student (Dept.1-2)', 'student2@gmail.com', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
+VALUES(2, 'Student (Dept.1-2)', 'tmeras1@sheffield.ac.uk', '$2a$10$jUQ5ifdVbHENCVx68ZyMSelRnFSJH60YBMP3ejhKi5MLCnw54GpTS', true, 1, 1);
 
 INSERT INTO
 _user(id, name, email, password, is_approved, role_id, department_id)
