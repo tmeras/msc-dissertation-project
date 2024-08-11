@@ -7,16 +7,32 @@ import com.theodoremeras.dissertation.student_information.StudentInformationDto;
 import com.theodoremeras.dissertation.student_information.StudentInformationEntity;
 import com.theodoremeras.dissertation.student_information.StudentInformationService;
 import com.theodoremeras.dissertation.user.UserEntity;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.time.Instant;
+import java.util.Collection;
+import java.util.Date;
+
+import static io.jsonwebtoken.security.Keys.secretKeyFor;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -28,19 +44,22 @@ public class StudentInformationControllerIntegrationTests {
 
     private ParentCreationService parentCreationService;
 
+    private MockMvc mockMvc;
+
     private ObjectMapper objectMapper;
 
-    private MockMvc mockMvc;
+    private JwtEncoder jwtEncoder;
 
     @Autowired
     public StudentInformationControllerIntegrationTests(
             StudentInformationService studentInformationService, ParentCreationService parentCreationService,
-            ObjectMapper objectMapper, MockMvc mockMvc
+            ObjectMapper objectMapper, MockMvc mockMvc, JwtEncoder jwtEncoder
     ) {
         this.studentInformationService = studentInformationService;
         this.parentCreationService = parentCreationService;
         this.objectMapper = objectMapper;
         this.mockMvc = mockMvc;
+        this.jwtEncoder = jwtEncoder;
     }
 
     @Test
@@ -55,6 +74,7 @@ public class StudentInformationControllerIntegrationTests {
                 MockMvcRequestBuilders.post("/student-information")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(studentInformationJson)
+
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         ).andExpect(
@@ -111,6 +131,19 @@ public class StudentInformationControllerIntegrationTests {
     public void testGetAllStudentInformation() throws Exception {
         UserEntity savedStudent = parentCreationService.createUserParentEntity();
 
+        // Build jwt with admin role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Administrator")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+
         StudentInformationEntity testStudentInformationEntityA =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
         StudentInformationEntity savedStudentInformationEntityA =
@@ -123,6 +156,7 @@ public class StudentInformationControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/student-information")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
@@ -165,8 +199,46 @@ public class StudentInformationControllerIntegrationTests {
     }
 
     @Test
+    public void testGetAllStudentInformationWhenForbidden() throws Exception {
+
+        // Build jwt with student role specified, as students are not allowed
+        // to fetch all student information
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Student")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/student-information")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+        ).andExpect(
+                MockMvcResultMatchers.status().isForbidden()
+        );
+    }
+
+    @Test
     public void testGetAllStudentInformationByStudentId() throws Exception {
         UserEntity savedStudent = parentCreationService.createUserParentEntity();
+
+        // Build jwt with admin role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Administrator")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
         StudentInformationEntity testStudentInformationEntityA =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -180,6 +252,7 @@ public class StudentInformationControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/student-information?StudentId=" + savedStudent.getId())
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
@@ -222,8 +295,45 @@ public class StudentInformationControllerIntegrationTests {
     }
 
     @Test
+    public void testGetAllStudentInformationByStudentIdWhenForbidden() throws Exception {
+
+        // Build jwt with student role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Student")
+                .claim("userId", 1)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+        // Request the information of another student, which students are not allowed to do
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/student-information?StudentId=2")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+        ).andExpect(
+                MockMvcResultMatchers.status().isForbidden()
+        );
+    }
+
+    @Test
     public void testPartialUpdateStudentInformation() throws Exception {
         UserEntity savedStudent = parentCreationService.createUserParentEntity();
+
+        // Build jwt with admin role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Administrator")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
         StudentInformationEntity testStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
@@ -239,6 +349,7 @@ public class StudentInformationControllerIntegrationTests {
                         .patch("/student-information/" + savedStudentInformationEntity.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(studentInformationUpdateJson)
+                        .header("Authorization", "Bearer " + token)
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
@@ -264,6 +375,18 @@ public class StudentInformationControllerIntegrationTests {
 
     @Test
     public void testPartialUpdateStudentInformationWhenNoStudentInformationExists() throws Exception {
+        // Build jwt with admin role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Administrator")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
         StudentInformationDto testStudentInformationDto =
                 TestDataUtil.createTestStudentInformationDtoB(null);
         String studentInformationUpdateJson = objectMapper.writeValueAsString(testStudentInformationDto);
@@ -273,8 +396,46 @@ public class StudentInformationControllerIntegrationTests {
                         .patch("/student-information/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(studentInformationUpdateJson)
+                        .header("Authorization", "Bearer " + token)
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
+        );
+    }
+
+    @Test
+    public void testPartialUpdateStudentInformationWhenForbidden() throws Exception {
+        UserEntity savedStudent = parentCreationService.createUserParentEntity();
+
+        // Build jwt with student role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Student")
+                .claim("userId", 5)
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+        StudentInformationEntity testStudentInformationEntity =
+                TestDataUtil.createTestStudentInformationEntityA(savedStudent);
+        StudentInformationEntity savedStudentInformationEntity =
+                studentInformationService.save(testStudentInformationEntity);
+
+        StudentInformationDto testStudentInformationDto =
+                TestDataUtil.createTestStudentInformationDtoB(null);
+        String studentInformationUpdateJson = objectMapper.writeValueAsString(testStudentInformationDto);
+
+        // Request to edit the information of another student, which students are not allowed to do
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .patch("/student-information/1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(studentInformationUpdateJson)
+                        .header("Authorization", "Bearer " + token)
+        ).andExpect(
+                MockMvcResultMatchers.status().isForbidden()
         );
     }
 

@@ -5,6 +5,9 @@ import com.theodoremeras.dissertation.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +24,16 @@ public class StudentInformationController {
 
     private StudentInformationMapper studentInformationMapper;
 
+    private JwtDecoder jwtDecoder;
+
     public StudentInformationController(
             StudentInformationService studentInformationService,
-            UserService userService, StudentInformationMapper studentInformationMapper
+            UserService userService, StudentInformationMapper studentInformationMapper, JwtDecoder jwtDecoder
     ) {
         this.studentInformationService = studentInformationService;
         this.userService = userService;
         this.studentInformationMapper = studentInformationMapper;
+        this.jwtDecoder = jwtDecoder;
     }
 
     @PostMapping(path = "/student-information")
@@ -56,14 +62,31 @@ public class StudentInformationController {
     }
 
     @GetMapping(path = "/student-information")
-    public List<StudentInformationDto> getAllStudentInformation(
-            @RequestParam(value = "studentId", required = false) Integer studentId
+    public ResponseEntity<List<StudentInformationDto>> getAllStudentInformation(
+            @RequestParam(value = "studentId", required = false) Integer studentId,
+            @RequestHeader(name = "Authorization") String token
     ) {
-        //Determine whether to fetch all student information or only the that the provided student id
+        // Extract the user's id and role from the token
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
+        Long userId = jwt.getClaim("userId");
+        String userRole = jwt.getClaim("roles");
+
         List<StudentInformationEntity> studentInformationEntities;
-        if (studentId == null)
+
+        // Fetch all student information
+        if (studentId == null) {
+            // Students are not allowed to fetch all student information
+            if (userRole.equals("Student"))
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
             studentInformationEntities = studentInformationService.findAll();
+        }
+        // Fetch only the information of the specified student
         else {
+            // Students are not allowed to view the information of other students
+            if (userRole.equals("Student") && !studentId.equals(userId.intValue()))
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
             Optional<StudentInformationEntity> foundStudentInformation =
                     studentInformationService.findOneByStudentId(studentId);
             studentInformationEntities = foundStudentInformation
@@ -71,17 +94,31 @@ public class StudentInformationController {
                     .orElseGet(ArrayList::new);
         }
 
-        return studentInformationEntities.stream()
+        return new ResponseEntity<>(studentInformationEntities.stream()
                 .map(studentInformationMapper::mapToDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @PatchMapping(path = "/student-information/{id}")
     public ResponseEntity<StudentInformationDto> partialUpdateStudentInformation(
-            @PathVariable("id") Integer id, @RequestBody StudentInformationDto studentInformationDto
+            @PathVariable("id") Integer id, @RequestBody StudentInformationDto studentInformationDto,
+            @RequestHeader(name = "Authorization") String token
     ) {
+        // Extract the user's id and role from the token
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
+        Long userId = jwt.getClaim("userId");
+        String userRole = jwt.getClaim("roles");
+
         if (!studentInformationService.exists(id))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // Students are only allowed to edit their own information
+        if (userRole.equals("Student") &&
+                studentInformationService.findOneById(id).get().getStudent().getId() != userId.intValue())
+        {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
 
         studentInformationDto.setId(id);
         StudentInformationEntity studentInformationEntity = studentInformationMapper.mapFromDto(studentInformationDto);
