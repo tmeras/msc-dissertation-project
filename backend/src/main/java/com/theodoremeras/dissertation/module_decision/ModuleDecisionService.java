@@ -8,7 +8,7 @@ import java.util.Optional;
 @Service
 public class ModuleDecisionService {
 
-    private ModuleDecisionRepository moduleDecisionRepository;
+    private final ModuleDecisionRepository moduleDecisionRepository;
 
     public ModuleDecisionService(ModuleDecisionRepository moduleDecisionRepository) {
         this.moduleDecisionRepository = moduleDecisionRepository;

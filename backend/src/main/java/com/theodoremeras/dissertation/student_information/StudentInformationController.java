@@ -5,7 +5,6 @@ import com.theodoremeras.dissertation.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.validation.FieldError;
@@ -18,13 +17,13 @@ import java.util.stream.Collectors;
 @RestController
 public class StudentInformationController {
 
-    private StudentInformationService studentInformationService;
+    private final StudentInformationService studentInformationService;
 
-    private UserService userService;
+    private final UserService userService;
 
-    private StudentInformationMapper studentInformationMapper;
+    private final StudentInformationMapper studentInformationMapper;
 
-    private JwtDecoder jwtDecoder;
+    private final JwtDecoder jwtDecoder;
 
     public StudentInformationController(
             StudentInformationService studentInformationService,
@@ -114,8 +113,7 @@ public class StudentInformationController {
 
         // Students are only allowed to edit their own information
         if (userRole.equals("Student") &&
-                studentInformationService.findOneById(id).get().getStudent().getId() != userId.intValue())
-        {
+                studentInformationService.findOneById(id).get().getStudent().getId() != userId.intValue()) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

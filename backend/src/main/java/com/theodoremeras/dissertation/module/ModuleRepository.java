@@ -1,6 +1,5 @@
 package com.theodoremeras.dissertation.module;
 
-import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

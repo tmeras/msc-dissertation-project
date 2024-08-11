@@ -7,20 +7,14 @@ import com.theodoremeras.dissertation.student_information.StudentInformationDto;
 import com.theodoremeras.dissertation.student_information.StudentInformationEntity;
 import com.theodoremeras.dissertation.student_information.StudentInformationService;
 import com.theodoremeras.dissertation.user.UserEntity;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,11 +22,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Date;
-
-import static io.jsonwebtoken.security.Keys.secretKeyFor;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -40,15 +29,15 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 @WithMockUser(roles = {"Administrator"})
 public class StudentInformationControllerIntegrationTests {
 
-    private StudentInformationService studentInformationService;
+    private final StudentInformationService studentInformationService;
 
-    private ParentCreationService parentCreationService;
+    private final ParentCreationService parentCreationService;
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private JwtEncoder jwtEncoder;
+    private final JwtEncoder jwtEncoder;
 
     @Autowired
     public StudentInformationControllerIntegrationTests(

@@ -99,6 +99,7 @@ export default function StudentEcDetails() {
 
     if (ecApplicationQuery.isLoading || studentQuery.isLoading || studentInformationQuery.isLoading
         || evidenceQuery.isLoading || moduleRequestsQuery.isLoading || modulesQuery.isLoading
+        || moduleDecisionsQuery.isLoading
     )
         return (
             <Container className='mt-3'>
@@ -378,7 +379,7 @@ export default function StudentEcDetails() {
                         </Card.Body>
                         <ListGroup variant="flush">
                             {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
-                            {student.hasHealthIssues && <ListGroup.Item>Student has health issues</ListGroup.Item>}
+                            {student.hasHealthIssues && <ListGroup.Item>Student has chronic health issues</ListGroup.Item>}
                             {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
                         </ListGroup>
                     </Card>

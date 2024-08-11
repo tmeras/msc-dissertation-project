@@ -1,10 +1,7 @@
 package com.theodoremeras.dissertation.user;
 
-import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
-import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.role.RoleService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -22,15 +19,15 @@ import java.util.stream.Collectors;
 @RestController
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
 
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    private JwtDecoder jwtDecoder;
+    private final JwtDecoder jwtDecoder;
 
     public UserController(
             UserService userService, RoleService roleService,

@@ -8,7 +8,7 @@ import java.util.Optional;
 @Service
 public class ModuleRequestService {
 
-    private ModuleRequestRepository moduleRequestRepository;
+    private final ModuleRequestRepository moduleRequestRepository;
 
     public ModuleRequestService(ModuleRequestRepository moduleRequestRepository) {
         this.moduleRequestRepository = moduleRequestRepository;

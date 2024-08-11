@@ -27,15 +27,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WithMockUser(roles = {"Academic_Staff"})
 public class ModuleDecisionControllerIntegrationTests {
 
-    private ModuleDecisionService moduleDecisionService;
+    private final ModuleDecisionService moduleDecisionService;
 
-    private ParentCreationService parentCreationService;
+    private final ParentCreationService parentCreationService;
 
-    private EcApplicationService ecApplicationService;
+    private final EcApplicationService ecApplicationService;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
     @Autowired
     public ModuleDecisionControllerIntegrationTests(

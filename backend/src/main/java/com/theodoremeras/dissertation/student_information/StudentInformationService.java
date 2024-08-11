@@ -8,7 +8,7 @@ import java.util.Optional;
 @Service
 public class StudentInformationService {
 
-    private StudentInformationRepository studentInformationRepository;
+    private final StudentInformationRepository studentInformationRepository;
 
     public StudentInformationService(StudentInformationRepository studentInformationRepository) {
         this.studentInformationRepository = studentInformationRepository;

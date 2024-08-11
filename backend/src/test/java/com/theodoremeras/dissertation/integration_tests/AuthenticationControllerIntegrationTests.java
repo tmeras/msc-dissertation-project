@@ -5,19 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.authentication.AuthenticationService;
 import com.theodoremeras.dissertation.authentication.UserLoginRequestDto;
 import com.theodoremeras.dissertation.authentication.UserRegistrationDto;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.role.RoleEntity;
-import com.theodoremeras.dissertation.user.UserDto;
 import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -29,13 +26,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @AutoConfigureMockMvc
 public class AuthenticationControllerIntegrationTests {
 
-    private UserService userService;
+    private final UserService userService;
 
-    private ParentCreationService parentCreationService;
+    private final ParentCreationService parentCreationService;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
     @Autowired
     public AuthenticationControllerIntegrationTests(

@@ -6,13 +6,10 @@ import com.theodoremeras.dissertation.authentication.AuthenticationController;
 import com.theodoremeras.dissertation.authentication.AuthenticationService;
 import com.theodoremeras.dissertation.authentication.UserRegistrationDto;
 import com.theodoremeras.dissertation.authentication.UserRegistrationMapper;
-import com.theodoremeras.dissertation.department.DepartmentController;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
-import com.theodoremeras.dissertation.department.DepartmentMapper;
 import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.role.RoleService;
-import com.theodoremeras.dissertation.user.UserDto;
 import com.theodoremeras.dissertation.user.UserEntity;
 import com.theodoremeras.dissertation.user.UserMapper;
 import com.theodoremeras.dissertation.user.UserService;
@@ -22,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -64,9 +60,9 @@ public class AuthenticationControllerUnitTests {
     @MockBean
     private JwtDecoder jwtDecoder;
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     private RoleEntity testRoleEntity;
 
@@ -96,7 +92,7 @@ public class AuthenticationControllerUnitTests {
     public void testRegisterUser() throws Exception {
         String userJson = objectMapper.writeValueAsString(testUserRegistrationDto);
 
-        when(userRegistrationMapper.mapFromDto(any())).thenReturn(testUserEntity);;
+        when(userRegistrationMapper.mapFromDto(any())).thenReturn(testUserEntity);
         when(userService.findAllByEmail(testUserEntity.getEmail())).thenReturn(List.of());
         when(roleService.findOneById(testRoleEntity.getId())).thenReturn(Optional.of(testRoleEntity));
         when(departmentService.findOneById(testDepartmentEntity.getId())).thenReturn(Optional.of(testDepartmentEntity));
@@ -166,7 +162,7 @@ public class AuthenticationControllerUnitTests {
     public void testRegisterUserWhenNoDepartmentExists() throws Exception {
         String userJson = objectMapper.writeValueAsString(testUserRegistrationDto);
 
-        when(userRegistrationMapper.mapFromDto(any())).thenReturn(testUserEntity);;
+        when(userRegistrationMapper.mapFromDto(any())).thenReturn(testUserEntity);
         when(userService.findAllByEmail(testUserEntity.getEmail())).thenReturn(List.of());
         when(roleService.findOneById(testUserEntity.getRole().getId())).thenReturn(Optional.of(testRoleEntity));
         when(departmentService.findOneById(testUserEntity.getDepartment().getId())).thenReturn(Optional.empty());

@@ -20,19 +20,19 @@ import java.util.Optional;
 @RestController
 public class AuthenticationController {
 
-    private AuthenticationService authenticationService;
+    private final AuthenticationService authenticationService;
 
-    private UserService userService;
+    private final UserService userService;
 
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
 
-    private UserRegistrationMapper userRegistrationMapper;
+    private final UserRegistrationMapper userRegistrationMapper;
 
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    private JwtDecoder jwtDecoder;
+    private final JwtDecoder jwtDecoder;
 
 
     public AuthenticationController(

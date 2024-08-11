@@ -1,6 +1,5 @@
 package com.theodoremeras.dissertation.authentication;
 
-import com.theodoremeras.dissertation.role.RoleRepository;
 import com.theodoremeras.dissertation.user.UserDto;
 import com.theodoremeras.dissertation.user.UserEntity;
 import com.theodoremeras.dissertation.user.UserMapper;
@@ -17,15 +16,15 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class AuthenticationService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
 
     public AuthenticationService(

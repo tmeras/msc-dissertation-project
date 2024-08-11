@@ -21,10 +21,10 @@ import java.util.Optional;
 @Service
 public class EvidenceService {
 
-    private EvidenceRepository evidenceRepository;
+    private final EvidenceRepository evidenceRepository;
 
     // Path to directory where files will be uploaded
-    private Path uploadLocation;
+    private final Path uploadLocation;
 
     public EvidenceService(EvidenceRepository evidenceRepository, StorageProperties properties) {
         this.evidenceRepository = evidenceRepository;

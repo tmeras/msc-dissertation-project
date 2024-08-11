@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @RestController
 public class RoleController {
 
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    private RoleMapper roleMapper;
+    private final RoleMapper roleMapper;
 
     public RoleController(RoleService roleService, RoleMapper roleMapper) {
         this.roleService = roleService;

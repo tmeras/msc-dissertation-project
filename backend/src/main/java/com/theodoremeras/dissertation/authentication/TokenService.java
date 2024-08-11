@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @Service
 public class TokenService {
 
-    private JwtEncoder jwtEncoder;
+    private final JwtEncoder jwtEncoder;
 
-    private JwtDecoder jwtDecoder;
+    private final JwtDecoder jwtDecoder;
 
 
     public TokenService(JwtEncoder jwtEncoder, JwtDecoder jwtDecoder) {

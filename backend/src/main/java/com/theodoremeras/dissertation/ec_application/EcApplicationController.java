@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 @RestController
 public class EcApplicationController {
 
-    private EcApplicationService ecApplicationService;
+    private final EcApplicationService ecApplicationService;
 
-    private UserService userService;
+    private final UserService userService;
 
-    private EcApplicationMapper ecApplicationMapper;
+    private final EcApplicationMapper ecApplicationMapper;
 
-    private JwtDecoder jwtDecoder;
+    private final JwtDecoder jwtDecoder;
 
     public EcApplicationController(
             EcApplicationService ecApplicationService, UserService userService,
@@ -157,8 +157,7 @@ public class EcApplicationController {
 
         // Students are only allowed to update their own EC applications
         if (userRole.equals("Student") &&
-                ecApplicationService.findOneById(id).get().getStudent().getId() != userId.intValue())
-        {
+                ecApplicationService.findOneById(id).get().getStudent().getId() != userId.intValue()) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
 

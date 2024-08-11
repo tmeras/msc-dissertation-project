@@ -4,19 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
-import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.module.ModuleDto;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import com.theodoremeras.dissertation.module.ModuleService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -27,13 +24,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WithMockUser(roles = {"Administrator"})
 public class ModuleControllerIntegrationTests {
 
-    private ModuleService moduleService;
+    private final ModuleService moduleService;
 
-    private ParentCreationService parentCreationService;
+    private final ParentCreationService parentCreationService;
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public ModuleControllerIntegrationTests(

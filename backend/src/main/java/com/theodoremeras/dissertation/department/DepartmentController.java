@@ -1,7 +1,6 @@
 package com.theodoremeras.dissertation.department;
 
 
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,9 @@ import java.util.stream.Collectors;
 @RestController
 public class DepartmentController {
 
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
 
-    private DepartmentMapper departmentMapper;
+    private final DepartmentMapper departmentMapper;
 
     public DepartmentController(DepartmentService departmentService, DepartmentMapper departmentMapper) {
         this.departmentService = departmentService;

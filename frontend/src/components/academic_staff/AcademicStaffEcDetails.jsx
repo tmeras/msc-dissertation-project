@@ -239,14 +239,6 @@ export default function AcademicStaffEcDetails() {
         })
     }
 
-    // Reject applicatiion
-    function rejectApplication() {
-        updateEcApplicationMutation.mutate({
-            id: ecApplication.id,
-            isReferred: false
-        })
-    }
-
     // Determine if a final decision has been made for a module request
     function getDecisionMade(requestId) {
         let approvals = 0;
@@ -331,7 +323,7 @@ export default function AcademicStaffEcDetails() {
                         </Card.Body>
                         <ListGroup variant="flush">
                             {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
-                            {student.hasHealthIssues && <ListGroup.Item>Student has health issues</ListGroup.Item>}
+                            {student.hasHealthIssues && <ListGroup.Item>Student has chronic health issues</ListGroup.Item>}
                             {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
                         </ListGroup>
                     </Card>

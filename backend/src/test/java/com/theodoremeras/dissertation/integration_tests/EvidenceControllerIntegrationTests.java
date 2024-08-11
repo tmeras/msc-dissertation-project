@@ -1,21 +1,12 @@
 package com.theodoremeras.dissertation.integration_tests;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.department.DepartmentEntity;
-import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
-import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.evidence.EvidenceEntity;
 import com.theodoremeras.dissertation.evidence.EvidenceService;
-import com.theodoremeras.dissertation.role.RoleEntity;
-import com.theodoremeras.dissertation.role.RoleService;
-import com.theodoremeras.dissertation.user.UserEntity;
-import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -34,11 +24,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WithMockUser(roles = {"Administrator"})
 public class EvidenceControllerIntegrationTests {
 
-    private EvidenceService evidenceService;
+    private final EvidenceService evidenceService;
 
-    private ParentCreationService parentCreationService;
+    private final ParentCreationService parentCreationService;
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
     @Autowired
     public EvidenceControllerIntegrationTests(
@@ -55,7 +45,7 @@ public class EvidenceControllerIntegrationTests {
 
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
-                        "text/plain", "Test file content".getBytes());
+                        "text/plain", "Test file content" .getBytes());
 
         mockMvc.perform(
                 MockMvcRequestBuilders.multipart("/evidence?ecApplicationId=" + savedEcApplication.getId())
@@ -89,7 +79,7 @@ public class EvidenceControllerIntegrationTests {
     public void testUploadEvidenceWhenNoEcApplicationExists() throws Exception {
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
-                        "text/plain", "Test file content".getBytes());
+                        "text/plain", "Test file content" .getBytes());
 
         mockMvc.perform(
                 MockMvcRequestBuilders.multipart("/evidence?ecApplicationId=1")
@@ -105,7 +95,7 @@ public class EvidenceControllerIntegrationTests {
         EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
-                        "text/plain", "Test file content".getBytes());
+                        "text/plain", "Test file content" .getBytes());
 
         EvidenceEntity testEvidenceEntity = TestDataUtil.createTestEvidenceEntityA(savedEcApplication);
         testEvidenceEntity.setFileName(multipartFile.getOriginalFilename());
@@ -127,7 +117,7 @@ public class EvidenceControllerIntegrationTests {
         EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
-                        "text/plain", "Test file content".getBytes());
+                        "text/plain", "Test file content" .getBytes());
 
         EvidenceEntity testEvidenceEntity = TestDataUtil.createTestEvidenceEntityA(savedEcApplication);
         testEvidenceEntity.setFileName(multipartFile.getOriginalFilename());
@@ -155,7 +145,7 @@ public class EvidenceControllerIntegrationTests {
         EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
-                        "text/plain", "Test file content".getBytes());
+                        "text/plain", "Test file content" .getBytes());
 
 
         EvidenceEntity testEvidenceEntity = TestDataUtil.createTestEvidenceEntityA(savedEcApplication);

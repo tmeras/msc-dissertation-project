@@ -20,13 +20,13 @@ import java.util.stream.Collectors;
 @RestController
 public class ModuleRequestController {
 
-    private ModuleRequestService moduleRequestService;
+    private final ModuleRequestService moduleRequestService;
 
-    private EcApplicationService ecApplicationService;
+    private final EcApplicationService ecApplicationService;
 
-    private ModuleService moduleService;
+    private final ModuleService moduleService;
 
-    private ModuleRequestMapper moduleRequestMapper;
+    private final ModuleRequestMapper moduleRequestMapper;
 
     public ModuleRequestController(
             ModuleRequestService moduleRequestService, EcApplicationService ecApplicationService,

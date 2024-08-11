@@ -1,6 +1,5 @@
 package com.theodoremeras.dissertation.module_decision;
 
-import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestService;
@@ -22,15 +21,15 @@ import java.util.stream.Collectors;
 @RestController
 public class ModuleDecisionController {
 
-    private ModuleDecisionService moduleDecisionService;
+    private final ModuleDecisionService moduleDecisionService;
 
-    private ModuleRequestService moduleRequestService;
+    private final ModuleRequestService moduleRequestService;
 
-    private UserService userService;
+    private final UserService userService;
 
-    private EcApplicationService ecApplicationService;
+    private final EcApplicationService ecApplicationService;
 
-    private ModuleDecisionMapper moduleDecisionMapper;
+    private final ModuleDecisionMapper moduleDecisionMapper;
 
     public ModuleDecisionController(
             ModuleDecisionService moduleDecisionService, ModuleRequestService moduleRequestService,

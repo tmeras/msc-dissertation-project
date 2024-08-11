@@ -2,7 +2,6 @@ package com.theodoremeras.dissertation.authentication;
 
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.role.RoleEntity;
-import com.theodoremeras.dissertation.user.UserDto;
 import com.theodoremeras.dissertation.user.UserEntity;
 import org.springframework.stereotype.Service;
 

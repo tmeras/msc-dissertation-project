@@ -1,7 +1,6 @@
 package com.theodoremeras.dissertation.module_request;
 
 
-import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

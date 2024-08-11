@@ -2,15 +2,14 @@ package com.theodoremeras.dissertation.evidence;
 
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,11 +17,11 @@ import java.util.stream.Collectors;
 @RestController
 public class EvidenceController {
 
-    private EvidenceService evidenceService;
+    private final EvidenceService evidenceService;
 
-    private EcApplicationService ecApplicationService;
+    private final EcApplicationService ecApplicationService;
 
-    private EvidenceMapper evidenceMapper;
+    private final EvidenceMapper evidenceMapper;
 
     public EvidenceController(
             EvidenceService evidenceService,

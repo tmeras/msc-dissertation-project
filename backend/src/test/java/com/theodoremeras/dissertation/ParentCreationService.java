@@ -4,11 +4,8 @@ import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentRepository;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationRepository;
-import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import com.theodoremeras.dissertation.module.ModuleRepository;
-import com.theodoremeras.dissertation.module_decision.ModuleDecisionRepository;
-import com.theodoremeras.dissertation.module_decision.ModuleDecisionService;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestRepository;
 import com.theodoremeras.dissertation.role.RoleEntity;
@@ -24,17 +21,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class ParentCreationService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    private DepartmentRepository departmentRepository;
+    private final DepartmentRepository departmentRepository;
 
-    private EcApplicationRepository ecApplicationRepository;
+    private final EcApplicationRepository ecApplicationRepository;
 
-    private ModuleRepository moduleRepository;
+    private final ModuleRepository moduleRepository;
 
-    private ModuleRequestRepository moduleRequestRepository;
+    private final ModuleRequestRepository moduleRequestRepository;
 
     public ParentCreationService(
             UserRepository userRepository, RoleRepository roleRepository,

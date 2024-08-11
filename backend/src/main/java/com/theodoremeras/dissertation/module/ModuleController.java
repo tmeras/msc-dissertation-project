@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 @RestController
 public class ModuleController {
 
-    private ModuleService moduleService;
+    private final ModuleService moduleService;
 
-    private DepartmentService departmentService;
+    private final DepartmentService departmentService;
 
-    private ModuleMapper moduleMapper;
+    private final ModuleMapper moduleMapper;
 
     public ModuleController(
             ModuleService moduleService, DepartmentService departmentService, ModuleMapper moduleMapper
