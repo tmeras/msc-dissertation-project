@@ -435,6 +435,7 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
+    @WithMockUser(roles = {"Administrator"})
     public void testDeleteModuleDecision() throws Exception {
         ModuleRequestEntity savedModuleRequest = parentCreationService.createModuleRequestParentEntity();
         UserEntity savedStaff = parentCreationService.createUserParentEntity();
@@ -454,6 +455,7 @@ public class ModuleDecisionControllerIntegrationTests {
     }
 
     @Test
+    @WithMockUser(roles = {"Administrator"})
     public void testDeleteModuleDecisionWhenNoModuleDecisionExists() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.delete("/module-decisions/1")

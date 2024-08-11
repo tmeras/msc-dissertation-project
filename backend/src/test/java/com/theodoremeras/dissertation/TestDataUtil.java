@@ -1,6 +1,7 @@
 package com.theodoremeras.dissertation;
 
 import com.theodoremeras.dissertation.authentication.UserLoginRequestDto;
+import com.theodoremeras.dissertation.authentication.UserLoginResponseDto;
 import com.theodoremeras.dissertation.authentication.UserRegistrationDto;
 import com.theodoremeras.dissertation.department.DepartmentDto;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
@@ -93,6 +94,7 @@ public final class TestDataUtil {
             UserEntity student
     ) {
         return EcApplicationEntity.builder()
+                .id(1)
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
@@ -107,6 +109,7 @@ public final class TestDataUtil {
             Integer studentId
     ) {
         return EcApplicationDto.builder()
+                .id(1)
                 .circumstancesDetails("Circumstances details A")
                 .affectedDateStart(LocalDate.of(2024, 5, 3))
                 .affectedDateEnd(LocalDate.of(2024, 5, 10))
@@ -121,6 +124,7 @@ public final class TestDataUtil {
             UserEntity student
     ) {
         return EcApplicationEntity.builder()
+                .id(2)
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
@@ -135,6 +139,7 @@ public final class TestDataUtil {
             Integer studentId
     ) {
         return EcApplicationDto.builder()
+                .id(2)
                 .circumstancesDetails("Circumstances details B")
                 .affectedDateStart(LocalDate.of(2024, 1, 9))
                 .affectedDateEnd(LocalDate.of(2024, 1, 9))
@@ -149,6 +154,7 @@ public final class TestDataUtil {
             EcApplicationEntity ecApplication, ModuleEntity module
     ) {
         return ModuleRequestEntity.builder()
+                .id(1)
                 .ecApplication(ecApplication)
                 .module(module)
                 .requestedOutcome("Outcome A")
@@ -159,6 +165,7 @@ public final class TestDataUtil {
             Integer ecApplicationId, String moduleCode
     ) {
         return ModuleRequestDto.builder()
+                .id(1)
                 .ecApplicationId(ecApplicationId)
                 .moduleCode(moduleCode)
                 .requestedOutcome("Outcome A")
@@ -169,6 +176,7 @@ public final class TestDataUtil {
             EcApplicationEntity ecApplication, ModuleEntity module
     ) {
         return ModuleRequestEntity.builder()
+                .id(2)
                 .ecApplication(ecApplication)
                 .module(module)
                 .requestedOutcome("Outcome B")
@@ -179,6 +187,7 @@ public final class TestDataUtil {
             Integer ecApplicationId, String moduleCode
     ) {
         return ModuleRequestDto.builder()
+                .id(2)
                 .ecApplicationId(ecApplicationId)
                 .moduleCode(moduleCode)
                 .requestedOutcome("Outcome B")
@@ -189,6 +198,7 @@ public final class TestDataUtil {
             EcApplicationEntity ecApplication
     ) {
         return EvidenceEntity.builder()
+                .id(1)
                 .ecApplication(ecApplication)
                 .fileName("File A")
                 .build();
@@ -198,6 +208,7 @@ public final class TestDataUtil {
             Integer ecApplicationId
     ) {
         return EvidenceDto.builder()
+                .id(1)
                 .ecApplicationId(ecApplicationId)
                 .fileName("File A")
                 .build();
@@ -207,6 +218,7 @@ public final class TestDataUtil {
             EcApplicationEntity ecApplication
     ) {
         return EvidenceEntity.builder()
+                .id(2)
                 .ecApplication(ecApplication)
                 .fileName("File B")
                 .build();
@@ -216,6 +228,7 @@ public final class TestDataUtil {
             Integer ecApplicationId
     ) {
         return EvidenceDto.builder()
+                .id(2)
                 .ecApplicationId(ecApplicationId)
                 .fileName("File B")
                 .build();
@@ -223,24 +236,28 @@ public final class TestDataUtil {
 
     public static RoleEntity createTestRoleEntityA() {
         return RoleEntity.builder()
+                .id(1)
                 .name("Role A")
                 .build();
     }
 
     public static RoleDto createTestRoleDtoA() {
         return RoleDto.builder()
+                .id(1)
                 .name("Role A")
                 .build();
     }
 
     public static RoleEntity createTestRoleEntityB() {
         return RoleEntity.builder()
+                .id(2)
                 .name("Role B")
                 .build();
     }
 
     public static RoleDto createTestRoleDtoB() {
         return RoleDto.builder()
+                .id(2)
                 .name("Role B")
                 .build();
     }
@@ -249,6 +266,7 @@ public final class TestDataUtil {
             RoleEntity role, DepartmentEntity department
     ) {
         return UserEntity.builder()
+                .id(1)
                 .name("User A")
                 .email("userA@gmail.com")
                 .password("pass123")
@@ -262,6 +280,7 @@ public final class TestDataUtil {
             Integer roleId, Integer departmentId
     ) {
         return UserDto.builder()
+                .id(1)
                 .name("User A")
                 .email("userA@gmail.com")
                 .isApproved(true)
@@ -274,6 +293,7 @@ public final class TestDataUtil {
             RoleEntity role, DepartmentEntity department
     ) {
         return UserEntity.builder()
+                .id(2)
                 .name("User B")
                 .email("userB@gmail.com")
                 .password("pass456")
@@ -287,6 +307,7 @@ public final class TestDataUtil {
             Integer roleId, Integer departmentId
     ) {
         return UserDto.builder()
+                .id(2)
                 .name("User B")
                 .email("userB@gmail.com")
                 .isApproved(true)
@@ -299,6 +320,7 @@ public final class TestDataUtil {
             ModuleRequestEntity moduleRequest, UserEntity staff, EcApplicationEntity ecApplication
     ) {
         return ModuleDecisionEntity.builder()
+                .id(1)
                 .comments("Comment A")
                 .isApproved(false)
                 .moduleRequest(moduleRequest)
@@ -311,6 +333,7 @@ public final class TestDataUtil {
             Integer moduleRequestId, Integer staffId, Integer ecApplicationId
     ) {
         return ModuleDecisionDto.builder()
+                .id(1)
                 .comments("Comment A")
                 .isApproved(false)
                 .moduleRequestId(moduleRequestId)
@@ -323,6 +346,7 @@ public final class TestDataUtil {
             ModuleRequestEntity moduleRequest, UserEntity staff, EcApplicationEntity ecApplication
     ) {
         return ModuleDecisionEntity.builder()
+                .id(2)
                 .comments("Comment B")
                 .isApproved(true)
                 .moduleRequest(moduleRequest)
@@ -335,6 +359,7 @@ public final class TestDataUtil {
             Integer moduleRequestId, Integer staffId, Integer ecApplicationId
     ) {
         return ModuleDecisionDto.builder()
+                .id(2)
                 .comments("Comment B")
                 .isApproved(true)
                 .moduleRequestId(moduleRequestId)
@@ -347,6 +372,7 @@ public final class TestDataUtil {
             UserEntity student
     ) {
         return StudentInformationEntity.builder()
+                .id(1)
                 .hasHealthIssues(true)
                 .hasDisability(true)
                 .hasLsp(true)
@@ -359,6 +385,7 @@ public final class TestDataUtil {
             Integer studentId
     ) {
         return StudentInformationDto.builder()
+                .id(1)
                 .hasHealthIssues(true)
                 .hasDisability(true)
                 .hasLsp(true)
@@ -371,6 +398,7 @@ public final class TestDataUtil {
             UserEntity student
     ) {
         return StudentInformationEntity.builder()
+                .id(2)
                 .hasHealthIssues(false)
                 .hasDisability(false)
                 .hasLsp(false)
@@ -383,6 +411,7 @@ public final class TestDataUtil {
             Integer studentId
     ) {
         return StudentInformationDto.builder()
+                .id(2)
                 .hasHealthIssues(false)
                 .hasDisability(false)
                 .hasLsp(false)
@@ -395,6 +424,7 @@ public final class TestDataUtil {
             Integer roleId, Integer departmentId
     ) {
         return UserRegistrationDto.builder()
+                .id(1)
                 .name("User A")
                 .email("userA@gmail.com")
                 .password("pass123")
@@ -404,10 +434,17 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static UserLoginRequestDto createTestUserLoginDto() {
+    public static UserLoginRequestDto createTestUserLoginRequestDto() {
         return UserLoginRequestDto.builder()
                 .email("userA@gmail.com")
                 .password("pass123")
+                .build();
+    }
+
+    public static UserLoginResponseDto createTestUserLoginResponseDto() {
+        return UserLoginResponseDto.builder()
+                .jwt("token")
+                .user(createTestUserDtoA(1, 1))
                 .build();
     }
 

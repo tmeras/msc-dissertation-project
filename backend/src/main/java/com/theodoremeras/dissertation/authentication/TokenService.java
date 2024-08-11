@@ -1,5 +1,6 @@
 package com.theodoremeras.dissertation.authentication;
 
+import com.theodoremeras.dissertation.user.UserEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -26,18 +27,24 @@ public class TokenService {
 
     public String generateJwt(Authentication auth) {
 
-        Instant now = Instant.now();
+        // Get logged in user
+        UserEntity user = (UserEntity) auth.getPrincipal();
 
+        // Get user's role
         String scope = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
+        Instant now = Instant.now();
+
+        // Build jwt
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(60 * 60 * 24)) // expire after 24 hours
                 .subject(auth.getName())
                 .claim("roles", scope)
+                .claim("userId", user.getId())
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

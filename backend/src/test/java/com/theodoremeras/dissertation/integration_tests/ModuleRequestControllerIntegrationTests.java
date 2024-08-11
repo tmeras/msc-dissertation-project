@@ -4,28 +4,18 @@ package com.theodoremeras.dissertation.integration_tests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.ParentCreationService;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.department.DepartmentEntity;
-import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
-import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.module.ModuleEntity;
-import com.theodoremeras.dissertation.module.ModuleService;
 import com.theodoremeras.dissertation.module_request.ModuleRequestDto;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestService;
-import com.theodoremeras.dissertation.role.RoleEntity;
-import com.theodoremeras.dissertation.role.RoleService;
-import com.theodoremeras.dissertation.user.UserEntity;
-import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -36,13 +26,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @WithMockUser(roles = {"Administrator"})
 public class ModuleRequestControllerIntegrationTests {
 
-    private ModuleRequestService moduleRequestService;
+    private final ModuleRequestService moduleRequestService;
 
-    private ParentCreationService parentCreationService;
+    private final ParentCreationService parentCreationService;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private MockMvc mockMvc;
+    private final MockMvc mockMvc;
 
     @Autowired
     public ModuleRequestControllerIntegrationTests(

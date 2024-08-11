@@ -82,7 +82,7 @@ public class AuthenticationController {
 
     @PostMapping(path = "/auth/login")
     public ResponseEntity<UserLoginResponseDto> loginUser(@RequestBody @Valid UserLoginRequestDto userLoginRequestDto) {
-        var result = authenticationService.loginUser(userLoginRequestDto);
+        UserLoginResponseDto result = authenticationService.loginUser(userLoginRequestDto);
 
         if (result != null)
             return new ResponseEntity<>(result, HttpStatus.OK);
@@ -94,9 +94,9 @@ public class AuthenticationController {
     public ResponseEntity<UserDto> getLoggedInUser(
             @RequestHeader(name = "Authorization") String token
     ) {
-        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
 
         // Extract user email from token and fetch user
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
         String userEmail = jwt.getClaim("sub").toString();
         UserEntity loggedInUser = userService.findOneByEmail(userEmail).get();
 

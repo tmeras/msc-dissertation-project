@@ -80,7 +80,7 @@ public class AuthenticationControllerIntegrationTests {
 
 
         // Login with the same user
-        UserLoginRequestDto testUserLoginDto = TestDataUtil.createTestUserLoginDto();
+        UserLoginRequestDto testUserLoginDto = TestDataUtil.createTestUserLoginRequestDto();
         String loginJson = objectMapper.writeValueAsString(testUserLoginDto);
 
         MvcResult loginResult = mockMvc.perform(
