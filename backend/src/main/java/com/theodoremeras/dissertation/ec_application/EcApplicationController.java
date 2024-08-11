@@ -5,6 +5,8 @@ import com.theodoremeras.dissertation.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +26,16 @@ public class EcApplicationController {
 
     private EcApplicationMapper ecApplicationMapper;
 
+    private JwtDecoder jwtDecoder;
+
     public EcApplicationController(
             EcApplicationService ecApplicationService, UserService userService,
-            EcApplicationMapper ecApplicationMapper
+            EcApplicationMapper ecApplicationMapper, JwtDecoder jwtDecoder
     ) {
         this.ecApplicationService = ecApplicationService;
         this.userService = userService;
         this.ecApplicationMapper = ecApplicationMapper;
+        this.jwtDecoder = jwtDecoder;
     }
 
     @PostMapping(path = "/ec-applications")
@@ -54,51 +59,108 @@ public class EcApplicationController {
     }
 
     @GetMapping(path = "/ec-applications")
-    public List<EcApplicationDto> getAllEcApplications(
+    public ResponseEntity<List<EcApplicationDto>> getAllEcApplications(
             @RequestParam(value = "ids", required = false) List<Integer> ids,
             @RequestParam(value = "studentId", required = false) Integer studentId,
             @RequestParam(value = "studentDepartmentId", required = false) Integer studentDepartmentId,
-            @RequestParam(value = "isReferred", required = false) Boolean isReferred
+            @RequestParam(value = "isReferred", required = false) Boolean isReferred,
+            @RequestHeader(name = "Authorization") String token
     ) {
+        // Extract the user's id and role from the token
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
+        Long userId = jwt.getClaim("userId");
+        String userRole = jwt.getClaim("roles");
+
         List<EcApplicationEntity> ecApplicationEntities;
 
         // Fetch all EC applications whose id is in the provided list
         if (ids != null)
-            ecApplicationEntities = ecApplicationService.findAllByIdIn(ids);
-            // Fetch all EC applications submitted by the student with the specified student id
-        else if (studentId != null)
-            ecApplicationEntities = ecApplicationService.findAllByStudentId(studentId);
-            // Fetch all EC applications submitted by students who belong to the specified department
-            // and according to their referred status
-        else if (studentDepartmentId != null && isReferred != null)
-            ecApplicationEntities = ecApplicationService.findAllByStudentDepartmentIdAndIsReferred(studentDepartmentId, isReferred);
-            // Fetch all EC applications submitted by students who belong to the specified department
-        else if (studentDepartmentId != null)
-            ecApplicationEntities = ecApplicationService.findAllByStudentDepartmentId(studentDepartmentId);
-            // Otherwise, fetch all EC applications
-        else
-            ecApplicationEntities = ecApplicationService.findAll();
+            // Students are not allowed to fetch all EC applications
+            if (userRole.equals("Student"))
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            else
+                ecApplicationEntities = ecApplicationService.findAllByIdIn(ids);
 
-        return ecApplicationEntities.stream()
+        // Fetch all EC applications submitted by the student with the specified student id
+        else if (studentId != null)
+            // Students are not allowed to view EC applications made by other students
+            if (userRole.equals("Student") && userId.intValue() != studentId)
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            else
+                ecApplicationEntities = ecApplicationService.findAllByStudentId(studentId);
+
+        // Fetch all EC applications submitted by students who belong to the specified department
+        // and according to their referred status
+        else if (studentDepartmentId != null && isReferred != null)
+            // Students are only allowed to fetch EC applications related to them
+            if (userRole.equals("Student"))
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            else
+                ecApplicationEntities =
+                        ecApplicationService.findAllByStudentDepartmentIdAndIsReferred(studentDepartmentId, isReferred);
+
+        // Fetch all EC applications submitted by students who belong to the specified department
+        else if (studentDepartmentId != null)
+            // Students are only allowed to fetch EC applications related to them
+            if (userRole.equals("Student"))
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            else
+                ecApplicationEntities = ecApplicationService.findAllByStudentDepartmentId(studentDepartmentId);
+
+        // Otherwise, fetch all EC applications
+        else
+            // Students are not allowed to fetch all EC applications
+            if (userRole.equals("Student"))
+                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+            else
+                ecApplicationEntities = ecApplicationService.findAll();
+
+        return new ResponseEntity<>(ecApplicationEntities.stream()
                 .map(ecApplicationMapper::mapToDto)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping(path = "/ec-applications/{id}")
-    public ResponseEntity<EcApplicationDto> getEcApplicationById(@PathVariable("id") Integer id) {
+    public ResponseEntity<EcApplicationDto> getEcApplicationById(
+            @PathVariable("id") Integer id,
+            @RequestHeader(name = "Authorization") String token
+    ) {
+        // Extract the user's id and role from the token
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
+        Long userId = jwt.getClaim("userId");
+        String userRole = jwt.getClaim("roles");
+
         Optional<EcApplicationEntity> foundEcApplicationEntity = ecApplicationService.findOneById(id);
-        return foundEcApplicationEntity.map(ecApplicationEntity -> {
-            EcApplicationDto ecApplicationDto = ecApplicationMapper.mapToDto(ecApplicationEntity);
-            return new ResponseEntity<>(ecApplicationDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        if (foundEcApplicationEntity.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // Students are only allowed to view their own EC applications
+        if (userRole.equals("Student") && userId.intValue() != foundEcApplicationEntity.get().getStudent().getId())
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+
+        EcApplicationDto ecApplicationDto = ecApplicationMapper.mapToDto(foundEcApplicationEntity.get());
+        return new ResponseEntity<>(ecApplicationDto, HttpStatus.OK);
     }
 
     @PatchMapping(path = "/ec-applications/{id}")
     public ResponseEntity<EcApplicationDto> partialUpdateEcApplication(
-            @PathVariable("id") Integer id, @RequestBody EcApplicationDto ecApplicationDto
+            @PathVariable("id") Integer id, @RequestBody EcApplicationDto ecApplicationDto,
+            @RequestHeader(name = "Authorization") String token
     ) {
+        // Extract the user's id and role from the token
+        Jwt jwt = jwtDecoder.decode(token.split(" ")[1]);
+        Long userId = jwt.getClaim("userId");
+        String userRole = jwt.getClaim("roles");
+
         if (!ecApplicationService.exists(id))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        // Students are only allowed to update their own EC applications
+        if (userRole.equals("Student") &&
+                ecApplicationService.findOneById(id).get().getStudent().getId() != userId.intValue())
+        {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
 
         ecApplicationDto.setId(id);
         EcApplicationEntity ecApplicationEntity = ecApplicationMapper.mapFromDto(ecApplicationDto);
