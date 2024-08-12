@@ -24,10 +24,6 @@ public class UserController {
 
     private final UserService userService;
 
-    private final RoleService roleService;
-
-    private final DepartmentService departmentService;
-
     private final UserMapper userMapper;
 
     private final JwtDecoder jwtDecoder;
@@ -35,13 +31,10 @@ public class UserController {
     private final JavaMailSender emailSender;
 
     public UserController(
-            UserService userService, RoleService roleService,
-            DepartmentService departmentService,
-            UserMapper userMapper, JwtDecoder jwtDecoder, JavaMailSender emailSender
+            UserService userService, UserMapper userMapper,
+            JwtDecoder jwtDecoder, JavaMailSender emailSender
     ) {
         this.userService = userService;
-        this.roleService = roleService;
-        this.departmentService = departmentService;
         this.userMapper = userMapper;
         this.jwtDecoder = jwtDecoder;
         this.emailSender = emailSender;
@@ -55,16 +48,20 @@ public class UserController {
             @RequestParam(value = "departmentId", required = false) Integer departmentId
     ) {
         List<UserEntity> userEntities;
+
         // Fetch all users whose id is in the provided list
         if (ids != null)
             userEntities = userService.findAllByIdIn(ids);
-            // Fetch the user who has the specified email
+
+        // Fetch the user who has the specified email
         else if (email != null)
             userEntities = userService.findAllByEmail(email);
-            // Fetch all users that have the specified role and department id
+
+        // Fetch all users that have the specified role and department id
         else if (roleId != null && departmentId != null)
             userEntities = userService.findAllByDepartmentIdAndRoleId(departmentId, roleId);
-            // Otherwise, fetch all users
+
+        // Otherwise, fetch all users
         else
             userEntities = userService.findAll();
 

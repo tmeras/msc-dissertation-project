@@ -35,9 +35,9 @@ public class UserControllerIntegrationTests {
 
     private final ParentCreationService parentCreationService;
 
-    private final ObjectMapper objectMapper;
-
     private final MockMvc mockMvc;
+
+    private final ObjectMapper objectMapper;
 
     private final JwtEncoder jwtEncoder;
 
