@@ -61,7 +61,7 @@ public class EvidenceController {
     }
 
     @GetMapping(path = "/evidence")
-    public List<EvidenceDto> getAllEvidenceByEcApplicationId(
+    public List<EvidenceDto> getAllEvidenceByApplicationId(
             @RequestParam("ecApplicationId") Integer ecApplicationId
     ) {
         List<EvidenceEntity> evidenceEntities = evidenceService.findAllByEcApplicationId(ecApplicationId);

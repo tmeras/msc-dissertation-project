@@ -50,7 +50,6 @@ public class EvidenceControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.multipart("/evidence?ecApplicationId=" + savedEcApplication.getId())
                         .file(multipartFile)
-
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         ).andExpect(
@@ -61,7 +60,7 @@ public class EvidenceControllerIntegrationTests {
     }
 
     @Test
-    public void testUploadEvidenceWhenNoEcApplicationOrFileIsSpecified() throws Exception {
+    public void testUploadEvidenceWhenNoApplicationOrFileIsSpecified() throws Exception {
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "",
                         "text/plain", (byte[]) null);
@@ -69,14 +68,13 @@ public class EvidenceControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.multipart("/evidence")
                         .file(multipartFile)
-
         ).andExpect(
                 MockMvcResultMatchers.status().isBadRequest()
         );
     }
 
     @Test
-    public void testUploadEvidenceWhenNoEcApplicationExists() throws Exception {
+    public void testUploadEvidenceWhenNoApplicationExists() throws Exception {
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
                         "text/plain", "Test file content" .getBytes());
@@ -84,14 +82,13 @@ public class EvidenceControllerIntegrationTests {
         mockMvc.perform(
                 MockMvcRequestBuilders.multipart("/evidence?ecApplicationId=1")
                         .file(multipartFile)
-
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
         );
     }
 
     @Test
-    public void testGetAllEvidenceByEcApplicationId() throws Exception {
+    public void testGetAllEvidenceByApplicationId() throws Exception {
         EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
         MockMultipartFile multipartFile =
                 new MockMultipartFile("file", "test.txt",
@@ -109,6 +106,8 @@ public class EvidenceControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].id").value(savedEvidenceEntity.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].fileName").value(savedEvidenceEntity.getFileName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].ecApplicationId").value(savedEcApplication.getId())
         );
     }
 
