@@ -95,68 +95,6 @@ public class RoleControllerIntegrationTests {
     }
 
     @Test
-    public void testGetRoleById() throws Exception {
-        RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
-        RoleEntity savedRoleEntity = roleService.save(testRoleEntity);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/roles/" + savedRoleEntity.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(
-                MockMvcResultMatchers.status().isOk()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").value(savedRoleEntity.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.name").value(savedRoleEntity.getName())
-        );
-    }
-
-    @Test
-    public void testGetRoleByIdWhenNoRoleExists() throws Exception {
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/roles/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
-    }
-
-    @Test
-    public void testPartialUpdateRole() throws Exception {
-        RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
-        RoleEntity savedRoleEntity = roleService.save(testRoleEntity);
-
-        RoleDto testRoleDto = TestDataUtil.createTestRoleDtoB();
-        String roleJson = objectMapper.writeValueAsString(testRoleDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.patch("/roles/" + savedRoleEntity.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(roleJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isOk()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").value(savedRoleEntity.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.name").value(testRoleDto.getName())
-        );
-    }
-
-    @Test
-    public void testPartialUpdateRoleWhenNoRoleExists() throws Exception {
-        RoleDto testRoleDto = TestDataUtil.createTestRoleDtoB();
-        String roleJson = objectMapper.writeValueAsString(testRoleDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.patch("/roles/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(roleJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
-    }
-
-    @Test
     public void testDeleteRole() throws Exception {
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
         RoleEntity savedRoleEntity = roleService.save(testRoleEntity);

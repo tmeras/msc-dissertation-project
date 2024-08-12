@@ -34,16 +34,6 @@ public class ModuleRequestService {
         return moduleRequestRepository.existsById(id);
     }
 
-    public ModuleRequestEntity partialUpdate(Integer id, ModuleRequestEntity moduleRequestEntity) {
-        moduleRequestEntity.setId(id);
-
-        return moduleRequestRepository.findById(id).map(existingRequest -> {
-            Optional.ofNullable(moduleRequestEntity.getRequestedOutcome())
-                    .ifPresent(existingRequest::setRequestedOutcome);
-            return moduleRequestRepository.save(existingRequest);
-        }).orElseThrow(() -> new RuntimeException("Could not find module request with id " + id));
-    }
-
     public void delete(Integer id) {
         moduleRequestRepository.deleteById(id);
     }

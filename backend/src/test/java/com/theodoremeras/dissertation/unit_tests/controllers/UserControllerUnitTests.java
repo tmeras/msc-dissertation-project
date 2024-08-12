@@ -66,7 +66,7 @@ public class UserControllerUnitTests {
 
     @BeforeEach
     public void setUp() {
-        //Initialize test objects
+        // Initialize test objects
         testRoleEntity = TestDataUtil.createTestRoleEntityA();
         testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
         testUserEntity = TestDataUtil.createTestUserEntityA(testRoleEntity, testDepartmentEntity);

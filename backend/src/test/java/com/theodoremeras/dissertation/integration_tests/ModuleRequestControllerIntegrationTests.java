@@ -90,7 +90,7 @@ public class ModuleRequestControllerIntegrationTests {
     }
 
     @Test
-    public void testCreateModuleRequestWhenNoEcApplicationExists() throws Exception {
+    public void testCreateModuleRequestWhenNoApplicationExists() throws Exception {
         ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
 
         ModuleRequestDto testRequestDto =
@@ -209,94 +209,6 @@ public class ModuleRequestControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].moduleCode")
                         .value(savedModule.getCode())
-        );
-    }
-
-    @Test
-    public void testGetModuleRequestById() throws Exception {
-        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
-        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
-
-        ModuleRequestEntity testRequestEntity =
-                TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleRequestEntity savedRequestEntity = moduleRequestService.save(testRequestEntity);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/module-requests/" + savedRequestEntity.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(
-                MockMvcResultMatchers.status().isOk()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id")
-                        .value(savedRequestEntity.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.requestedOutcome")
-                        .value(savedRequestEntity.getRequestedOutcome())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.ecApplicationId")
-                        .value(savedEcApplication.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.moduleCode")
-                        .value(savedModule.getCode())
-        );
-    }
-
-    @Test
-    public void testGetModuleRequestByIdWhenNoRequestExists() throws Exception {
-        mockMvc.perform(
-                MockMvcRequestBuilders.get("/module-requests/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
-        );
-    }
-
-    @Test
-    public void testPartialUpdateModuleRequest() throws Exception {
-        EcApplicationEntity savedEcApplication = parentCreationService.createEcApplicationParentEntity();
-        ModuleEntity savedModule = parentCreationService.createModuleParentEntity();
-
-        ModuleRequestEntity testRequestEntity =
-                TestDataUtil.createTestRequestEntityA(savedEcApplication, savedModule);
-        ModuleRequestEntity savedRequestEntity = moduleRequestService.save(testRequestEntity);
-
-        ModuleRequestDto testRequestDto =
-                TestDataUtil.createTestRequestDtoB(null, null);
-        String requestUpdateJson = objectMapper.writeValueAsString(testRequestDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.patch("/module-requests/" + savedRequestEntity.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestUpdateJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isOk()
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id")
-                        .value(savedRequestEntity.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.requestedOutcome")
-                        .value(testRequestDto.getRequestedOutcome())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.ecApplicationId")
-                        .value(savedEcApplication.getId())
-        ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.moduleCode")
-                        .value(savedModule.getCode())
-        );
-    }
-
-    @Test
-    public void testPartialUpdateModuleRequestWhenNoRequestExists() throws Exception {
-        ModuleRequestDto testRequestDto =
-                TestDataUtil.createTestRequestDtoB(null, null);
-        String requestUpdateJson = objectMapper.writeValueAsString(testRequestDto);
-
-        mockMvc.perform(
-                MockMvcRequestBuilders.patch("/module-requests/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestUpdateJson)
-        ).andExpect(
-                MockMvcResultMatchers.status().isNotFound()
         );
     }
 

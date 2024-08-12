@@ -34,15 +34,6 @@ public class RoleService {
         return roleRepository.existsById(id);
     }
 
-    public RoleEntity partialUpdate(Integer id, RoleEntity roleEntity) {
-        roleEntity.setId(id);
-
-        return roleRepository.findById(id).map(existingRole -> {
-            Optional.ofNullable(roleEntity.getName()).ifPresent(existingRole::setName);
-            return roleRepository.save(existingRole);
-        }).orElseThrow(() -> new RuntimeException("Could not find role with id + " + id));
-    }
-
     public void delete(Integer id) {
         roleRepository.deleteById(id);
     }

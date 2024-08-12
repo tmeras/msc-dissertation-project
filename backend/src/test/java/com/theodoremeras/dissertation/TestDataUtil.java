@@ -426,7 +426,7 @@ public final class TestDataUtil {
         return UserRegistrationDto.builder()
                 .id(1)
                 .name("User A")
-                .email("userA@gmail.com")
+                .email("tmeras@yahoo.gr")
                 .password("pass123")
                 .isApproved(true)
                 .roleId(roleId)

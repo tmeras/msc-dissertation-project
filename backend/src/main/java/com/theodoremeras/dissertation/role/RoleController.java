@@ -48,26 +48,6 @@ public class RoleController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(path = "/roles/{id}")
-    public ResponseEntity<RoleDto> getRoleById(@PathVariable("id") Integer id) {
-        Optional<RoleEntity> foundRole = roleService.findOneById(id);
-        return foundRole.map(roleEntity -> {
-            RoleDto roleDto = roleMapper.mapToDto(roleEntity);
-            return new ResponseEntity<>(roleDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PatchMapping(path = "/roles/{id}")
-    public ResponseEntity<RoleDto> partialUpdateRole(@PathVariable Integer id, @RequestBody RoleDto roleDto) {
-        if (!roleService.exists(id))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        roleDto.setId(id);
-        RoleEntity roleEntity = roleMapper.mapFromDto(roleDto);
-        RoleEntity updatedRoleEntity = roleService.partialUpdate(id, roleEntity);
-        return new ResponseEntity<>(roleMapper.mapToDto(updatedRoleEntity), HttpStatus.OK);
-    }
-
     @DeleteMapping(path = "/roles/{id}")
     public ResponseEntity<String> deleteRole(@PathVariable Integer id) {
         roleService.delete(id);

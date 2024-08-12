@@ -71,9 +71,8 @@ public class ModuleDecisionControllerUnitTests {
         // Initialize test objects
         DepartmentEntity testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
+        testUserEntity = TestDataUtil.createTestUserEntityA(testRoleEntity, testDepartmentEntity);
         testEcApplicationEntity = TestDataUtil.createTestEcApplicationEntityA(testUserEntity);
-        testUserEntity = TestDataUtil
-                .createTestUserEntityA(testRoleEntity, testDepartmentEntity);
         testModuleRequestEntity = TestDataUtil.createTestRequestEntityA(
                 testEcApplicationEntity,
                 TestDataUtil.createTestModuleEntityA(testDepartmentEntity)

@@ -81,29 +81,6 @@ public class ModuleRequestController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(path = "/module-requests/{id}")
-    public ResponseEntity<ModuleRequestDto> getModuleRequestById(@PathVariable("id") Integer id) {
-        Optional<ModuleRequestEntity> foundRequest = moduleRequestService.findOneById(id);
-
-        return foundRequest.map(requestEntity -> {
-            ModuleRequestDto requestDto = moduleRequestMapper.mapToDto(requestEntity);
-            return new ResponseEntity<>(requestDto, HttpStatus.OK);
-        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PatchMapping(path = "/module-requests/{id}")
-    public ResponseEntity<ModuleRequestDto> partialUpdateModuleRequest(
-            @PathVariable("id") Integer id, @RequestBody ModuleRequestDto requestDto
-    ) {
-        if (!moduleRequestService.exists(id))
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-        requestDto.setId(id);
-        ModuleRequestEntity requestEntity = moduleRequestMapper.mapFromDto(requestDto);
-        ModuleRequestEntity updatedRequestEntity = moduleRequestService.partialUpdate(id, requestEntity);
-        return new ResponseEntity<>(moduleRequestMapper.mapToDto(updatedRequestEntity), HttpStatus.OK);
-    }
-
     @DeleteMapping(path = "/module-requests/{id}")
     public ResponseEntity<String> deleteModuleRequest(@PathVariable("id") Integer id) {
         moduleRequestService.delete(id);
