@@ -212,7 +212,6 @@ public class AuthenticationControllerUnitTests {
     @Test
     public void testGetLoggedInUser() throws Exception {
         Jwt mockJwt = mock(Jwt.class);
-
         when(jwtDecoder.decode("token")).thenReturn(mockJwt);
         when(mockJwt.getClaim("sub")).thenReturn("test@test.com");
         when(userService.findOneByEmail("test@test.com")).thenReturn(Optional.of(testUserEntity));

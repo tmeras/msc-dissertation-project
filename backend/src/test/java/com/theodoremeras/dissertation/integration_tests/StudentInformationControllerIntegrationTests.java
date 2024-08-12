@@ -63,7 +63,6 @@ public class StudentInformationControllerIntegrationTests {
                 MockMvcRequestBuilders.post("/student-information")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(studentInformationJson)
-
         ).andExpect(
                 MockMvcResultMatchers.status().isCreated()
         ).andExpect(
