@@ -12,10 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,18 +24,15 @@ public class ModuleDecisionController {
 
     private final UserService userService;
 
-    private final EcApplicationService ecApplicationService;
-
     private final ModuleDecisionMapper moduleDecisionMapper;
 
     public ModuleDecisionController(
             ModuleDecisionService moduleDecisionService, ModuleRequestService moduleRequestService,
-            UserService userService, EcApplicationService ecApplicationService, ModuleDecisionMapper moduleDecisionMapper
+            UserService userService, ModuleDecisionMapper moduleDecisionMapper
     ) {
         this.moduleDecisionService = moduleDecisionService;
         this.moduleRequestService = moduleRequestService;
         this.userService = userService;
-        this.ecApplicationService = ecApplicationService;
         this.moduleDecisionMapper = moduleDecisionMapper;
     }
 
@@ -67,6 +61,10 @@ public class ModuleDecisionController {
         else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
+        // Verify that the EC application id is the same as in the module request
+        if (!Objects.equals(moduleDecisionEntity.getEcApplication().getId(), moduleRequest.get().getEcApplication().getId()))
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         ModuleDecisionEntity savedModuleDecisionEntity = moduleDecisionService.save(moduleDecisionEntity);
         return new ResponseEntity<>(moduleDecisionMapper.mapToDto(savedModuleDecisionEntity), HttpStatus.CREATED);
     }
@@ -82,13 +80,16 @@ public class ModuleDecisionController {
         // Fetch the module decisions matching the provided module request id
         if (moduleRequestId != null)
             moduleDecisionEntities = moduleDecisionService.findAllByModuleRequestId(moduleRequestId);
-            // Fetch the module decisions matching the provided staff member id
+
+        // Fetch the module decisions matching the provided staff member id
         else if (staffMemberId != null)
             moduleDecisionEntities = moduleDecisionService.findAllByStaffMemberId(staffMemberId);
-            // Fetch the module decisions matching the provided EC application id
+
+        // Fetch the module decisions matching the provided EC application id
         else if (ecApplicationIds != null)
             moduleDecisionEntities = moduleDecisionService.findAllByEcApplicationIdIn(ecApplicationIds);
-            // Otherwise, fetch all module decisions
+
+        // Otherwise, fetch all module decisions
         else
             moduleDecisionEntities = moduleDecisionService.findAll();
 
@@ -100,7 +101,6 @@ public class ModuleDecisionController {
     @GetMapping(path = "/module-decisions/{id}")
     public ResponseEntity<ModuleDecisionDto> getModuleDecisionById(@PathVariable("id") Integer id) {
         Optional<ModuleDecisionEntity> foundEntity = moduleDecisionService.findOneById(id);
-        System.out.println(foundEntity);
 
         return foundEntity.map(moduleDecisionEntity -> {
             ModuleDecisionDto moduleDecisionDto = moduleDecisionMapper.mapToDto(moduleDecisionEntity);
