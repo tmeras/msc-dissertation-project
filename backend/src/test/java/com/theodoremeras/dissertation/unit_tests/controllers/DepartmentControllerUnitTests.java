@@ -127,13 +127,13 @@ public class DepartmentControllerUnitTests {
     @Test
     public void testPartialUpdateDepartment() throws Exception {
         DepartmentEntity updatedDepartmentEntity = TestDataUtil.createTestDepartmentEntityB();
-        updatedDepartmentEntity.setId(testDepartmentEntity.getId()); // Update name
-        String departmentUpdateJson = objectMapper.writeValueAsString(updatedDepartmentEntity);
+        updatedDepartmentEntity.setId(testDepartmentEntity.getId());
         DepartmentDto updatedDepartmentDto = TestDataUtil.createTestDepartmentDtoB();
         updatedDepartmentDto.setId(testDepartmentEntity.getId());
+        String departmentUpdateJson = objectMapper.writeValueAsString(updatedDepartmentDto);
 
         when(departmentService.exists(testDepartmentEntity.getId())).thenReturn(true);
-        when(departmentMapper.mapFromDto(any())).thenReturn(testDepartmentEntity);
+        when(departmentMapper.mapFromDto(any())).thenReturn(updatedDepartmentEntity);
         when(departmentService.partialUpdate(testDepartmentEntity.getId(), testDepartmentEntity))
                 .thenReturn(updatedDepartmentEntity);
         when(departmentMapper.mapToDto(updatedDepartmentEntity)).thenReturn(updatedDepartmentDto);
