@@ -9,8 +9,6 @@ import java.util.List;
 @Repository
 public interface ModuleRequestRepository extends JpaRepository<ModuleRequestEntity, Integer> {
 
-    List<ModuleRequestEntity> findAllByEcApplicationId(Integer ecApplicationId);
-
     List<ModuleRequestEntity> findAllByEcApplicationIdIn(List<Integer> ids);
 
 }
