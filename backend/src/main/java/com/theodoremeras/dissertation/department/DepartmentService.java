@@ -8,7 +8,7 @@ import java.util.Optional;
 @Service
 public class DepartmentService {
 
-    public DepartmentRepository departmentRepository;
+    private DepartmentRepository departmentRepository;
 
     public DepartmentService(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;

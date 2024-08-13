@@ -51,8 +51,6 @@ public class AuthenticationServiceUnitTests {
     @InjectMocks
     private AuthenticationService authenticationService;
 
-
-
     @Test
     public void testRegisterUser() throws Exception {
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(
