@@ -10,7 +10,6 @@ public class EcApplicationService {
 
     private final EcApplicationRepository ecApplicationRepository;
 
-
     public EcApplicationService(EcApplicationRepository ecApplicationRepository) {
         this.ecApplicationRepository = ecApplicationRepository;
     }
