@@ -436,7 +436,7 @@ public final class TestDataUtil {
 
     public static UserLoginRequestDto createTestUserLoginRequestDto() {
         return UserLoginRequestDto.builder()
-                .email("userA@gmail.com")
+                .email("tmeras@yahoo.gr")
                 .password("pass123")
                 .build();
     }
