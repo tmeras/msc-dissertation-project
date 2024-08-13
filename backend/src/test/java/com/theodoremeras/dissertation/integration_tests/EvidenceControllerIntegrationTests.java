@@ -121,7 +121,7 @@ public class EvidenceControllerIntegrationTests {
         EvidenceEntity testEvidenceEntity = TestDataUtil.createTestEvidenceEntityA(savedEcApplication);
         testEvidenceEntity.setFileName(multipartFile.getOriginalFilename());
         evidenceService.save(multipartFile, testEvidenceEntity);
-        String fileName = evidenceService.findAllByEcApplicationId(savedEcApplication.getId()).get(0).getFileName();
+        String fileName = evidenceService.findAllByApplicationId(savedEcApplication.getId()).get(0).getFileName();
 
         mockMvc.perform(
                 MockMvcRequestBuilders.get("/evidence/" + fileName)

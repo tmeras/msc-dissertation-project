@@ -64,7 +64,7 @@ public class EvidenceController {
     public List<EvidenceDto> getAllEvidenceByApplicationId(
             @RequestParam("ecApplicationId") Integer ecApplicationId
     ) {
-        List<EvidenceEntity> evidenceEntities = evidenceService.findAllByEcApplicationId(ecApplicationId);
+        List<EvidenceEntity> evidenceEntities = evidenceService.findAllByApplicationId(ecApplicationId);
 
         return evidenceEntities.stream()
                 .map(evidenceMapper::mapToDto)

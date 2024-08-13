@@ -63,15 +63,11 @@ public class EvidenceService {
         }
     }
 
-    public void deleteAll() {
-        FileSystemUtils.deleteRecursively(uploadLocation.toFile());
-    }
-
     public void init() throws IOException {
         Files.createDirectories(uploadLocation);
     }
 
-    public List<EvidenceEntity> findAllByEcApplicationId(Integer ecApplicationId) {
+    public List<EvidenceEntity> findAllByApplicationId(Integer ecApplicationId) {
         return evidenceRepository.findAllByEcApplicationId(ecApplicationId);
     }
 

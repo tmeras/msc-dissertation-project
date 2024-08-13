@@ -132,7 +132,7 @@ public class EvidenceControllerUnitTests {
 
     @Test
     public void testGetAllEvidenceByApplicationId() throws Exception {
-        when(evidenceService.findAllByEcApplicationId(testEcApplicationEntity.getId()))
+        when(evidenceService.findAllByApplicationId(testEcApplicationEntity.getId()))
                 .thenReturn(List.of(testEvidenceEntity));
         when(evidenceMapper.mapToDto(testEvidenceEntity)).thenReturn(testEvidenceDto);
 
