@@ -231,7 +231,7 @@ export default function AcademicStaffEcDetails() {
         emailUser({
             "id": ecApplication.studentId,
             "subject": `Further Evidence Requested`,
-            "body": `A staff member has requested further evidence for one of your EC applications.Access the ECF portal to submit further evidence.`
+            "body": `A staff member has requested further evidence for one of your EC applications. Access the ECF portal to submit further evidence.`
         })
 
         updateEcApplicationMutation.mutate({

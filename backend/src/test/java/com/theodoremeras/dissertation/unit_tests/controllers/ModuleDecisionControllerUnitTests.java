@@ -305,7 +305,7 @@ public class ModuleDecisionControllerUnitTests {
 
     @Test
     public void testGetAllModuleDecisionsByApplicationIds() throws Exception {
-        when(moduleDecisionService.findAllByEcApplicationIdIn(List.of(testEcApplicationEntity.getId())))
+        when(moduleDecisionService.findAllByApplicationIdIn(List.of(testEcApplicationEntity.getId())))
                 .thenReturn(List.of(testModuleDecisionEntity));
         when(moduleDecisionMapper.mapToDto(testModuleDecisionEntity)).thenReturn(testModuleDecisionDto);
 

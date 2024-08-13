@@ -87,7 +87,7 @@ public class ModuleDecisionController {
 
         // Fetch the module decisions matching the provided EC application id
         else if (ecApplicationIds != null)
-            moduleDecisionEntities = moduleDecisionService.findAllByEcApplicationIdIn(ecApplicationIds);
+            moduleDecisionEntities = moduleDecisionService.findAllByApplicationIdIn(ecApplicationIds);
 
         // Otherwise, fetch all module decisions
         else

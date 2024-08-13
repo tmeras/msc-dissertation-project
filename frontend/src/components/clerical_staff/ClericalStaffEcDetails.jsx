@@ -253,7 +253,7 @@ export default function ClericalStaffEcDetails() {
         emailUser({
             "id": ecApplication.studentId,
             "subject": `Further Evidence Requested`,
-            "body": `A staff member has requested further evidence for one of your EC applications.Access the ECF portal to submit further evidence.`
+            "body": `A staff member has requested further evidence for one of your EC applications. Access the ECF portal to submit further evidence.`
         })
 
         updateEcApplicationMutation.mutate({
@@ -272,6 +272,14 @@ export default function ClericalStaffEcDetails() {
 
     // Reject applicatiion
     function rejectApplication() {
+        // Inform student via email that a final decision has been made
+        emailUser({
+            "id": ecApplication.studentId,
+            "subject": `ECF Application Decision Available`,
+            "body": `A final decision has been made for your ECF application. Access the ECF portal to view it.`
+        })
+
+
         updateEcApplicationMutation.mutate({
             id: ecApplication.id,
             isReferred: false

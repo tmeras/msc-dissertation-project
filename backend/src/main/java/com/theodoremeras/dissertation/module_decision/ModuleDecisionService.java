@@ -30,7 +30,7 @@ public class ModuleDecisionService {
         return moduleDecisionRepository.findAllByStaffMemberId(staffMemberId);
     }
 
-    public List<ModuleDecisionEntity> findAllByEcApplicationIdIn(List<Integer> ecApplicationIds) {
+    public List<ModuleDecisionEntity> findAllByApplicationIdIn(List<Integer> ecApplicationIds) {
         return moduleDecisionRepository.findAllByEcApplicationIdIn(ecApplicationIds);
     }
 

@@ -171,7 +171,8 @@ export default function StudentEcApplications() {
                     <tbody className="table-group-divider">
                         {ecApplications.sort((a, b) => a.id - b.id).map(ecApplication => {
                             let { finalDecisionsRequired, finalDecisionsMade } = calculateProgress(ecApplication.id)
-                            let percentage = parseInt(parseFloat(finalDecisionsMade) / finalDecisionsRequired * 100)
+                            let percentage = ecApplication.isReferred == false ? 100 :
+                                    parseInt(parseFloat(finalDecisionsMade) / finalDecisionsRequired * 100)
 
                             return (
                                 <tr
