@@ -83,6 +83,7 @@ public class UserEntity implements UserDetails {
         return isApproved;
     }
 
+    @Generated
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -94,6 +95,7 @@ public class UserEntity implements UserDetails {
         return getId() != null && Objects.equals(getId(), that.getId());
     }
 
+    @Generated
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();

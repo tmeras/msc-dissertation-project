@@ -14,17 +14,4 @@ public class EvidenceMapper {
                 .build();
     }
 
-    public EvidenceEntity mapFromDto(EvidenceDto evidenceDto) {
-        EcApplicationEntity ecApplication = (evidenceDto.getEcApplicationId() == null) ? null :
-                EcApplicationEntity.builder()
-                        .id(evidenceDto.getEcApplicationId())
-                        .build();
-
-        return EvidenceEntity.builder()
-                .id(evidenceDto.getId())
-                .fileName(evidenceDto.getFileName())
-                .ecApplication(ecApplication)
-                .build();
-    }
-
 }

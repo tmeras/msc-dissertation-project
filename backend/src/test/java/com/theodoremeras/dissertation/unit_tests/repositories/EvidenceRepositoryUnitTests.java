@@ -53,15 +53,19 @@ public class EvidenceRepositoryUnitTests {
         // Initialize test objects and save parent entities
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
         roleRepository.save(testRoleEntity);
+
         DepartmentEntity testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
         departmentRepository.save(testDepartmentEntity);
+
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(
                 testRoleEntity,
                 testDepartmentEntity
         );
         userRepository.save(testUserEntity);
+
         testEcApplicationEntity = TestDataUtil.createTestEcApplicationEntityA(testUserEntity);
         ecApplicationRepository.save(testEcApplicationEntity);
+
         testEvidenceEntity = TestDataUtil.createTestEvidenceEntityA(testEcApplicationEntity);
     }
 

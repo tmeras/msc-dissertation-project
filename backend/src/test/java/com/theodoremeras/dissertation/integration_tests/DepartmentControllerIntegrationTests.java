@@ -54,6 +54,21 @@ class DepartmentControllerIntegrationTests {
     }
 
     @Test
+    public void testCreateDepartmentWhenNoNameIsSpecified() throws Exception {
+        DepartmentDto testDepartmentDto = TestDataUtil.createTestDepartmentDtoA();
+        testDepartmentDto.setName(null);
+        String departmentJson = objectMapper.writeValueAsString(testDepartmentDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/departments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(departmentJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isBadRequest()
+        );
+    }
+
+    @Test
     public void testGetAllDepartments() throws Exception {
         DepartmentEntity testDepartmentA = TestDataUtil.createTestDepartmentEntityA();
         DepartmentEntity savedDepartmentA = departmentService.save(testDepartmentA);

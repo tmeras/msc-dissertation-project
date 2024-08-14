@@ -54,6 +54,21 @@ public class RoleControllerIntegrationTests {
     }
 
     @Test
+    public void testCreateRoleWhenNoNameIsSpecified() throws Exception {
+        RoleEntity testRoleDto = TestDataUtil.createTestRoleEntityA();
+        testRoleDto.setName(null);
+        String roleJson = objectMapper.writeValueAsString(testRoleDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/roles")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(roleJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isBadRequest()
+        );
+    }
+
+    @Test
     public void testGetAllRoles() throws Exception {
         RoleEntity testRoleEntityA = TestDataUtil.createTestRoleEntityA();
         RoleEntity savedRoleEntityA = roleService.save(testRoleEntityA);

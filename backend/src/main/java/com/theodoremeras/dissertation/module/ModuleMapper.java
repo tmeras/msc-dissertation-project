@@ -3,6 +3,7 @@ package com.theodoremeras.dissertation.module;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class ModuleMapper {
 

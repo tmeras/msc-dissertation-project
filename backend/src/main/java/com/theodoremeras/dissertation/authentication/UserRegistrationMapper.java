@@ -8,18 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserRegistrationMapper {
 
-    public UserRegistrationDto mapToDto(UserEntity userEntity) {
-        return UserRegistrationDto.builder()
-                .id(userEntity.getId())
-                .name(userEntity.getName())
-                .email(userEntity.getEmail())
-                .password(userEntity.getPassword())
-                .isApproved(userEntity.getIsApproved())
-                .roleId(userEntity.getRole().getId())
-                .departmentId(userEntity.getDepartment().getId())
-                .build();
-    }
-
     public UserEntity mapFromDto(UserRegistrationDto userRegistrationDto) {
         RoleEntity roleEntity = (userRegistrationDto.getRoleId() == null) ? null :
                 RoleEntity.builder()

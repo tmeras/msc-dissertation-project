@@ -29,6 +29,7 @@ public class ModuleEntity {
     @ToString.Exclude
     private DepartmentEntity department;
 
+    @Generated
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -40,6 +41,7 @@ public class ModuleEntity {
         return getCode() != null && Objects.equals(getCode(), that.getCode());
     }
 
+    @Generated
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();

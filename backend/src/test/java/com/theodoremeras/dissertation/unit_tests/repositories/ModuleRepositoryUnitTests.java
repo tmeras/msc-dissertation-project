@@ -36,6 +36,7 @@ public class ModuleRepositoryUnitTests {
         // Initialize test objects and save parent entities
         DepartmentEntity testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
         departmentRepository.save(testDepartmentEntity);
+
         testModuleEntity = TestDataUtil.createTestModuleEntityA(testDepartmentEntity);
     }
 
