@@ -9,7 +9,7 @@ import { getRoles } from "../api/roles";
 
 
 export default function LoginPage() {
-    const { user, token, setToken } = useAuth()
+    const { user, setToken } = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
     const queryClient = useQueryClient()
@@ -28,7 +28,7 @@ export default function LoginPage() {
     useEffect(() => {
         // If redirected from registration page, show toast
         if (location.state?.accountCreated) {
-            setShowToast(true)
+            setShowRegistrationToast(true)
             window.history.replaceState({}, '')
         }
         // If redirected because token is invalid, set it to null

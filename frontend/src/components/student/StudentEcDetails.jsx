@@ -312,9 +312,15 @@ export default function StudentEcDetails() {
 
     // Determine if the EC application is closed
     function isApplicationClosed() {
+
+        // The application is closed if a clerical staff member has rejected it
+        if (ecApplication.isReferred == false)
+            return true
+
         let isClosed = true
 
-        // The application is closed if a final decision has been made on each module request
+        // Otherwise, the application is closed if a final decision has 
+        //been made on each module request by academic staff members
         moduleRequests.forEach(request => {
             if (getDecisionMade(request.id) == null) {
                 isClosed = false
