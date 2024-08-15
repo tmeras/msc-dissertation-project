@@ -8,6 +8,7 @@ import { createStudentInformation } from '../api/studentInformation'
 import { useLocation, useNavigate } from 'react-router'
 import { registerUser } from '../api/authentication'
 import { Link } from 'react-router-dom'
+import { replace } from 'dom/lib/mutation'
 
 export default function RegisterPage() {
     const queryClient = useQueryClient()
@@ -220,12 +221,12 @@ export default function RegisterPage() {
                     studentInfoData.studentId = data.id
                     createStudentInformationMutation.mutate(studentInfoData, {
                         onSuccess: data => {
-                            navigate("/login", { state: { accountCreated: true } })
+                            navigate("/login", { state: { accountCreated: true, replace: true } })
                         }
                     })
                 }
                 else {
-                    navigate("/login", { state: { accountCreated: true } })
+                    navigate("/login", { state: { accountCreated: true, replace: true } })
                 }
             }
         })
@@ -400,7 +401,7 @@ export default function RegisterPage() {
                         <Button variant='primary' type='submit' className='w-75 mb-1'>Register</Button>
                         <div>
                             <Form.Text muted>
-                                Already registered? Sign in <Link to="/login">here</Link>.
+                                Already registered? Sign in <Link to="/login" replace>here</Link>.
                             </Form.Text>
                         </div>
                     </Form>

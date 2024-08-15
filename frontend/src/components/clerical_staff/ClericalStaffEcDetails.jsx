@@ -3,7 +3,7 @@ import axios from '../../api/axiosConfig'
 import { useAuth } from '../../providers/AuthProvider'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { formatDate } from "../../utils"
-import { Card, Container, ListGroup, Button, Row, Col, Alert, Spinner } from 'react-bootstrap'
+import { Card, Container, ListGroup, Button, Row, Col, Alert, Spinner, OverlayTrigger, Tooltip } from 'react-bootstrap'
 import { getEcApplication, updateEcApplication } from '../../api/ecApplications'
 import { emailUser, getUser, getUsersByDepartmentIdAndRoleId } from '../../api/users'
 import { getStudentInformationByStudentId } from '../../api/studentInformation'
@@ -290,7 +290,7 @@ export default function ClericalStaffEcDetails() {
         <Container className='mt-3'>
             <Row>
                 <Col md={{ offset: 1 }}>
-                    <h4 className='mb-3 text-center '>Extenuating Circumstances Application #{ecApplication.id}</h4>
+                    <h4 className='mb-3 text-center '>Extenuating Circumstances Application #{ecApplication.id} Details</h4>
                 </Col>
             </Row>
             <Row>
@@ -364,12 +364,14 @@ export default function ClericalStaffEcDetails() {
                             {ecApplication.isReferred == false && <Button variant='disabled' className='me-2 btn-outline-danger' style={{ "pointerEvents": "none" }} disabled> Application has been rejected</Button>}
                         </>
                         : <>
-                            {academicStaff.length >= 2 ? <Button variant='primary' className='me-2' onClick={referApplication}> Refer to Academic Staff</Button>
+                            {academicStaff.length >= 3 ? <Button variant='primary' className='me-2' onClick={referApplication}> Refer to Academic Staff</Button>
                                 : (
+                                    <>
                                     <span className="d-inline-block" tabIndex="0" data-toggle="tooltip"
-                                        title="Not enough academic staff in the department to review application (mininum 2 are required) - Please contact department">
-                                        <Button variant='disabled' className='me-2' style={{ "pointerEvents": "none" }} disabled> Refer to Academic Staff</Button>
+                                        title="Not enough academic staff in the department to review application (mininum 3 are required) - Please contact department">
+                                        <Button variant='disabled' className='me-2' style={{ "pointerEvents": "none" }} disabled> Cannot refer to academic staff - At least 3 academic staff members are required</Button>
                                     </span>
+                                      </>
                                 )}
                             <Button variant='danger' className='me-2' onClick={rejectApplication}> Reject Application</Button>
                         </>

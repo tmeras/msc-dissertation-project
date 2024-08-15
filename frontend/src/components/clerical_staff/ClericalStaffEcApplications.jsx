@@ -127,7 +127,7 @@ export default function ClericalStaffEcApplications() {
                                     ecApplication.isReferred != null && <Badge bg='success' className="me-1">Decision submitted</Badge>
                                 ) : (
                                     <>
-                                        <Badge bg='primary' className="me-1">Pending Decision</Badge>
+                                        <Badge bg='primary' className="me-1">Pending decision</Badge>
                                         {ecApplication.requiresFurtherEvidence && <Badge bg='info' className="me-1">Further evidence requested</Badge>}
                                         {isEcApplicationUrgent(ecApplication.id) && <Badge bg='danger' className="me-1">Urgent</Badge>}
                                     </>

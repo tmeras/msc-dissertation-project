@@ -327,7 +327,7 @@ export default function AcademicStaffEcDetails() {
         <Container className='mt-3'>
             <Row>
                 <Col md={{ offset: 1 }}>
-                    <h4 className='mb-3 text-center'>Extenuating Circumstances Application #{ecApplication.id}</h4>
+                    <h4 className='mb-3 text-center'>Extenuating Circumstances Application #{ecApplication.id} Details</h4>
                 </Col>
             </Row>
             <Row>
