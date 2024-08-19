@@ -54,8 +54,6 @@ public class SecurityConfig {
 
         // Implement XSS protection
         http.headers(headers -> headers
-                .xssProtection(xss ->
-                        xss.headerValue(XXssProtectionHeaderWriter.HeaderValue.ENABLED_MODE_BLOCK))
                 .contentSecurityPolicy(cps -> cps.policyDirectives("script-src 'self"))
         );
 
