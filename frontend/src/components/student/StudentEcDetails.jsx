@@ -31,16 +31,6 @@ export default function StudentEcDetails() {
         queryFn: () => getEcApplication(id)
     })
 
-    // Get the details of the logged-in student who submitted the EC application
-    const studentQuery = useQuery({
-        queryKey: ["users", user.id],
-        queryFn: () => getUser(user.id),
-    })
-    const studentInformationQuery = useQuery({
-        queryKey: ["studentInformation", { studentId: user.id }],
-        queryFn: () => getStudentInformationByStudentId(user.id),
-    })
-
     // Fetch all evidence related to the EC application
     const evidenceQuery = useQuery({
         queryKey: ["evidence", { ecApplicationId: ecApplicationQuery.data?.id }],
@@ -97,9 +87,8 @@ export default function StudentEcDetails() {
     }, [moduleRequestsQuery.data])
 
 
-    if (ecApplicationQuery.isLoading || studentQuery.isLoading || studentInformationQuery.isLoading
-        || evidenceQuery.isLoading || moduleRequestsQuery.isLoading || modulesQuery.isLoading
-        || moduleDecisionsQuery.isLoading
+    if (ecApplicationQuery.isLoading  || evidenceQuery.isLoading || moduleRequestsQuery.isLoading 
+        || modulesQuery.isLoading  || moduleDecisionsQuery.isLoading
     )
         return (
             <Container className='mt-3'>
@@ -119,29 +108,7 @@ export default function StudentEcDetails() {
             return <ErrorPage
                 errorTitle={`when fetching EC applications`}
                 errorMessage={`${ecApplicationQuery.error.code}
-                        | Server Response: ${ecApplicationQuery.error.response?.data.status}-${ecApplicationQuery.error.response?.data.error}`}
-            />
-
-    if (studentQuery.isError)
-        if (studentQuery.error.response?.status == 401)
-            // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{ sessionExpired: true }} />
-        else
-            return <ErrorPage
-                errorTitle={`when fetching student information`}
-                errorMessage={`${studentQuery.error.code}
-                        | Server Response: ${studentQuery.error.response?.data.status}-${studentQuery.error.response?.data.error}`}
-            />
-
-    if (studentInformationQuery.isError)
-        if (studentInformationQuery.error.response?.status == 401)
-            // Token most likely expired or is invalid due to server restart
-            return <Navigate to="/login" state={{ sessionExpired: true }} />
-        else
-            return <ErrorPage
-                errorTitle={`when fetching student information`}
-                errorMessage={`${studentInformationQuery.error.code}
-                        | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`}
+                        | Status: ${ecApplicationQuery.error.response?.status}`}
             />
 
     if (evidenceQuery.isError)
@@ -210,7 +177,6 @@ export default function StudentEcDetails() {
                         | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`}
             />
 
-    const student = { ...studentQuery.data, ...studentInformationQuery.data[0] }
     const ecApplication = { ...ecApplicationQuery.data }
     const evidence = evidenceQuery.data
     const moduleRequests = moduleRequestsQuery.data
@@ -284,7 +250,6 @@ export default function StudentEcDetails() {
             requiresFurtherEvidence: false
         })
 
-        setFiles([])
     }
 
     // Determine if a final decision has been made for a module request
@@ -373,23 +338,6 @@ export default function StudentEcDetails() {
             </Row>
             <Row>
                 <Col md={{ offset: 3 }}>
-                    <Card className='w-75'>
-                        <Card.Header as="h5">Student Information</Card.Header>
-                        <Card.Body>
-                            <Card.Title>Name: {student.name}</Card.Title>
-                            <Card.Subtitle className="mb-2 text-muted">Student ID #{student.id}</Card.Subtitle>
-                            {student.additionalDetails &&
-                                <Card.Text>
-                                    {student.additionalDetails}
-                                </Card.Text>}
-                        </Card.Body>
-                        <ListGroup variant="flush">
-                            {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
-                            {student.hasHealthIssues && <ListGroup.Item>Student has chronic health issues</ListGroup.Item>}
-                            {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
-                        </ListGroup>
-                    </Card>
-
                     <Card className='mt-3 w-75'>
                         <Card.Header as="h5"> Application Details </Card.Header>
                         <Card.Body>

@@ -343,7 +343,7 @@ export default function AcademicStaffEcDetails() {
                                 </Card.Text>}
                         </Card.Body>
                         <ListGroup variant="flush">
-                            {student.hasLsp && <ListGroup.Item> Student is on a LSP program</ListGroup.Item>}
+                            {student.hasLsp && <ListGroup.Item> Student is on a LSP</ListGroup.Item>}
                             {student.hasHealthIssues && <ListGroup.Item>Student has chronic health issues</ListGroup.Item>}
                             {student.hasDisability && <ListGroup.Item>Student has a disability</ListGroup.Item>}
                         </ListGroup>

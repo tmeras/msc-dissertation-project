@@ -14,8 +14,6 @@ export default function ClericalStaffEcApplications() {
     const { setUser, user } = useAuth()
     const navigate = useNavigate()
 
-    console.log(user)
-
     // Get all EC applications submitted by students in the same department as the staff member
     const ecApplicationsQuery = useQuery({
         queryKey: ["ecApplications", { studentDepartmentId: user.departmentId }],

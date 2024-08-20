@@ -194,6 +194,10 @@ export default function StudentEcApplicationForm() {
         if (fileValidationFailed)
             return
 
+        // Ask for confirmation
+        if (!confirm("Are you sure you want to submit the application? Aside from adding new evidence, the application cannot be edited once submitted."))
+            return
+
         // Create the EC application
         createEcApplicationMutation.mutate({
             circumstancesDetails: formData.circumstancesDetails,
@@ -329,7 +333,7 @@ export default function StudentEcApplicationForm() {
                                             onChange={(event) => handleOutcomeRequestChange(index, event)}
                                             required
                                         >
-                                            <option value="">Select an option</option>
+                                            <option value="">Select a module request</option>
                                             <option value="Deadline Extension">Deadline Extension</option>
                                             <option value="Disregard Missing Component Mark">Disregard Missing Component Mark</option>
                                             <option value="Remove Lateness Penalties">Remove Lateness Penalties</option>

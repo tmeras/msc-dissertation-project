@@ -185,7 +185,7 @@ export default function StudentEcApplications() {
                                     <td> <ProgressBar className="mt-1" now={percentage} label={`${percentage}%`} variant={`${percentage == 100 && "success"}`} /> </td>
                                     <td>
                                         {percentage == 100 || ecApplication.isReferred == false ? (
-                                            <Badge bg='success' className="me-1">Application outcome available</Badge>
+                                            <Badge bg='success' className="me-1">Application results available</Badge>
                                         ) : (
                                             <>
                                                 {ecApplication.isReferred == true ?

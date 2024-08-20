@@ -14,7 +14,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <App />
-        <ReactQueryDevtools />
       </QueryClientProvider>
     </AuthProvider>
   </React.StrictMode>,
