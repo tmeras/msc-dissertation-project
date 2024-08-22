@@ -66,7 +66,7 @@ export default function AcademicStaffEcApplications() {
             return <ErrorPage
                 errorTitle={`when fetching module decisions`}
                 errorMessage={`${moduleDecisionsQuery.error.code}
-                    | Server Response: ${moduleDecisionsQuery.error.response?.data.status}-${moduleDecisionsQuery.error.response?.data.error}`}
+                    | Status: ${moduleDecisionsQuery.error.response?.status}`}
             />
 
     if (ecApplicationsQuery.isError)
@@ -77,7 +77,7 @@ export default function AcademicStaffEcApplications() {
             return <ErrorPage
                 errorTitle={`when fetching EC applications`}
                 errorMessage={`${ecApplicationsQuery.error.code}
-                    | Server Response: ${ecApplicationsQuery.error.response?.data.status}-${ecApplicationsQuery.error.response?.data.error}`}
+                    | Status: ${ecApplicationsQuery.error.response?.status}`}
             />
 
     if (moduleRequestsQuery.isError)
@@ -88,7 +88,7 @@ export default function AcademicStaffEcApplications() {
             return <ErrorPage
                 errorTitle={`when fetching module requests`}
                 errorMessage={`${moduleRequestsQuery.error.code}
-                    | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`}
+                    | Status: ${moduleRequestsQuery.error.response?.status}`}
             />
 
     if (studentsQuery.isError)
@@ -99,7 +99,7 @@ export default function AcademicStaffEcApplications() {
             return <ErrorPage
                 errorTitle={`when fetching students`}
                 errorMessage={`${studentsQuery.error.code}
-                    | Server Response: ${studentsQuery.error.response?.data.status}-${studentsQuery.error.response?.data.error}`}
+                    | Status: ${studentsQuery.error.response?.status}`}
             />
 
     const ecApplications = ecApplicationsQuery.data

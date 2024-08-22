@@ -1,4 +1,3 @@
-
 export function formatDate(date) {
     if (date?.length != 3) 
         return null 

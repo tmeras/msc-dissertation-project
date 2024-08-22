@@ -58,7 +58,7 @@ export default function StudentInformation() {
             return <ErrorPage
                 errorTitle={`when fetching student information`}
                 errorMessage={`${studentInformationQuery.error.code}
-                    | Server Response: ${studentInformationQuery.error.response?.data.status}-${studentInformationQuery.error.response?.data.error}`}
+                    | Status: ${studentInformationQuery.error.response?.status}`}
             />
 
     if (updateStudentInformationMutation.isError)
@@ -69,7 +69,7 @@ export default function StudentInformation() {
             return <ErrorPage
                 errorTitle={`when updating student information`}
                 errorMessage={`${updateStudentInformationMutation.error.code}
-                    | Server Response: ${updateStudentInformationMutation.error.response?.data.status}-${updateStudentInformationMutation.error.response?.data.error}`}
+                    | Status: ${updateStudentInformationMutation.error.response?.status}`}
             />
 
 

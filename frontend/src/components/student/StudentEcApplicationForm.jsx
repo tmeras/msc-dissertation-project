@@ -81,7 +81,7 @@ export default function StudentEcApplicationForm() {
             return <ErrorPage
                 errorTitle={`when fetching modules`}
                 errorMessage={`${modulesQuery.error.code}
-                | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`}
+                | Status: ${modulesQuery.error.response?.status}`}
             />
 
     if (createEcApplicationMutation.isError)
@@ -92,7 +92,7 @@ export default function StudentEcApplicationForm() {
             return <ErrorPage
                 errorTitle={`when creating EC application`}
                 errorMessage={`${createEcApplicationMutation.error.code}
-                    | Server Response: ${createEcApplicationMutation.error.response?.data.status}-${createEcApplicationMutation.error.response?.data.error}`}
+                    | Status: ${createEcApplicationMutation.error.response?.status}`}
             />
 
     if (createEvidenceMutation.isError)
@@ -103,7 +103,7 @@ export default function StudentEcApplicationForm() {
             return <ErrorPage
                 errorTitle={`when uploading evidence`}
                 errorMessage={`${createEvidenceMutation.error.code}
-                        | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`}
+                        | Status: ${createEvidenceMutation.error.response?.status}`}
             />
 
     if (createModuleRequestMutation.isError)
@@ -114,7 +114,7 @@ export default function StudentEcApplicationForm() {
             return <ErrorPage
                 errorTitle={`when creating module request`}
                 errorMessage={`${createModuleRequestMutation.error.code}
-                        | Server Response: ${createModuleRequestMutation.error.response?.data.status}-${createModuleRequestMutation.error.response?.data.error}`}
+                        | Status: ${createModuleRequestMutation.error.response?.status}`}
             />
 
     const modules = modulesQuery.data

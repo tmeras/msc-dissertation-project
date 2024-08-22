@@ -8,7 +8,6 @@ import { Navigate } from 'react-router'
 
 
 export default function AdminDepartments() {
-    const { setUser, user } = useAuth()
     const queryClient = useQueryClient()
     const [showNameAlert, setShowNameAlert] = useState(false)
     const [showCreateModal, setShowCreateModal] = useState(false)
@@ -59,7 +58,7 @@ export default function AdminDepartments() {
             return <ErrorPage
                 errorTitle={`when fetching departments`}
                 errorMessage={`${departmentsQuery.error.code}
-                    | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`}
+                    | Status: ${departmentsQuery.error.response?.status}`}
             />
 
     if (createDepartmentMutation.isError)
@@ -70,7 +69,7 @@ export default function AdminDepartments() {
             return <ErrorPage
                 errorTitle={`when creating department`}
                 errorMessage={`${createDepartmentMutation.error.code}
-                    | Server Response: ${createDepartmentMutation.error.response?.data.status}-${createDepartmentMutation.error.response?.data.error}`}
+                    | Status: ${createDepartmentMutation.error.response?.status}`}
             />
 
     if (updateDepartmentMutation.isError)
@@ -81,7 +80,7 @@ export default function AdminDepartments() {
             return <ErrorPage
                 errorTitle={`when updating department`}
                 errorMessage={`${updateDepartmentMutation.error.code}
-                | Server Response: ${updateDepartmentMutation.error.response?.data.status}-${updateDepartmentMutation.error.response?.data.error}`}
+                | Status: ${updateDepartmentMutation.error.response?.status}`}
             />
 
     const departments = departmentsQuery.data

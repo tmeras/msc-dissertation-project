@@ -10,9 +10,7 @@ import { Navigate } from 'react-router'
 
 
 export default function AdminUsers() {
-    const { user } = useAuth()
     const queryClient = useQueryClient()
-
 
     // Get all the users
     const usersQuery = useQuery({
@@ -58,7 +56,7 @@ export default function AdminUsers() {
             return <ErrorPage
                 errorTitle={`when fetching users`}
                 errorMessage={`${usersQuery.error.code}
-                    | Server Response: ${usersQuery.error.response?.data.status}-${usersQuery.error.response?.data.error}`}
+                    | Status: ${usersQuery.error.response?.status}`}
             />
 
     if (departmentsQuery.isError)
@@ -69,7 +67,7 @@ export default function AdminUsers() {
             return <ErrorPage
                 errorTitle={`when fetching departments`}
                 errorMessage={`${departmentsQuery.error.code}
-                    | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`}
+                    | Status: ${departmentsQuery.error.response?.status}`}
             />
 
     if (rolesQuery.isError)
@@ -80,7 +78,7 @@ export default function AdminUsers() {
             return <ErrorPage
                 errorTitle={`when fetching roles`}
                 errorMessage={`${rolesQuery.error.code}
-                    | Server Response: ${rolesQuery.error.response?.data.status}-${rolesQuery.error.response?.data.error}`}
+                    | Status: ${rolesQuery.error.response?.status}`}
             />
 
     if (updateUserMutation.isError)
@@ -91,7 +89,7 @@ export default function AdminUsers() {
             return <ErrorPage
                 errorTitle={`when updating user`}
                 errorMessage={`${updateUserMutation.error.code}
-                    | Server Response: ${updateUserMutation.error.response?.data.status}-${updateUserMutation.error.response?.data.error}`}
+                    | Status: ${updateUserMutation.error.response?.status}`}
             />
 
     const users = usersQuery.data

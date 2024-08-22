@@ -9,7 +9,6 @@ import { Navigate } from 'react-router'
 
 
 export default function AdminModules() {
-    const { user } = useAuth()
     const queryClient = useQueryClient()
     const [showNameAlert, setShowNameAlert] = useState(false)
     const [showCodeAlert, setShowCodeAlert] = useState(false)
@@ -69,7 +68,7 @@ export default function AdminModules() {
             return <ErrorPage
                 errorTitle={`when fetching modules`}
                 errorMessage={`${modulesQuery.error.code}
-                | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`}
+                | Status: ${modulesQuery.error.response?.status}`}
             />
 
     if (departmentsQuery.isError)
@@ -80,7 +79,7 @@ export default function AdminModules() {
             return <ErrorPage
                 errorTitle={`when fetching departments`}
                 errorMessage={`${departmentsQuery.error.code}
-                | Server Response: ${departmentsQuery.error.response?.data.status}-${departmentsQuery.error.response?.data.error}`}
+                | Status: ${departmentsQuery.error.response?.status}`}
             />
 
     if (createModuleMutation.isError)
@@ -91,7 +90,7 @@ export default function AdminModules() {
             return <ErrorPage
                 errorTitle={`when creating module`}
                 errorMessage={`${createModuleMutation.error.code}
-                | Server Response: ${createModuleMutation.error.response?.data.status}-${createModuleMutation.error.response?.data.error}`}
+                | Status: ${createModuleMutation.error.response?.status}`}
             />
 
     if (updateModuleMutation.isError)
@@ -102,7 +101,7 @@ export default function AdminModules() {
             return <ErrorPage
                 errorTitle={`when updating module`}
                 errorMessage={`${updateModuleMutation.error.code}
-                | Server Response: ${updateModuleMutation.error.response?.data.status}-${updateModuleMutation.error.response?.data.error}`}
+                | Status: ${updateModuleMutation.error.response?.status}`}
             />
 
     const modules = modulesQuery.data

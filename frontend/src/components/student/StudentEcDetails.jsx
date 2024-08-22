@@ -119,7 +119,7 @@ export default function StudentEcDetails() {
             return <ErrorPage
                 errorTitle={`when fetching evidence`}
                 errorMessage={`${evidenceQuery.error.code}
-                        | Server Response: ${evidenceQuery.error.response?.data.status}-${evidenceQuery.error.response?.data.error}`}
+                        | Status: ${evidenceQuery.error.response?.status}`}
             />
 
     if (moduleRequestsQuery.isError)
@@ -130,7 +130,7 @@ export default function StudentEcDetails() {
             return <ErrorPage
                 errorTitle={`when fetching module requests`}
                 errorMessage={`${moduleRequestsQuery.error.code}
-                        | Server Response: ${moduleRequestsQuery.error.response?.data.status}-${moduleRequestsQuery.error.response?.data.error}`}
+                        | Status: ${moduleRequestsQuery.error.response?.status}`}
             />
 
     if (modulesQuery.isError)
@@ -141,7 +141,7 @@ export default function StudentEcDetails() {
             return <ErrorPage
                 errorTitle={`when fetching modules`}
                 errorMessage={`${modulesQuery.error.code}
-                        | Server Response: ${modulesQuery.error.response?.data.status}-${modulesQuery.error.response?.data.error}`}
+                        | Status: ${modulesQuery.error.response?.status}`}
             />
 
     if (createModuleDecisionMutation.isError)
@@ -152,7 +152,7 @@ export default function StudentEcDetails() {
             return <ErrorPage
                 errorTitle={`when creating module decisions`}
                 errorMessage={`${createModuleDecisionMutation.error.code}
-                        | Server Response: ${createModuleDecisionMutation.error.response?.data.status}-${createModuleDecisionMutation.error.response?.data.error}`}
+                        | Status: ${createModuleDecisionMutation.error.response?.status}`}
             />
 
     if (updateEcApplicationMutation.isError)
@@ -163,7 +163,7 @@ export default function StudentEcDetails() {
             return <ErrorPage
                 errorTitle={`when updating EC application`}
                 errorMessage={`${updateEcApplicationMutation.error.code}
-                        | Server Response: ${updateEcApplicationMutation.error.response?.data.status}-${updateEcApplicationMutation.error.response?.data.error}`}
+                        | Status: ${updateEcApplicationMutation.error.response?.status}`}
             />
 
     if (createEvidenceMutation.isError)
@@ -174,7 +174,7 @@ export default function StudentEcDetails() {
             return <ErrorPage
                 errorTitle={`when updating uploading evidence`}
                 errorMessage={`${createEvidenceMutation.error.code}
-                        | Server Response: ${createEvidenceMutation.error.response?.data.status}-${createEvidenceMutation.error.response?.data.error}`}
+                        | Status: ${createEvidenceMutation.error.response?.status}`}
             />
 
     const ecApplication = { ...ecApplicationQuery.data }

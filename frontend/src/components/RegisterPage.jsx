@@ -82,7 +82,7 @@ export default function RegisterPage() {
         return <ErrorPage
             errorTitle={`when fetching departments`}
             errorMessage={`${departmentsQuery.error.code}
-                     | Server Response: Status: ${departmentsQuery.error.response?.status} - Message: ${departmentsQuery.error.response?.data.error}`}
+                     | Status: ${departmentsQuery.error.response?.status}`}
             redirectTo="/login"
         />
     }
@@ -91,7 +91,7 @@ export default function RegisterPage() {
         return <ErrorPage
             errorTitle={`when fetching roles`}
             errorMessage={`${rolesQuery.error.code}
-                     | Server Response: ${rolesQuery.error.response?.data.status}-${rolesQuery.error.response?.data.error}`}
+                     | Status: ${rolesQuery.error.response?.status}`}
             redirectTo="/login"
         />
 
@@ -108,7 +108,7 @@ export default function RegisterPage() {
             return <ErrorPage
                 errorTitle={`when creating user`}
                 errorMessage={`${createUserMutation.error.code}
-                     | Server Response: ${createUserMutation.error.response?.data.status}-${createUserMutation.error.response?.data.error}`}
+                     | Status: ${createUserMutation.error.response?.status}`}
                 redirectTo="/login"
             />
     }
@@ -117,7 +117,7 @@ export default function RegisterPage() {
         return <ErrorPage
             errorTitle={`when creating student information`}
             errorMessage={`${createStudentInformationMutation.error.code}
-                     | Server Response: ${createStudentInformationMutation.error.response?.data.status}-${createStudentInformationMutation.error.response?.data.error}`}
+                     | Status: ${createStudentInformationMutation.error.response?.status}`}
             redirectTo="/login"
         />
 
