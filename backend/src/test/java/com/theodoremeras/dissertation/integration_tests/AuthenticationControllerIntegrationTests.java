@@ -150,9 +150,30 @@ public class AuthenticationControllerIntegrationTests {
     }
 
     @Test
-    public void testRegisterUserWhenNoRoleOrDepartmentIsSpecified() throws Exception {
+    public void testRegisterUserWhenNoRoleIsSpecified() throws Exception {
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
+
+
         UserRegistrationDto testUserRegistrationDto =
-                TestDataUtil.createTestUserRegistrationDto(null, null);
+                TestDataUtil.createTestUserRegistrationDto(null, savedDepartmentEntity.getId());
+        String registrationJson = objectMapper.writeValueAsString(testUserRegistrationDto);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/auth/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(registrationJson)
+        ).andExpect(
+                MockMvcResultMatchers.status().isBadRequest()
+        );
+    }
+
+    @Test
+    public void testRegisterUserWhenNoDepartmentIsSpecified() throws Exception {
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+
+
+        UserRegistrationDto testUserRegistrationDto =
+                TestDataUtil.createTestUserRegistrationDto(savedRoleEntity.getId(), null);
         String registrationJson = objectMapper.writeValueAsString(testUserRegistrationDto);
 
         mockMvc.perform(

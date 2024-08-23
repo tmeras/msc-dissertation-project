@@ -239,7 +239,7 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.status().isOk()
         ).andExpect(
-                MockMvcResultMatchers.jsonPath("$.id").isNumber()
+                MockMvcResultMatchers.jsonPath("$.id").value(savedUserEntity.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.name").value(savedUserEntity.getName())
         ).andExpect(
@@ -275,6 +275,49 @@ public class UserControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.status().isNotFound()
         );
+    }
+
+  @Test
+    public void testGetUserByIdWhenStudent() throws Exception {
+        RoleEntity savedRoleEntity = parentCreationService.createRoleParentEntity();
+        DepartmentEntity savedDepartmentEntity = parentCreationService.createDepartmentParentEntity();
+
+        UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(savedRoleEntity, savedDepartmentEntity);
+        UserEntity savedUserEntity = userService.save(testUserEntity);
+
+        // Build jwt with student role specified
+        Instant now = Instant.now();
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plusSeconds(60))
+                .subject("admin@admin.com")
+                .claim("roles", "Student")
+                .claim("userId", savedUserEntity.getId())
+                .build();
+        String token = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+
+
+        // Request the details of the logged-in student, which is allowed
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/users/" + savedUserEntity.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + token)
+        ).andExpect(
+                MockMvcResultMatchers.status().isOk()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").value(savedUserEntity.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.name").value(savedUserEntity.getName())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.email").value(savedUserEntity.getEmail())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.isApproved").value(savedUserEntity.getIsApproved())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.roleId").value(savedRoleEntity.getId())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.departmentId").value(savedDepartmentEntity.getId())
+        );;
     }
 
     @Test
