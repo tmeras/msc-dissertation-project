@@ -21,7 +21,6 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (token) {
             axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-            console.log("in 1")
 
             // Get user data
             axios.get(`/auth/me`)
@@ -35,7 +34,6 @@ const AuthProvider = ({ children }) => {
                 })
 
         } else {
-            console.log("in 2")
             delete axios.defaults.headers.common["Authorization"];
             localStorage.removeItem('token')
             setUser_(null)
