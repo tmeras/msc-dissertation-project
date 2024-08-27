@@ -348,7 +348,7 @@ export default function ClericalStaffEcDetails() {
                             <ListGroup>
                                 {moduleRequests.map(moduleRequest =>
                                     <ListGroup.Item key={moduleRequest.id}>
-                                        <Card.Title>{moduleRequest.requestedOutcome}</Card.Title>
+                                        <Card.Title>{moduleRequest.requestedOutcome} { moduleRequest.relatedAssessment && <> - {moduleRequest.relatedAssessment} </>} </Card.Title>
                                         <Card.Subtitle className="mb-2 text-muted">
                                             {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
                                         </Card.Subtitle>

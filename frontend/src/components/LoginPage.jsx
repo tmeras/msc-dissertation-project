@@ -39,8 +39,6 @@ export default function LoginPage() {
         }
     }, [location.state])
 
-    console.log("user", user)
-
     // Get all the roles
     const rolesQuery = useQuery({
         queryKey: ["roles"],

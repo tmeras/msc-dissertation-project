@@ -158,6 +158,7 @@ public final class TestDataUtil {
                 .ecApplication(ecApplication)
                 .module(module)
                 .requestedOutcome("Outcome A")
+                .relatedAssessment("Assessment A")
                 .build();
     }
 
@@ -169,6 +170,7 @@ public final class TestDataUtil {
                 .ecApplicationId(ecApplicationId)
                 .moduleCode(moduleCode)
                 .requestedOutcome("Outcome A")
+                .relatedAssessment("Assessment A")
                 .build();
     }
 
@@ -180,6 +182,7 @@ public final class TestDataUtil {
                 .ecApplication(ecApplication)
                 .module(module)
                 .requestedOutcome("Outcome B")
+                .relatedAssessment("Assessment B")
                 .build();
     }
 
@@ -191,6 +194,7 @@ public final class TestDataUtil {
                 .ecApplicationId(ecApplicationId)
                 .moduleCode(moduleCode)
                 .requestedOutcome("Outcome B")
+                .relatedAssessment("Assessment B")
                 .build();
     }
 

@@ -18,6 +18,8 @@ public class ModuleRequestDto {
     @NotBlank
     private String requestedOutcome;
 
+    private String relatedAssessment;
+
     @NotNull
     private Integer ecApplicationId;
 

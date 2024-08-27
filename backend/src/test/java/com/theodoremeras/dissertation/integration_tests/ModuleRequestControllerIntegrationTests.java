@@ -66,6 +66,9 @@ public class ModuleRequestControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.requestedOutcome")
                         .value(testRequestDto.getRequestedOutcome())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.relatedAssessment")
+                        .value(testRequestDto.getRelatedAssessment())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.ecApplicationId")
                         .value(savedEcApplication.getId())
         ).andExpect(
@@ -147,6 +150,9 @@ public class ModuleRequestControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].requestedOutcome")
                         .value(savedRequestEntityA.getRequestedOutcome())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].relatedAssessment")
+                        .value(savedRequestEntityA.getRelatedAssessment())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
                         .value(savedEcApplication.getId())
         ).andExpect(
@@ -158,6 +164,9 @@ public class ModuleRequestControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requestedOutcome")
                         .value(savedRequestEntityB.getRequestedOutcome())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].relatedAssessment")
+                        .value(savedRequestEntityB.getRelatedAssessment())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
                         .value(savedEcApplication.getId())
@@ -192,6 +201,9 @@ public class ModuleRequestControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$[0].requestedOutcome")
                         .value(savedRequestEntityA.getRequestedOutcome())
         ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].relatedAssessment")
+                        .value(savedRequestEntityA.getRelatedAssessment())
+        ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[0].ecApplicationId")
                         .value(savedEcApplication.getId())
         ).andExpect(
@@ -203,6 +215,9 @@ public class ModuleRequestControllerIntegrationTests {
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].requestedOutcome")
                         .value(savedRequestEntityB.getRequestedOutcome())
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[1].relatedAssessment")
+                        .value(savedRequestEntityB.getRelatedAssessment())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$[1].ecApplicationId")
                         .value(savedEcApplication.getId())

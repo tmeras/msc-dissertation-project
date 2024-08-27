@@ -404,10 +404,11 @@ export default function StudentEcDetails() {
 
                                     return (
                                         <ListGroup.Item key={moduleRequest.id}>
-                                            <Card.Title>{moduleRequest.requestedOutcome}</Card.Title>
+                                            <Card.Title>{moduleRequest.requestedOutcome} { moduleRequest.relatedAssessment && <> - {moduleRequest.relatedAssessment} </>} </Card.Title>
                                             <Card.Subtitle className="mb-2 text-muted">
                                                 {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
                                             </Card.Subtitle>
+            
                                             {ecApplication.isReferred == null ?
                                                 <h5><Badge bg='warning'>Under review by clerical staff</Badge></h5>
                                                 :

@@ -11,6 +11,7 @@ public class ModuleRequestMapper {
         return ModuleRequestDto.builder()
                 .id(moduleRequestEntity.getId())
                 .requestedOutcome(moduleRequestEntity.getRequestedOutcome())
+                .relatedAssessment(moduleRequestEntity.getRelatedAssessment())
                 .ecApplicationId(moduleRequestEntity.getEcApplication().getId())
                 .moduleCode(moduleRequestEntity.getModule().getCode())
                 .build();
@@ -30,6 +31,7 @@ public class ModuleRequestMapper {
         return ModuleRequestEntity.builder()
                 .id(moduleRequestDto.getId())
                 .requestedOutcome(moduleRequestDto.getRequestedOutcome())
+                .relatedAssessment(moduleRequestDto.getRelatedAssessment())
                 .ecApplication(ecApplication)
                 .module(module)
                 .build();

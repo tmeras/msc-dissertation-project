@@ -67,6 +67,7 @@ CREATE TABLE module_outcome_request
 (
     id                INTEGER      NOT NULL,
     requested_outcome VARCHAR(255),
+    related_assessment VARCHAR(255),
     application_id    INTEGER      NOT NULL,
     module_code       VARCHAR(255) NOT NULL,
     CONSTRAINT pk_module_outcome_request PRIMARY KEY (id)

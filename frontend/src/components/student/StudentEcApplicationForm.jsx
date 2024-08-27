@@ -23,7 +23,8 @@ export default function StudentEcApplicationForm() {
     // State for module requests made by the student
     const [moduleRequests, setModuleRequests] = useState(([{
         requestedOutcome: '',
-        moduleCode: ''
+        moduleCode: '',
+        relatedAssessment: ''
     }]))
 
     // State for the rest of the form fields
@@ -123,7 +124,8 @@ export default function StudentEcApplicationForm() {
     function addModuleRequest() {
         setModuleRequests(prevRequests => [...prevRequests, {
             requestedOutcome: '',
-            moduleCode: ''
+            moduleCode: '',
+            relatedAssessment: ''
         }])
     }
 
@@ -132,8 +134,7 @@ export default function StudentEcApplicationForm() {
             const prevRequestsCopy = [...prevRequests]
             prevRequestsCopy.pop()
             return prevRequestsCopy
-        }
-        )
+        })
     }
 
     function handleOutcomeRequestChange(index, event) {
@@ -145,6 +146,12 @@ export default function StudentEcApplicationForm() {
     function handleModuleChange(index, event) {
         const newModuleRequests = [...moduleRequests];
         newModuleRequests[index].moduleCode = event.target.value;
+        setModuleRequests(newModuleRequests)
+    }
+
+    function handleRelatedAssessmentChange(index, event) {
+        const newModuleRequests = [...moduleRequests];
+        newModuleRequests[index].relatedAssessment = event.target.value;
         setModuleRequests(newModuleRequests)
     }
 
@@ -223,6 +230,7 @@ export default function StudentEcApplicationForm() {
                     createModuleRequestMutation.mutate({
                         requestedOutcome: request.requestedOutcome,
                         moduleCode: request.moduleCode,
+                        relatedAssessment: request.relatedAssessment,
                         ecApplicationId: data.id
                     })
                 })
@@ -242,7 +250,7 @@ export default function StudentEcApplicationForm() {
             <Row>
                 <Col md={{ offset: 3 }}>
                     <Form className='w-75' onSubmit={handleSubmit}>
-                        <Form.Group className='mb-5' controlId='ecForm.ControlTextArea1'>
+                        <Form.Group className='mb-4' controlId='ecForm.ControlTextArea1'>
                             <Form.Label>Circumstances Details</Form.Label>
                             <Form.Control as="textarea"
                                 rows={5}
@@ -254,7 +262,7 @@ export default function StudentEcApplicationForm() {
                             <Form.Text muted>
                                 Please thoroughly explain your extenuating circumstances. Details on the university's policy regarding exteunating circumstances can be
                                 found <a href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#extenuating-circumstances-policy-and-procedure'
-                                    target='_blank'>here. </a>
+                                    target='_blank'>here.</a>
                             </Form.Text>
                             {showCircumstancesAlert &&
                                 <Alert className=' mt-2' variant="danger" onClose={() => setShowCircumstancesAlert(false)} style={{ width: "20rem" }}>
@@ -264,7 +272,7 @@ export default function StudentEcApplicationForm() {
                         </Form.Group>
                         <hr />
 
-                        <Form.Group className='mb-5' controlId='ecForm.DateArea1'>
+                        <Form.Group className='mb-4' controlId='ecForm.DateArea1'>
                             <Form.Label>Period Affected By Circumstances</Form.Label>
                             <Row>
                                 <Col>
@@ -303,14 +311,17 @@ export default function StudentEcApplicationForm() {
                         </Form.Group>
                         <hr className='mb-3' />
 
-                        <Form.Group className='mb-5' controlId='ecForm.Select1'>
+                        <Form.Group className='mb-4' controlId='ecForm.Select1'>
                             <Form.Label>Module Outcome Requests</Form.Label>
                             <Row>
                                 <Col>
                                     <Form.Text muted>Module</Form.Text>
                                 </Col>
                                 <Col>
-                                    <Form.Text muted>Request</Form.Text>
+                                    <Form.Text muted>Outcome Request</Form.Text>
+                                </Col>
+                                <Col>
+                                    <Form.Text muted>Related Assesment</Form.Text>
                                 </Col>
                             </Row>
                             {moduleRequests.map((value, index) =>
@@ -333,7 +344,7 @@ export default function StudentEcApplicationForm() {
                                             onChange={(event) => handleOutcomeRequestChange(index, event)}
                                             required
                                         >
-                                            <option value="">Select a module request</option>
+                                            <option value="">Select a request</option>
                                             <option value="Deadline Extension">Deadline Extension</option>
                                             <option value="Disregard Missing Component Mark">Disregard Missing Component Mark</option>
                                             <option value="Remove Lateness Penalties">Remove Lateness Penalties</option>
@@ -341,12 +352,27 @@ export default function StudentEcApplicationForm() {
                                             <option value="Defer Formal Assessment">Defer Formal Assessment</option>
                                         </Form.Select>
                                     </Col>
+                                    <Col>
+                                        <Form.Control
+                                            type="text"
+                                            name="relatedAssessment"
+                                            placeholder="e.g. Final Exam"
+                                            value={moduleRequests[index].relatedAssessment}
+                                            onChange={(event) => handleRelatedAssessmentChange(index, event)}
+                                        />
+                                    </Col>
                                 </Row>
                             )}
-                            <Button size='sm' className='mt-2 me-2' variant='info' onClick={addModuleRequest}>Add Module Request</Button>
+                            <Button size='sm' className='mt-2 me-2 mb-1' variant='info' onClick={addModuleRequest}>Add Module Request</Button>
                             {moduleRequests.length > 1 &&
                                 <Button size='sm' className='mt-2' variant='danger' onClick={removeModuleRequest}>Remove Module Request</Button>
                             }
+                            <div>
+                            <Form.Text muted>
+                                Please specify your module outcome requests here. For applicable requests (e.g. deadline extensions), 
+                                also specify the related assessment.
+                            </Form.Text>
+                            </div>
                         </Form.Group>
                         <hr className='mb-3' />
 

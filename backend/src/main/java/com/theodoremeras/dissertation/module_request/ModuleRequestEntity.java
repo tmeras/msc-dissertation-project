@@ -27,6 +27,8 @@ public class ModuleRequestEntity {
     @NotBlank
     private String requestedOutcome;
 
+    private String relatedAssessment;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_id", nullable = false)
     @ToString.Exclude

@@ -387,11 +387,10 @@ export default function AcademicStaffEcDetails() {
                             <ListGroup>
                                 {moduleRequests.map((moduleRequest, index) => {
                                     const {finalDecision, approvals, rejections} = getDecisionMade(moduleRequest.id)
-                                    console.log(`request ${index} is ${finalDecision}: +${approvals} | -${rejections}`)
 
                                     return (
                                         <ListGroup.Item key={moduleRequest.id}>
-                                            <Card.Title>{moduleRequest.requestedOutcome}</Card.Title>
+                                            <Card.Title>{moduleRequest.requestedOutcome} { moduleRequest.relatedAssessment && <> - {moduleRequest.relatedAssessment} </>} </Card.Title>
                                             <Card.Subtitle className="mb-2 text-muted">
                                                 {moduleRequest.moduleCode} {modules.find(module => module.code === moduleRequest.moduleCode).name}
                                             </Card.Subtitle>

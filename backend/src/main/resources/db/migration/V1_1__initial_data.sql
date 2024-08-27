@@ -112,40 +112,40 @@ VALUES(5, 'I was in the hospital', TO_DATE('2024/06/24','YYYY/MM/DD'),TO_DATE('2
 SELECT NEXTVAL('module_outcome_request_seq');
 SELECT NEXTVAL('module_outcome_request_seq');
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(1, 'Deadline Extension', 1, 'COM1001');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(1, 'Deadline Extension', 'Assignment 1' , 1, 'COM1001');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(2, 'Disregard Missing Component Mark', 1, 'COM1002');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(2, 'Disregard Missing Component Mark', '', 1, 'COM1002');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(3, 'Defer Formal Examination', 1, 'COM1003');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(3, 'Defer Formal Examination', 'Final Exam', 1, 'COM1003');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(4, 'Disregard Missing Component Mark', 2, 'COM1001');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(4, 'Disregard Missing Component Mark', '', 2, 'COM1001');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(5, 'Remove Lateness Penalties', 2, 'MEC117');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(5, 'Remove Lateness Penalties', 'Assignment 2', 2, 'MEC117');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(6, 'Disregard Missing Component Mark', 3, 'COM1002');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(6, 'Disregard Missing Component Mark', '', 3, 'COM1002');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(7, 'Disregard Missing Component Mark', 4, 'COM1003');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(7, 'Disregard Missing Component Mark', '', 4, 'COM1003');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(8, 'Remove Lateness Penalties', 5, 'MEC117');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(8, 'Remove Lateness Penalties', 'Team Project', 5, 'MEC117');
 
 INSERT INTO
-module_outcome_request(ID, REQUESTED_OUTCOME, APPLICATION_ID, MODULE_CODE)
-VALUES(9, 'Defer Formal Examination', 5, 'MEC113');
+module_outcome_request(ID, REQUESTED_OUTCOME, RELATED_ASSESSMENT, APPLICATION_ID, MODULE_CODE)
+VALUES(9, 'Defer Formal Examination', 'Final Exam', 5, 'MEC113');
 
 
 SELECT NEXTVAL('module_request_decision_seq');
