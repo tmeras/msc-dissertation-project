@@ -7,7 +7,7 @@ import { useAuth } from "../providers/AuthProvider";
 
 
 export default function ProtectedRoute(props) {
-    const { token, user, setToken } = useAuth()
+    const { token, user } = useAuth()
 
     const rolesQuery = useQuery({
         queryKey: ["roles"],

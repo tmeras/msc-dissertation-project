@@ -1,14 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Container, Row, Col, Form, Spinner, Button, Alert } from 'react-bootstrap'
 import { getDepartments } from '../api/departments'
 import { getRoles } from '../api/roles'
 import ErrorPage from './ErrorPage'
 import { createStudentInformation } from '../api/studentInformation'
-import { useLocation, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { registerUser } from '../api/authentication'
 import { Link } from 'react-router-dom'
-import { replace } from 'dom/lib/mutation'
 
 export default function RegisterPage() {
     const queryClient = useQueryClient()

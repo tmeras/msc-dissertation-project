@@ -1,19 +1,18 @@
 import { formatDate } from "../../utils"
 import Table from "react-bootstrap/Table"
 import { Badge, Container, Spinner, Row, Col, ProgressBar, Button, ToastContainer, Toast } from 'react-bootstrap'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from "../../providers/AuthProvider"
-import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDepartmentId, getEcApplicationsByStudentDepartmentIdAndIsReferred, getEcApplicationsByStudentId } from '../../api/ecApplications'
+import { getEcApplicationsByStudentId } from '../../api/ecApplications'
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
-import { getUsersByIds } from "../../api/users"
-import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
+import { getModuleDecisionsByEcApplicationIds } from "../../api/moduleDecisions"
 import { Navigate, useLocation, useNavigate } from "react-router"
 import { useEffect, useState } from "react"
 import ErrorPage from "../ErrorPage"
 
 
 export default function StudentEcApplications() {
-    const { user, setToken } = useAuth()
+    const { user } = useAuth()
     const navigate = useNavigate()
     const location = useLocation()
     const [showToast, setShowToast] = useState(false)

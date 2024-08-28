@@ -1,5 +1,4 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useAuth } from "../providers/AuthProvider";
 import ClericalStaffNavBar from "./clerical_staff/ClericalStaffNavBar";
 import ClericalStaffEcApplications from "./clerical_staff/ClericalStaffEcApplications";
 import ClericalStaffEcDetails from "./clerical_staff/ClericalStaffEcDetails";

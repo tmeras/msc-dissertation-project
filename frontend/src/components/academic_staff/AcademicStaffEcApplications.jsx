@@ -1,12 +1,12 @@
 import { formatDate } from "../../utils"
 import Table from "react-bootstrap/Table"
 import { Badge, Container, Spinner, Row, Col, ProgressBar } from 'react-bootstrap'
-import { useQuery, useMutation } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { useAuth } from "../../providers/AuthProvider"
-import { getEcApplications, getEcApplicationsByIds, getEcApplicationsByStudentDepartmentId, getEcApplicationsByStudentDepartmentIdAndIsReferred } from '../../api/ecApplications'
+import { getEcApplicationsByStudentDepartmentIdAndIsReferred } from '../../api/ecApplications'
 import { getModuleRequestsByEcApplicationIds } from "../../api/moduleRequests"
 import { getUsersByIds } from "../../api/users"
-import { getModuleDecisionsByEcApplicationIds, getModuleDecisionsByStaffMemberId } from "../../api/moduleDecisions"
+import { getModuleDecisionsByEcApplicationIds } from "../../api/moduleDecisions"
 import { Navigate, useNavigate } from "react-router"
 import ErrorPage from "../ErrorPage"
 

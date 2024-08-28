@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Container, Button, Table, Spinner, Row, Col, Modal, Form, Alert } from 'react-bootstrap'
-import { useAuth } from '../../providers/AuthProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { createDepartment, getDepartments, updateDepartment } from '../../api/departments'
 import ErrorPage from "../ErrorPage"

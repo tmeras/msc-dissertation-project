@@ -84,8 +84,6 @@ export default function LoginPage() {
             redirectTo="refresh"
         />
 
-    const roles = rolesQuery.data
-
 
     function handleChange(event) {
         const { name, value } = event.target;

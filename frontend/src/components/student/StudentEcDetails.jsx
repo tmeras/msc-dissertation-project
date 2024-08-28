@@ -1,12 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import axios from '../../api/axiosConfig'
 import { useAuth } from '../../providers/AuthProvider'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { bytesToMb, formatDate } from "../../utils"
-import { Form, Card, Container, ListGroup, Button, Row, Col, Alert, Spinner, ButtonGroup, Badge, Accordion } from 'react-bootstrap'
+import { Form, Card, Container, ListGroup, Button, Row, Col, Alert, Spinner, Badge, Accordion } from 'react-bootstrap'
 import { getEcApplication, updateEcApplication } from '../../api/ecApplications'
-import { getUser } from '../../api/users'
-import { getStudentInformationByStudentId } from '../../api/studentInformation'
 import { createEvidence, getEvidenceByEcApplicationId } from '../../api/evidence'
 import { getModuleRequestsByEcApplicationIds } from '../../api/moduleRequests'
 import { getModulesByCodes } from '../../api/modules'
@@ -21,7 +19,6 @@ export default function StudentEcDetails() {
     const queryClient = useQueryClient()
     const [showFileDownloadAlert, setShowFileDownloadAlert] = useState(false)
     const [showFileUploadAlert, setShowFileUploadAlert] = useState(false)
-    const [comments, setComments] = useState([''])
     const [files, setFiles] = useState([])
 
 
@@ -80,11 +77,6 @@ export default function StudentEcDetails() {
             queryClient.invalidateQueries(["ecApplications"])
         }
     })
-
-    useEffect(() => {
-        const newCommentsArray = Array(moduleRequestsQuery.data?.length)
-        setComments(newCommentsArray)
-    }, [moduleRequestsQuery.data])
 
 
     if (ecApplicationQuery.isLoading  || evidenceQuery.isLoading || moduleRequestsQuery.isLoading 

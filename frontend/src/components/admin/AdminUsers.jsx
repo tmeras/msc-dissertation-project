@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { useAuth } from '../../providers/AuthProvider'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Button, Col, Container, Row, Spinner, Table } from 'react-bootstrap'
 import { getUsers, updateUser } from '../../api/users'
