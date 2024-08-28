@@ -246,6 +246,7 @@ export default function ClericalStaffEcDetails() {
             });
     }
 
+
     // Request more evidence from the student
     function requestMoreEvidence() {
 
@@ -337,8 +338,13 @@ export default function ClericalStaffEcDetails() {
                                     </ListGroup.Item>
                                 )}
                             </ListGroup>
-                            {!ecApplication.requiresFurtherEvidence ? <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
-                                : <Button variant='disabled' className='me-2 btn-outline-info' style={{ "pointerEvents": "none" }}>More evidence has been requested </Button>}
+                            {ecApplication.isReferred == null &&
+                                <>
+                                    {!ecApplication.requiresFurtherEvidence ? <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
+                                        : <Button variant='disabled' className='me-2 btn-outline-info' style={{ "pointerEvents": "none" }}>More evidence has been requested </Button>
+                                    }
+                                </>
+                            }
                         </Card.Body>
                     </Card>
 

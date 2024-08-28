@@ -400,7 +400,7 @@ export default function RegisterPage() {
                         <Button variant='primary' type='submit' className='w-75 mb-1'>Register</Button>
                         <div>
                             <Form.Text muted>
-                                Already registered? Sign in <Link to="/login" replace>here</Link>.
+                                Already registered? Sign in <Link to="/login" replace>here</Link>
                             </Form.Text>
                         </div>
                     </Form>

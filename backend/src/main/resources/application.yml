@@ -2,7 +2,7 @@ spring:
   application:
     name: dissertation
   datasource:
-    url: jdbc:postgresql://localhost:5432/ecf_db
+    url: jdbc:postgresql://localhost:5432/ecf_1
     username: postgres
     password: bacon123
     driver-class-name: org.postgresql.Driver

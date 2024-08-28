@@ -262,7 +262,7 @@ export default function StudentEcApplicationForm() {
                             <Form.Text muted>
                                 Please thoroughly explain your extenuating circumstances. Details on the university's policy regarding exteunating circumstances can be
                                 found <a href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#extenuating-circumstances-policy-and-procedure'
-                                    target='_blank'>here.</a>
+                                    target='_blank'>here</a>
                             </Form.Text>
                             {showCircumstancesAlert &&
                                 <Alert className=' mt-2' variant="danger" onClose={() => setShowCircumstancesAlert(false)} style={{ width: "20rem" }}>
@@ -370,7 +370,7 @@ export default function StudentEcApplicationForm() {
                             <div>
                             <Form.Text muted>
                                 Please specify your module outcome requests here. For applicable requests (e.g. deadline extensions), 
-                                also specify the related assessment.
+                                also specify the related assessment
                             </Form.Text>
                             </div>
                         </Form.Group>

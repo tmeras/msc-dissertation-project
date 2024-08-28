@@ -263,6 +263,25 @@ export default function AcademicStaffEcDetails() {
 
     }
 
+      // Determine if the EC application is closed
+      function isApplicationClosed() {
+
+        let isClosed = true
+
+        // The application is closed if a final decision has 
+        //been made on each module request
+        moduleRequests.forEach(request => {
+            const {finalDecision} = getDecisionMade(request.id)
+
+            if (finalDecision == null) {
+                isClosed = false
+                return
+            }
+        })
+
+        return isClosed
+    }
+
     // Determine if the staff member has decided before on a request
     function hasDecided(requestId) {
         let hasDecided = false
@@ -374,9 +393,13 @@ export default function AcademicStaffEcDetails() {
                                     </ListGroup.Item>
                                 )}
                             </ListGroup>
-                            {!ecApplication.requiresFurtherEvidence ?
-                                <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
-                                : <Button variant='disabled' className='me-2 btn-outline-info' style={{ "pointerEvents": "none" }}>More evidence has been requested </Button>
+                            {!isApplicationClosed() &&
+                                <>
+                                    {!ecApplication.requiresFurtherEvidence ?
+                                        <Button variant='info' className='me-2' onClick={requestMoreEvidence}>Request More Evidence</Button>
+                                        : <Button variant='disabled' className='me-2 btn-outline-info' style={{ "pointerEvents": "none" }}>More evidence has been requested </Button>
+                                    }
+                                </>
                             }
                         </Card.Body>
                     </Card>

@@ -124,7 +124,7 @@ export default function LoginPage() {
                         />
                         <strong>ECF Portal</strong>
                     </Toast.Header>
-                    <Toast.Body>Account successfully created. Please sign in.</Toast.Body>
+                    <Toast.Body>Account successfully created.</Toast.Body>
                 </Toast>
             </ToastContainer>
 
@@ -170,7 +170,7 @@ export default function LoginPage() {
                                 </Alert>
                             }
                             <Form.Text muted>
-                                Registering? Click <Link to="/register">here</Link>.
+                                Registering? Click <Link to="/register">here</Link>
                             </Form.Text>
                         </Form>
                     </Col>
