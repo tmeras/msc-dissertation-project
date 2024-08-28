@@ -2,7 +2,6 @@ package com.theodoremeras.dissertation.integration_tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.role.RoleDto;
 import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.role.RoleService;
 import org.junit.jupiter.api.Test;

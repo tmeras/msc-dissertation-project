@@ -2,7 +2,6 @@ package com.theodoremeras.dissertation.unit_tests.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.department.DepartmentController;
 import com.theodoremeras.dissertation.student_information.*;
 import com.theodoremeras.dissertation.user.UserEntity;
 import com.theodoremeras.dissertation.user.UserService;
@@ -23,7 +22,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
@@ -60,7 +58,7 @@ public class StudentInformationControllerUnitTests {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         // Initialize test objects
         testUserEntity = TestDataUtil
                 .createTestUserEntityA(TestDataUtil.createTestRoleEntityA(), TestDataUtil.createTestDepartmentEntityA());

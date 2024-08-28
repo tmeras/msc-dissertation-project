@@ -30,8 +30,6 @@ public class ModuleRequestServiceUnitTests {
     @InjectMocks
     private ModuleRequestService moduleRequestService;
 
-    private ModuleEntity testModuleEntity;
-
     private EcApplicationEntity testEcApplicationEntity;
 
     private ModuleRequestEntity testModuleRequestEntity;
@@ -40,7 +38,7 @@ public class ModuleRequestServiceUnitTests {
     public void setUp() {
         // Initialize test objects
         DepartmentEntity testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
-        testModuleEntity = TestDataUtil.createTestModuleEntityA(testDepartmentEntity);
+        ModuleEntity testModuleEntity = TestDataUtil.createTestModuleEntityA(testDepartmentEntity);
         testEcApplicationEntity = TestDataUtil.createTestEcApplicationEntityA(
                 TestDataUtil.createTestUserEntityA(TestDataUtil.createTestRoleEntityA(), testDepartmentEntity)
         );
@@ -48,7 +46,7 @@ public class ModuleRequestServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(moduleRequestRepository.save(testModuleRequestEntity)).thenReturn(testModuleRequestEntity);
 
         ModuleRequestEntity result = moduleRequestService.save(testModuleRequestEntity);
@@ -57,7 +55,7 @@ public class ModuleRequestServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(moduleRequestRepository.findAll()).thenReturn(List.of(testModuleRequestEntity));
 
         List<ModuleRequestEntity> result = moduleRequestService.findAll();
@@ -66,7 +64,7 @@ public class ModuleRequestServiceUnitTests {
     }
 
     @Test
-    public void testFindByEcApplicationIdIn() throws Exception {
+    public void testFindByEcApplicationIdIn() {
         when(moduleRequestRepository.findAllByEcApplicationIdIn(List.of(testEcApplicationEntity.getId())))
                 .thenReturn(List.of(testModuleRequestEntity));
 
@@ -77,7 +75,7 @@ public class ModuleRequestServiceUnitTests {
     }
 
     @Test
-    public void testFindOneById() throws Exception {
+    public void testFindOneById() {
         when(moduleRequestRepository.findById(testModuleRequestEntity.getId()))
                 .thenReturn(Optional.of(testModuleRequestEntity));
 
@@ -87,7 +85,7 @@ public class ModuleRequestServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(moduleRequestRepository.existsById(testModuleRequestEntity.getId())).thenReturn(true);
 
         boolean result = moduleRequestService.exists(testModuleRequestEntity.getId());
@@ -96,7 +94,7 @@ public class ModuleRequestServiceUnitTests {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         moduleRequestService.delete(testModuleRequestEntity.getId());
 
         verify(moduleRequestRepository, times(1)).deleteById(testModuleRequestEntity.getId());

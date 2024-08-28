@@ -10,6 +10,4 @@ public interface StudentInformationRepository extends JpaRepository<StudentInfor
 
     Optional<StudentInformationEntity> findByStudentId(Integer studentId);
 
-    Boolean existsByStudentId(Integer studentId);
-
 }

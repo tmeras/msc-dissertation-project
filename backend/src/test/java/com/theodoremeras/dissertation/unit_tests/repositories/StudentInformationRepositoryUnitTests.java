@@ -9,7 +9,6 @@ import com.theodoremeras.dissertation.student_information.StudentInformationEnti
 import com.theodoremeras.dissertation.student_information.StudentInformationRepository;
 import com.theodoremeras.dissertation.user.UserEntity;
 import com.theodoremeras.dissertation.user.UserRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

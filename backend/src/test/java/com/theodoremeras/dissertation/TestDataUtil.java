@@ -186,18 +186,6 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static ModuleRequestDto createTestRequestDtoB(
-            Integer ecApplicationId, String moduleCode
-    ) {
-        return ModuleRequestDto.builder()
-                .id(2)
-                .ecApplicationId(ecApplicationId)
-                .moduleCode(moduleCode)
-                .requestedOutcome("Outcome B")
-                .relatedAssessment("Assessment B")
-                .build();
-    }
-
     public static EvidenceEntity createTestEvidenceEntityA(
             EcApplicationEntity ecApplication
     ) {
@@ -218,26 +206,6 @@ public final class TestDataUtil {
                 .build();
     }
 
-    public static EvidenceEntity createTestEvidenceEntityB(
-            EcApplicationEntity ecApplication
-    ) {
-        return EvidenceEntity.builder()
-                .id(2)
-                .ecApplication(ecApplication)
-                .fileName("File B")
-                .build();
-    }
-
-    public static EvidenceDto createTestEvidenceDtoB(
-            Integer ecApplicationId
-    ) {
-        return EvidenceDto.builder()
-                .id(2)
-                .ecApplicationId(ecApplicationId)
-                .fileName("File B")
-                .build();
-    }
-
     public static RoleEntity createTestRoleEntityA() {
         return RoleEntity.builder()
                 .id(1)
@@ -254,13 +222,6 @@ public final class TestDataUtil {
 
     public static RoleEntity createTestRoleEntityB() {
         return RoleEntity.builder()
-                .id(2)
-                .name("Role B")
-                .build();
-    }
-
-    public static RoleDto createTestRoleDtoB() {
-        return RoleDto.builder()
                 .id(2)
                 .name("Role B")
                 .build();
@@ -356,19 +317,6 @@ public final class TestDataUtil {
                 .moduleRequest(moduleRequest)
                 .staffMember(staff)
                 .ecApplication(ecApplication)
-                .build();
-    }
-
-    public static ModuleDecisionDto createTestModuleDecisionDtoB(
-            Integer moduleRequestId, Integer staffId, Integer ecApplicationId
-    ) {
-        return ModuleDecisionDto.builder()
-                .id(2)
-                .comments("Comment B")
-                .isApproved(true)
-                .moduleRequestId(moduleRequestId)
-                .staffMemberId(staffId)
-                .ecApplicationId(ecApplicationId)
                 .build();
     }
 

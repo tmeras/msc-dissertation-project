@@ -3,7 +3,6 @@ package com.theodoremeras.dissertation.unit_tests.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.department.DepartmentController;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.user.*;
@@ -18,7 +17,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;

@@ -45,7 +45,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(userRepository.save(testUserEntity)).thenReturn(testUserEntity);
 
         UserEntity result = userService.save(testUserEntity);
@@ -54,7 +54,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(userRepository.findAll()).thenReturn(List.of(testUserEntity));
 
         List<UserEntity> result = userService.findAll();
@@ -63,7 +63,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByEmail() throws Exception {
+    public void testFindAllByEmail() {
         when(userRepository.findAllByEmail(testUserEntity.getEmail())).thenReturn(List.of(testUserEntity));
 
         List<UserEntity> result = userService.findAllByEmail(testUserEntity.getEmail());
@@ -72,7 +72,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByDepartmentIdAndRoleId() throws Exception {
+    public void testFindAllByDepartmentIdAndRoleId() {
         when(userRepository.findAllByDepartmentIdAndRoleId(testDepartmentEntity.getId(), testRoleEntity.getId()))
                 .thenReturn(List.of(testUserEntity));
 
@@ -83,7 +83,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByIdIn() throws Exception {
+    public void testFindAllByIdIn() {
         when(userRepository.findAllByIdIn(List.of(testUserEntity.getId()))).thenReturn(List.of(testUserEntity));
 
         List<UserEntity> result = userService.findAllByIdIn(List.of(testUserEntity.getId()));
@@ -92,7 +92,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testFindOneById() throws Exception {
+    public void testFindOneById() {
         when(userRepository.findById(testUserEntity.getId())).thenReturn(Optional.of(testUserEntity));
 
         Optional<UserEntity> result = userService.findOneById(testUserEntity.getId());
@@ -101,7 +101,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testFindOneByEmail() throws Exception {
+    public void testFindOneByEmail() {
         when(userRepository.findByEmail(testUserEntity.getEmail())).thenReturn(Optional.of(testUserEntity));
 
         Optional<UserEntity> result = userService.findOneByEmail(testUserEntity.getEmail());
@@ -110,7 +110,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(userRepository.existsById(testUserEntity.getId())).thenReturn(true);
 
         boolean result = userService.exists(testUserEntity.getId());
@@ -119,7 +119,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdate() throws Exception {
+    public void testPartialUpdate() {
         UserEntity updatedUserEntity = TestDataUtil.createTestUserEntityB(testRoleEntity, testDepartmentEntity);
 
         when(userRepository.findById(testUserEntity.getId())).thenReturn(Optional.of(testUserEntity));
@@ -131,7 +131,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdateWhenNoUserExists() throws Exception {
+    public void testPartialUpdateWhenNoUserExists() {
         UserEntity updatedUserEntity = TestDataUtil.createTestUserEntityB(testRoleEntity, testDepartmentEntity);
 
         when(userRepository.findById(testUserEntity.getId())).thenReturn(Optional.empty());
@@ -141,14 +141,14 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         userService.delete(testUserEntity.getId());
 
         verify(userRepository, times(1)).deleteById(testUserEntity.getId());
     }
 
     @Test
-    public void testLoadUserByUsername() throws Exception {
+    public void testLoadUserByUsername() {
         when(userRepository.findByEmail(testUserEntity.getEmail())).thenReturn(Optional.of(testUserEntity));
 
         UserDetails result = userService.loadUserByUsername(testUserEntity.getUsername());
@@ -157,7 +157,7 @@ public class UserServiceUnitTests {
     }
 
     @Test
-    public void testLoadUserByUsernameWhenNoUserExists() throws Exception {
+    public void testLoadUserByUsernameWhenNoUserExists() {
         when(userRepository.findByEmail(testUserEntity.getEmail())).thenReturn(Optional.empty());
 
         assertThrows(UsernameNotFoundException.class,

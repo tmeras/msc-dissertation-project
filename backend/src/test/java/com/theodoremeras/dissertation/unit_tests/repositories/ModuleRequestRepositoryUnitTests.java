@@ -7,8 +7,6 @@ import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationRepository;
 import com.theodoremeras.dissertation.module.ModuleEntity;
 import com.theodoremeras.dissertation.module.ModuleRepository;
-import com.theodoremeras.dissertation.module_decision.ModuleDecisionEntity;
-import com.theodoremeras.dissertation.module_decision.ModuleDecisionRepository;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestRepository;
 import com.theodoremeras.dissertation.role.RoleEntity;
@@ -50,8 +48,6 @@ public class ModuleRequestRepositoryUnitTests {
     @Autowired
     private ModuleRepository moduleRepository;
 
-    private UserEntity testUserEntity;
-
     private EcApplicationEntity testEcApplicationEntity;
 
     private ModuleRequestEntity testModuleRequestEntity;
@@ -65,7 +61,7 @@ public class ModuleRequestRepositoryUnitTests {
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
         roleRepository.save(testRoleEntity);
 
-        testUserEntity = TestDataUtil.createTestUserEntityA(
+        UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(
                 testRoleEntity,
                 testDepartmentEntity
         );

@@ -382,7 +382,7 @@ public class EcApplicationControllerIntegrationTests {
         EcApplicationEntity testEcApplicationA = TestDataUtil.createTestEcApplicationEntityA(savedUser);
         EcApplicationEntity savedEcApplicationA = ecApplicationService.save(testEcApplicationA);
         EcApplicationEntity testEcApplicationB = TestDataUtil.createTestEcApplicationEntityB(savedUser);
-        EcApplicationEntity savedEcApplicationB = ecApplicationService.save(testEcApplicationB);
+        ecApplicationService.save(testEcApplicationB);
 
         mockMvc.perform(
                 MockMvcRequestBuilders

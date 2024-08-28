@@ -19,13 +19,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -52,7 +51,7 @@ public class AuthenticationServiceUnitTests {
     private AuthenticationService authenticationService;
 
     @Test
-    public void testRegisterUser() throws Exception {
+    public void testRegisterUser() {
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(
                 TestDataUtil.createTestRoleEntityA(),
                 TestDataUtil.createTestDepartmentEntityA()
@@ -73,7 +72,7 @@ public class AuthenticationServiceUnitTests {
     }
 
     @Test
-    public void testLoginUser() throws Exception {
+    public void testLoginUser() {
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();
         DepartmentEntity testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
         UserLoginRequestDto testUserLoginRequestDto = TestDataUtil.createTestUserLoginRequestDto();
@@ -94,12 +93,12 @@ public class AuthenticationServiceUnitTests {
     }
 
     @Test
-    public void testLoginUserWhenLoginFails() throws Exception {
+    public void testLoginUserWhenLoginFails() {
         UserLoginRequestDto testUserLoginRequestDto = TestDataUtil.createTestUserLoginRequestDto();
 
         when(authenticationManager.authenticate(any())).thenThrow(new BadCredentialsException("Invalid Credentials"));
 
-        assertEquals(null, authenticationService.loginUser(testUserLoginRequestDto));
+        assertNull(authenticationService.loginUser(testUserLoginRequestDto));
     }
 
 }

@@ -5,7 +5,6 @@ import com.theodoremeras.dissertation.TestDataUtil;
 import com.theodoremeras.dissertation.department.DepartmentEntity;
 import com.theodoremeras.dissertation.department.DepartmentService;
 import com.theodoremeras.dissertation.module.*;
-import com.theodoremeras.dissertation.user.UserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
@@ -55,7 +53,7 @@ public class ModuleControllerUnitTests {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
         testModuleEntity = TestDataUtil.createTestModuleEntityA(testDepartmentEntity);
         testModuleDto = TestDataUtil.createTestModuleDtoA(testDepartmentEntity.getId());

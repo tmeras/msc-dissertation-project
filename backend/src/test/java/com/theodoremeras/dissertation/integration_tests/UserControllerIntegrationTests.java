@@ -317,7 +317,7 @@ public class UserControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.roleId").value(savedRoleEntity.getId())
         ).andExpect(
                 MockMvcResultMatchers.jsonPath("$.departmentId").value(savedDepartmentEntity.getId())
-        );;
+        );
     }
 
     @Test

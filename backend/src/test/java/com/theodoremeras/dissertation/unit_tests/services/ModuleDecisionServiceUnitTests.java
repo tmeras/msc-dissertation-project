@@ -60,7 +60,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(moduleDecisionRepository.save(testModuleDecisionEntity)).thenReturn(testModuleDecisionEntity);
 
         ModuleDecisionEntity result = moduleDecisionService.save(testModuleDecisionEntity);
@@ -69,7 +69,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(moduleDecisionRepository.findAll()).thenReturn(List.of(testModuleDecisionEntity));
 
         List<ModuleDecisionEntity> result = moduleDecisionService.findAll();
@@ -78,7 +78,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByModuleRequestId() throws Exception {
+    public void testFindAllByModuleRequestId() {
         when(moduleDecisionRepository.findAllByModuleRequestId(testModuleRequestEntity.getId()))
                 .thenReturn(List.of(testModuleDecisionEntity));
 
@@ -89,7 +89,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByStaffMemberId() throws Exception {
+    public void testFindAllByStaffMemberId() {
         when(moduleDecisionRepository.findAllByStaffMemberId(testUserEntity.getId()))
                 .thenReturn(List.of(testModuleDecisionEntity));
 
@@ -99,7 +99,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByApplicationIdIn() throws Exception {
+    public void testFindAllByApplicationIdIn() {
         when(moduleDecisionRepository.findAllByEcApplicationIdIn(List.of(testEcApplicationEntity.getId())))
                 .thenReturn(List.of(testModuleDecisionEntity));
 
@@ -110,7 +110,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testFindOneById() throws Exception {
+    public void testFindOneById() {
         when(moduleDecisionRepository.findById(testModuleDecisionEntity.getId()))
                 .thenReturn(Optional.of(testModuleDecisionEntity));
 
@@ -120,7 +120,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(moduleDecisionRepository.existsById(testModuleDecisionEntity.getId())).thenReturn(true);
 
         boolean result = moduleDecisionService.exists(testModuleDecisionEntity.getId());
@@ -129,7 +129,7 @@ public class ModuleDecisionServiceUnitTests {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         moduleDecisionService.delete(testModuleDecisionEntity.getId());
 
         verify(moduleDecisionRepository, times(1))

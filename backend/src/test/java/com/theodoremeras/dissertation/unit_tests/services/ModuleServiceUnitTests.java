@@ -37,7 +37,7 @@ public class ModuleServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(moduleRepository.save(testModuleEntity)).thenReturn(testModuleEntity);
 
         ModuleEntity result = moduleService.save(testModuleEntity);
@@ -46,7 +46,7 @@ public class ModuleServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(moduleRepository.findAll()).thenReturn(List.of(testModuleEntity));
 
         List<ModuleEntity> result = moduleService.findAll();
@@ -55,7 +55,7 @@ public class ModuleServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByModuleCodeIn() throws Exception {
+    public void testFindAllByModuleCodeIn() {
         when(moduleRepository.findAllByCodeIn(List.of(testModuleEntity.getCode())))
                 .thenReturn(List.of(testModuleEntity));
 
@@ -65,7 +65,7 @@ public class ModuleServiceUnitTests {
     }
 
     @Test
-    public void testFindOneByCode() throws Exception {
+    public void testFindOneByCode() {
         when(moduleRepository.findById(testModuleEntity.getCode())).thenReturn(Optional.of(testModuleEntity));
 
         Optional<ModuleEntity> result = moduleService.findOneByCode(testModuleEntity.getCode());
@@ -74,7 +74,7 @@ public class ModuleServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(moduleRepository.existsById(testModuleEntity.getCode())).thenReturn(true);
 
         boolean result = moduleService.exists(testModuleEntity.getCode());
@@ -83,7 +83,7 @@ public class ModuleServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdate() throws Exception {
+    public void testPartialUpdate() {
         when(moduleRepository.findById(testModuleEntity.getCode())).thenReturn(Optional.of(testModuleEntity));
         when(moduleRepository.save(testModuleEntity)).thenReturn(testModuleEntity);
 
@@ -93,7 +93,7 @@ public class ModuleServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdateWhenNoModuleExists() throws Exception {
+    public void testPartialUpdateWhenNoModuleExists() {
         when(moduleRepository.findById(testModuleEntity.getCode())).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class,
@@ -101,7 +101,7 @@ public class ModuleServiceUnitTests {
     }
     
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         moduleService.delete(testModuleEntity.getCode());
 
         verify(moduleRepository, times(1)).deleteById(testModuleEntity.getCode());

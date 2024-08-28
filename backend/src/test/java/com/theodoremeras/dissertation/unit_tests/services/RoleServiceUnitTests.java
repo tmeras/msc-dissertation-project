@@ -36,7 +36,7 @@ public class RoleServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(roleRepository.save(testRoleEntity)).thenReturn(testRoleEntity);
 
         RoleEntity result = roleService.save(testRoleEntity);
@@ -45,7 +45,7 @@ public class RoleServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(roleRepository.findAll()).thenReturn(List.of(testRoleEntity));
 
         List<RoleEntity> result = roleService.findAll();
@@ -54,7 +54,7 @@ public class RoleServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByRoleName() throws Exception {
+    public void testFindAllByRoleName() {
         when(roleRepository.findAllByName(testRoleEntity.getName())).thenReturn(List.of(testRoleEntity));
 
         List<RoleEntity> result = roleService.findAllByRoleName(testRoleEntity.getName());
@@ -63,7 +63,7 @@ public class RoleServiceUnitTests {
     }
 
     @Test
-    public void testFindOneById() throws Exception {
+    public void testFindOneById() {
         when(roleRepository.findById(testRoleEntity.getId())).thenReturn(Optional.of(testRoleEntity));
 
         Optional<RoleEntity> result = roleService.findOneById(testRoleEntity.getId());
@@ -72,7 +72,7 @@ public class RoleServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(roleRepository.existsById(testRoleEntity.getId())).thenReturn(true);
 
         boolean result = roleService.exists(testRoleEntity.getId());
@@ -81,7 +81,7 @@ public class RoleServiceUnitTests {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         roleService.delete(testRoleEntity.getId());
 
         verify(roleRepository, times(1)).deleteById(testRoleEntity.getId());

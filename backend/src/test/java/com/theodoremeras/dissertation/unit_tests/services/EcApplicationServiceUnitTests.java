@@ -43,7 +43,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(ecApplicationRepository.save(testEcApplicationEntity)).thenReturn(testEcApplicationEntity);
 
         EcApplicationEntity result = ecApplicationService.save(testEcApplicationEntity);
@@ -52,7 +52,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(ecApplicationRepository.findAll()).thenReturn(List.of(testEcApplicationEntity));
 
         List<EcApplicationEntity> result = ecApplicationService.findAll();
@@ -61,7 +61,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByIdIn() throws Exception {
+    public void testFindAllByIdIn() {
         when(ecApplicationRepository.findAllByIdIn(List.of(testEcApplicationEntity.getId())))
                 .thenReturn(List.of(testEcApplicationEntity));
 
@@ -72,7 +72,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByStudentId() throws Exception {
+    public void testFindAllByStudentId() {
         when(ecApplicationRepository.findAllByStudentId(testUserEntity.getId()))
                 .thenReturn(List.of(testEcApplicationEntity));
 
@@ -82,7 +82,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByStudentDepartmentId() throws Exception {
+    public void testFindAllByStudentDepartmentId() {
         when(ecApplicationRepository.findAllByStudentDepartmentId(testUserEntity.getDepartment().getId()))
                 .thenReturn(List.of(testEcApplicationEntity));
 
@@ -93,7 +93,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByStudentDepartmentIdAndIsReferred() throws Exception {
+    public void testFindAllByStudentDepartmentIdAndIsReferred() {
         when(ecApplicationRepository
                 .findAllByStudentDepartmentIdAndIsReferred(
                         testUserEntity.getDepartment().getId(),
@@ -111,7 +111,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testFindOneById() throws Exception {
+    public void testFindOneById() {
         when(ecApplicationRepository.findById(testEcApplicationEntity.getId()))
                 .thenReturn(Optional.of(testEcApplicationEntity));
 
@@ -121,7 +121,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(ecApplicationRepository.existsById(testEcApplicationEntity.getId())).thenReturn(true);
 
         boolean result = ecApplicationService.exists(testEcApplicationEntity.getId());
@@ -130,7 +130,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdate() throws Exception {
+    public void testPartialUpdate() {
         EcApplicationEntity updatedEcApplicationEntity = TestDataUtil.createTestEcApplicationEntityB(testUserEntity);
 
         when(ecApplicationRepository.findById(testEcApplicationEntity.getId()))
@@ -144,7 +144,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdateWhenNoApplicationExists() throws Exception {
+    public void testPartialUpdateWhenNoApplicationExists() {
         EcApplicationEntity updatedEcApplicationEntity = TestDataUtil.createTestEcApplicationEntityB(testUserEntity);
 
         when(ecApplicationRepository.findById(testEcApplicationEntity.getId()))
@@ -155,7 +155,7 @@ public class EcApplicationServiceUnitTests {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         ecApplicationService.delete(testEcApplicationEntity.getId());
 
         verify(ecApplicationRepository, times(1)).deleteById(testEcApplicationEntity.getId());

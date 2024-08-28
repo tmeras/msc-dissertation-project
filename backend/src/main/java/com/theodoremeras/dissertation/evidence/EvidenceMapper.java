@@ -1,6 +1,5 @@
 package com.theodoremeras.dissertation.evidence;
 
-import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import org.springframework.stereotype.Service;
 
 @Service

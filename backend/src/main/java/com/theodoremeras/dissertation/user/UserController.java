@@ -1,7 +1,5 @@
 package com.theodoremeras.dissertation.user;
 
-import com.theodoremeras.dissertation.department.DepartmentService;
-import com.theodoremeras.dissertation.role.RoleService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -408,8 +408,7 @@ public class StudentInformationControllerIntegrationTests {
 
         StudentInformationEntity testStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityA(savedStudent);
-        StudentInformationEntity savedStudentInformationEntity =
-                studentInformationService.save(testStudentInformationEntity);
+        studentInformationService.save(testStudentInformationEntity);
 
         StudentInformationDto testStudentInformationDto =
                 TestDataUtil.createTestStudentInformationDtoB(null);

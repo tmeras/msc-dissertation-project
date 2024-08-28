@@ -8,7 +8,6 @@ import com.theodoremeras.dissertation.module_decision.*;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestService;
 import com.theodoremeras.dissertation.role.RoleEntity;
-import com.theodoremeras.dissertation.user.UserController;
 import com.theodoremeras.dissertation.user.UserEntity;
 import com.theodoremeras.dissertation.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,7 +66,7 @@ public class ModuleDecisionControllerUnitTests {
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         // Initialize test objects
         DepartmentEntity testDepartmentEntity = TestDataUtil.createTestDepartmentEntityA();
         RoleEntity testRoleEntity = TestDataUtil.createTestRoleEntityA();

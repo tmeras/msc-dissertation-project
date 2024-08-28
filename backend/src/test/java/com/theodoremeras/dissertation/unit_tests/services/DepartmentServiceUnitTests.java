@@ -35,7 +35,7 @@ public class DepartmentServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(departmentRepository.save(testDepartmentEntity)).thenReturn(testDepartmentEntity);
 
         DepartmentEntity result = departmentService.save(testDepartmentEntity);
@@ -44,7 +44,7 @@ public class DepartmentServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(departmentRepository.findAll()).thenReturn(List.of(testDepartmentEntity));
 
         List<DepartmentEntity> result = departmentService.findAll();
@@ -53,7 +53,7 @@ public class DepartmentServiceUnitTests {
     }
 
     @Test
-    public void testFindOneById() throws Exception {
+    public void testFindOneById() {
         when(departmentRepository.findById(testDepartmentEntity.getId())).
                 thenReturn(Optional.of(testDepartmentEntity));
 
@@ -63,7 +63,7 @@ public class DepartmentServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(departmentRepository.existsById(testDepartmentEntity.getId())).thenReturn(true);
 
         boolean result = departmentService.exists(testDepartmentEntity.getId());
@@ -72,7 +72,7 @@ public class DepartmentServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdate() throws Exception {
+    public void testPartialUpdate() {
         DepartmentEntity updatedDepartmentEntity = TestDataUtil.createTestDepartmentEntityB();
 
         when(departmentRepository.findById(testDepartmentEntity.getId())).
@@ -86,7 +86,7 @@ public class DepartmentServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdateWhenNoDepartmentExists() throws Exception {
+    public void testPartialUpdateWhenNoDepartmentExists() {
         DepartmentEntity updatedDepartmentEntity = TestDataUtil.createTestDepartmentEntityB();
 
         when(departmentRepository.findById(testDepartmentEntity.getId())).
@@ -98,7 +98,7 @@ public class DepartmentServiceUnitTests {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         departmentService.delete(testDepartmentEntity.getId());
 
         verify(departmentRepository, times(1)).deleteById(testDepartmentEntity.getId());

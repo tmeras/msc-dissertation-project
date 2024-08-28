@@ -42,7 +42,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         when(studentInformationRepository.save(testStudentInformationEntity)).thenReturn(testStudentInformationEntity);
 
         StudentInformationEntity result = studentInformationService.save(testStudentInformationEntity);
@@ -51,7 +51,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testFindAll() throws Exception {
+    public void testFindAll() {
         when(studentInformationRepository.findAll()).thenReturn(List.of(testStudentInformationEntity));
 
         List<StudentInformationEntity> result = studentInformationService.findAll();
@@ -60,7 +60,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testFindOneById() throws Exception {
+    public void testFindOneById() {
         when(studentInformationRepository.findById(testStudentInformationEntity.getId()))
                 .thenReturn(Optional.of(testStudentInformationEntity));
 
@@ -71,7 +71,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testFindOneByStudentId() throws Exception {
+    public void testFindOneByStudentId() {
         when(studentInformationRepository.findByStudentId(testUserEntity.getId()))
                 .thenReturn(Optional.of(testStudentInformationEntity));
 
@@ -82,7 +82,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testExists() throws Exception {
+    public void testExists() {
         when(studentInformationRepository.existsById(testStudentInformationEntity.getId())).thenReturn(true);
 
         boolean result = studentInformationService.exists(testStudentInformationEntity.getId());
@@ -91,7 +91,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdate() throws Exception {
+    public void testPartialUpdate() {
         StudentInformationEntity updatedStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityB(testUserEntity);
 
@@ -107,7 +107,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testPartialUpdateWhenNoStudentInformationExists() throws Exception {
+    public void testPartialUpdateWhenNoStudentInformationExists() {
         StudentInformationEntity updatedStudentInformationEntity =
                 TestDataUtil.createTestStudentInformationEntityB(testUserEntity);
 
@@ -121,7 +121,7 @@ public class StudentInformationServiceUnitTests {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    public void testDelete() {
         studentInformationService.delete(testStudentInformationEntity.getId());
 
         verify(studentInformationRepository, times(1))

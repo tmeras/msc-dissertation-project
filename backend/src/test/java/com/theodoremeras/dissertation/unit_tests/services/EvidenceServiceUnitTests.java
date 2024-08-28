@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.Resource;
@@ -38,8 +37,6 @@ public class EvidenceServiceUnitTests {
 
     private EvidenceService evidenceService;
 
-    private String uploadLocation;
-
     private EcApplicationEntity testEcApplicationEntity;
 
     private EvidenceEntity testEvidenceEntity;
@@ -54,7 +51,7 @@ public class EvidenceServiceUnitTests {
     @BeforeEach
     public void setUp() {
         // Initialize test objects
-        uploadLocation = "uploaded-evidence";
+        String uploadLocation = "uploaded-evidence";
         UserEntity testUserEntity = TestDataUtil.createTestUserEntityA(
                 TestDataUtil.createTestRoleEntityA(),
                 TestDataUtil.createTestDepartmentEntityA()
@@ -99,7 +96,7 @@ public class EvidenceServiceUnitTests {
     }
 
     @Test
-    public void testDeleteWhenNoFileExists() throws Exception {
+    public void testDeleteWhenNoFileExists() {
         when(evidenceRepository.findById(testEvidenceEntity.getId())).thenReturn(Optional.empty());
 
         evidenceService.delete(testEvidenceEntity.getId());
@@ -108,7 +105,7 @@ public class EvidenceServiceUnitTests {
     }
 
     @Test
-    public void testFindAllByApplicationId() throws Exception {
+    public void testFindAllByApplicationId() {
         when(evidenceRepository.findAllByEcApplicationId(testEcApplicationEntity.getId()))
                 .thenReturn(List.of(testEvidenceEntity));
 

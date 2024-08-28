@@ -9,7 +9,6 @@ import com.theodoremeras.dissertation.role.RoleEntity;
 import com.theodoremeras.dissertation.role.RoleRepository;
 import com.theodoremeras.dissertation.user.UserEntity;
 import com.theodoremeras.dissertation.user.UserRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +75,7 @@ public class EcApplicationRepositoryUnitTests {
 
     @Test
     public void testFindAllByStudentId() {
-        EcApplicationEntity savedEcApplicationEntity = ecApplicationRepository.save(testEcApplicationEntity);
+        ecApplicationRepository.save(testEcApplicationEntity);
 
         List<EcApplicationEntity> result = ecApplicationRepository.findAllByStudentId(testUserEntity.getId());
 
@@ -85,7 +84,7 @@ public class EcApplicationRepositoryUnitTests {
 
     @Test
     public void testFindAllByStudentDepartmentId() {
-        EcApplicationEntity savedEcApplicationEntity = ecApplicationRepository.save(testEcApplicationEntity);
+        ecApplicationRepository.save(testEcApplicationEntity);
 
         List<EcApplicationEntity> result =
                 ecApplicationRepository.findAllByStudentDepartmentId(testUserEntity.getDepartment().getId());
@@ -95,7 +94,7 @@ public class EcApplicationRepositoryUnitTests {
 
     @Test
     public void testFindAllByStudentDepartmentIdAndIsReferred() {
-        EcApplicationEntity savedEcApplicationEntity = ecApplicationRepository.save(testEcApplicationEntity);
+        ecApplicationRepository.save(testEcApplicationEntity);
 
         List<EcApplicationEntity> result =
                 ecApplicationRepository.findAllByStudentDepartmentIdAndIsReferred(

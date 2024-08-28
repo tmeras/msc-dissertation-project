@@ -71,7 +71,7 @@ public class EvidenceRepositoryUnitTests {
 
     @Test
     public void testFindAllByEcApplicationId() {
-        EvidenceEntity savedEvidenceEntity = evidenceRepository.save(testEvidenceEntity);
+        evidenceRepository.save(testEvidenceEntity);
 
         List<EvidenceEntity> result = evidenceRepository.findAllByEcApplicationId(testEcApplicationEntity.getId());
 

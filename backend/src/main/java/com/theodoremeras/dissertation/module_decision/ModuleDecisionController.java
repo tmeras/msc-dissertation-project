@@ -1,6 +1,5 @@
 package com.theodoremeras.dissertation.module_decision;
 
-import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.module_request.ModuleRequestEntity;
 import com.theodoremeras.dissertation.module_request.ModuleRequestService;
 import com.theodoremeras.dissertation.user.UserEntity;

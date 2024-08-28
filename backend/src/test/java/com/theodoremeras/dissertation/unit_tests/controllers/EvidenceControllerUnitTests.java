@@ -1,16 +1,13 @@
 package com.theodoremeras.dissertation.unit_tests.controllers;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.theodoremeras.dissertation.TestDataUtil;
-import com.theodoremeras.dissertation.department.DepartmentController;
 import com.theodoremeras.dissertation.ec_application.EcApplicationEntity;
 import com.theodoremeras.dissertation.ec_application.EcApplicationService;
 import com.theodoremeras.dissertation.evidence.*;
 import com.theodoremeras.dissertation.user.UserEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,13 +19,10 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
@@ -47,8 +41,6 @@ public class EvidenceControllerUnitTests {
 
     private final MockMvc mockMvc;
 
-    private final ObjectMapper objectMapper;
-
     private EcApplicationEntity testEcApplicationEntity;
 
     private EvidenceEntity testEvidenceEntity;
@@ -56,13 +48,12 @@ public class EvidenceControllerUnitTests {
     private EvidenceDto testEvidenceDto;
 
     @Autowired
-    public EvidenceControllerUnitTests(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public EvidenceControllerUnitTests(MockMvc mockMvc) {
         this.mockMvc = mockMvc;
-        this.objectMapper = objectMapper;
     }
 
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp() {
         // Initialize test objects
         UserEntity testUserEntity = TestDataUtil
                 .createTestUserEntityA(TestDataUtil.createTestRoleEntityA(), TestDataUtil.createTestDepartmentEntityA());
