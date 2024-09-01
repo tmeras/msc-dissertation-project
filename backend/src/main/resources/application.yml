@@ -2,9 +2,11 @@ spring:
   application:
     name: dissertation
   datasource:
-    url: jdbc:postgresql://localhost:5432/ecf_test_db
-    username: postgres
-    password: bacon123
+    # Default PostgreSQL port is 5432; if it's not the case for your machine
+    # change the port accordingly in the below url
+    url: jdbc:postgresql://localhost:5432/enter_your_database_name_here
+    username: enter_your_username_here
+    password: enter_your_user_password_here
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
