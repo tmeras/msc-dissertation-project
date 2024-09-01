@@ -164,32 +164,32 @@ VALUES(3, 'There was sufficient time to prepare for the assessment', false, 1, 8
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(4, null, true, 2, 6, 1);
+VALUES(4, 'The incident occurred too long ago', false, 3, 6, 1);
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(5, null, true, 2, 7, 1);
+VALUES(5, 'There was sufficient time to prepare', false, 3, 8, 1);
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(6, 'The incident occurred too long ago', false, 3, 6, 1);
+VALUES(6, null, true, 6, 9, 3);
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(7, 'There was sufficient time to prepare', false, 3, 8, 1);
+VALUES(7, null, true, 6, 10, 3);
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(8, null, true, 6, 9, 3);
+VALUES(8, null, true, 8, 6, 5);
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(9, null, true, 6, 10, 3);
+VALUES(9, null, true, 8, 7, 5);
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(10, null, true, 8, 6, 5);
+VALUES(10, null, true, 9, 6, 5);
 
 INSERT INTO
 module_request_decision(ID, COMMENTS, IS_APPROVED, MODULE_REQUEST_ID, STAFF_ID, APPLICATION_ID)
-VALUES(11, null, true, 8, 7, 5);
+VALUES(11, null, true, 9, 7, 5);
