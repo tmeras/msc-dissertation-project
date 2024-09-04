@@ -380,7 +380,10 @@ export default function StudentEcApplicationForm() {
                         <Form.Group className='mb-3' controlId='ecForm.FileMutilple'>
                             <Form.Label>Evidence</Form.Label>
                             <Form.Control type='file' multiple onChange={handleFileChange} />
-                            <Form.Text muted>Please submit your evidence here (max 50MB per file)</Form.Text>
+                            <Form.Text muted>Please submit your evidence here (max 50MB per file) to prove
+                                your circumstances (if required, further information can be found <a href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#evidencing-circumstances'
+                                            target='_blank'> here</a>) or any disabilities or illnesses mentioned in your personal information that your department is not already aware of (e.g. through an existing learning support plan)
+                            </Form.Text>
                         </Form.Group>
                         {showFileAlert &&
                             <Alert variant="danger" onClose={() => setShowFileAlert(false)} style={{ width: "20rem" }}>

@@ -378,8 +378,16 @@ export default function RegisterPage() {
                                     checked={studentInfoData.hasHealthIssues}
                                     onChange={handleStudentChange}
                                     label='Have you been diagnosed with any chronic illnesses?'
-                                    className='mb-4'
+                                    className='mb-3'
                                 />
+
+                                <div className='mb-4 w-75'>
+                                <Form.Text muted>
+                                        Please select any of the above which apply to you. Any disabilities
+                                        or illnesses which your department is not aware of
+                                        (e.g. through an existing learning support plan) should also be evidenced in your EC applications
+                                </Form.Text>
+                                </div>
 
                                 <Form.Group className='mb-3 w-75' controlId='registrationForm.TextArea1'>
                                     <Form.Label>Additional Information</Form.Label>

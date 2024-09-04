@@ -360,7 +360,8 @@ export default function StudentEcDetails() {
                                     {ecApplication.requiresFurtherEvidence &&
                                         <Alert variant="danger" style={{ width: "25rem" }}>
                                             A staff member has requested further evidence. Please click <a href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#evidencing-circumstances'
-                                            target='_blank'> here</a> to view the evidence that is typically expected for your circumstances
+                                            target='_blank'> here</a> to view the evidence that is typically expected for your circumstances. Please ensure to also
+                                            evidence any disabilities or illnesses mentioned in your personal information that your department is not already aware of (e.g. through an existing learning support plan)
                                         </Alert>
                                     }
                                     {showFileUploadAlert &&

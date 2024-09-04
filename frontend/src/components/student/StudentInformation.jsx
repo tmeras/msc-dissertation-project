@@ -131,6 +131,14 @@ export default function StudentInformation() {
                             className='mb-3'
                         />
 
+                        <div className='mb-4 w-75'>
+                                <Form.Text muted className='mb-4'>
+                                        Please select any of the above which apply to you. Any disabilities
+                                        or illnesses which your department is not aware of
+                                        (e.g. through an existing learning support plan) should also be evidenced in your EC applications
+                                </Form.Text>
+                        </div>
+
                         <Form.Group className='mb-2 w-75' controlId='studentInfoForm.TextArea1'>
                             <Form.Label>Additional Information</Form.Label>
                             <Form.Control
