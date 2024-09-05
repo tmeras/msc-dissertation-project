@@ -388,9 +388,9 @@ export default function StudentEcDetails() {
                                 {ecApplication.isReferred == false &&
                                     <p>
                                         The application was rejected by a clerical staff member. The circumstances were
-                                        likely not considered valid grounds for an extenuating circumstances application.
-                                        Examples of valid grounds can be found <a target='_blank' href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#examples-likely-to-be-accepted-as-extenuating-circumstances'>
-                                            here</a>.
+                                        not considered valid grounds for an extenuating circumstances application or the provided evidence was insufficient.
+                                        Examples of valid grounds and expected evidence for different circumstances can be found <a target='_blank' href='https://students.sheffield.ac.uk/extenuating-circumstances/policy-procedure-23-24#examples-likely-to-be-accepted-as-extenuating-circumstances'>
+                                            here</a>
                                     </p>
                                 }
                                 {moduleRequests.map((moduleRequest, index) => {
