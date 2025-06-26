@@ -2,8 +2,17 @@
 A full-stack web application developed to support the submission and management of students’ extenuating
 circumstances applications at the University of Sheffield. Developed using Spring Boot, React, and PostgreSQL as part of my MSc dissertation project.
 
+## 🎯 Project Purpose and Significance
+The extenuating circumstances policy and procedure (also known as “additional consideration”, “mitigating” or “special circumstances” procedure) allows students to record any challenging short-term personal circumstances which affected their academic performance, in order for them to be considered when their examination or assessment performance is evaluated. 
+
+Currently, the University of Sheffield has a complicated system for dealing with extenuating circumstances issues. Originally, it was based exclusively on paper and, although it is now partially online, it still proves challenging to use for both students and staff. Specifically, there exists no centralised platform for managing extenuating circumstances applications, as the system instead relies on individual Google Forms submissions, with each department offering its own form. Naturally, this can cause great difficulties in monitoring and managing submissions for both students and staff, especially as the number of applications grows. 
+
+The complexity of the existing system can therefore cause unnecessary delays and even errors when processing applications. Considering the integral role that the extenuating circumstances process has in justly evaluating the academic performance of students, it has become necessary to develop a new system that mitigates the existing difficulties.
+
 
 ## 📋 Features
+The primary aim of the project is to design and implement a fully online and easy to use prototype system that could serve as a central platform for managing extenuating circumstances applications, increasing overall efficiency and simplifying the entire process for students and staff members alike. Using this system, the following should be possible:
+
 ### Students
 - View a list of submitted extenuating circumstances (EC) applications along with their overall progress and status (e.g. under review by academic staff or if more evidence is required)
 - View details of a particular EC application after submission, and upload additional evidence if required
