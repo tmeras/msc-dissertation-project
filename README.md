@@ -33,11 +33,18 @@ circumstances applications at the University of Sheffield. Developed using Sprin
 
 ### Backend
 - Spring Boot (Java)
-- Spring MVC, Security, Data JPA
+- Spring MVC, Security, Data JPA, Testing
 - Flyway (DB migrations)
 
 ### Database
 - PostgreSQL
+
+
+## 🧪 Testing
+- **Unit Tests**: Isolate and verify business logic in the service layer using JUnit and Mockito
+- **Controller Slice Tests**: Lightweight web layer tests using Spring’s @WebMvcTest with MockMvc to simulate HTTP requests
+- **Repository Slice Tests**: Database layer tests using Spring’s @DataJpaTest with an in-memory test database
+- **Integration Tests**: Loading the full application context using @SpringBootTest with MockMvc to simulate HTTP requests and an in-memory test database
 
 
 ## 🔐 Security 
@@ -47,5 +54,9 @@ circumstances applications at the University of Sheffield. Developed using Sprin
 - Cross-Site Scripting (XSS) mitigation by setting Content Security Policy (CSP) header, and React’s built-in output encoding
   
 
+## Entity Relationship Diagram (ERD)
+![physical_diagram drawio](https://github.com/user-attachments/assets/5d77cc1e-798e-4c3c-89b1-f2d793348948)
+
+  
 ## Running Instructions
 See _**running_instructions.pdf**_
