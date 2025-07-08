@@ -64,6 +64,7 @@ The primary aim of the project is to design and implement a fully online and eas
   
 
 ## Entity Relationship Diagram (ERD)
+![image](https://github.com/user-attachments/assets/4fa7123d-81ca-40e4-b306-d4b0233fc1c9)
 
   
 ## Running Instructions
