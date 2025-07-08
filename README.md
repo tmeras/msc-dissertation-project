@@ -64,7 +64,6 @@ The primary aim of the project is to design and implement a fully online and eas
   
 
 ## Entity Relationship Diagram (ERD)
-![physical_diagram drawio](https://github.com/user-attachments/assets/5d77cc1e-798e-4c3c-89b1-f2d793348948)
 
   
 ## Running Instructions
